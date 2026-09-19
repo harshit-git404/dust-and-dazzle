@@ -108,7 +108,12 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
     const headerList = await headers();
     const forwardedFor = headerList.get('x-forwarded-for') || '';
     const realIp = forwardedFor.split(',')[0].trim() || headerList.get('x-real-ip') || '127.0.0.1';
-    const ipHash = crypto.createHash('sha256').update(realIp).digest('hex').substring(0, 32);
+    const salt = process.env.IP_HASH_SALT || 'dust-and-dazzle-archival-salt-2026';
+    const ipHash = crypto
+      .createHash('sha256')
+      .update(`${realIp}:${salt}`)
+      .digest('hex')
+      .substring(0, 32);
 
     const supabase = await createClient();
 

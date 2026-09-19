@@ -18,7 +18,7 @@ export async function loginAction(formData: FormData): Promise<{ error?: string 
   });
 
   if (authError || !authData.user) {
-    return { error: authError?.message || 'Invalid login credentials.' };
+    return { error: 'Invalid email or password.' };
   }
 
   // Verify that the user is an authorized author in the database (public.is_author() / authors table)
