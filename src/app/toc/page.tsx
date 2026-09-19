@@ -32,68 +32,79 @@ export default async function TableOfContentsPage() {
         </div>
 
         {/* Continuous Story List (No tags, categories, or filters) */}
-        <div className="space-y-4 sm:space-y-5">
-          {publishedStories.map((story, index) => (
-            <Link
-              key={story.id}
-              href={`/story/${story.slug}`}
-              className="group block p-5 sm:p-6 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-sm transition-all duration-200 hover:shadow-[0_4px_12px_rgba(43,29,20,0.06)] hover:border-[var(--color-terracotta)]/40"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4">
-                
-                {/* Chapter & Title */}
-                <div className="flex items-baseline gap-3 sm:gap-4">
-                  <span className="font-serif text-xs sm:text-sm font-semibold text-[var(--color-terracotta)] uppercase tracking-wider shrink-0 w-24">
-                    {story.chapter_label}
-                  </span>
-                  <div>
-                    <h2 className="font-serif text-lg sm:text-xl font-normal text-[var(--text-primary)] group-hover:text-[var(--color-terracotta)] transition-colors">
-                      {story.title.replace(/^\[Placeholder\]\s*/, '')}
-                    </h2>
-                    {story.subtitle && (
-                      <p className="font-serif italic text-xs sm:text-sm text-[var(--text-muted)] mt-0.5">
-                        {story.subtitle}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Metadata: Year & Read Time */}
-                <div className="flex items-center gap-3 text-xs text-[var(--text-muted)] font-serif shrink-0 mt-2 sm:mt-0 pl-27 sm:pl-0">
-                  {story.year && (
-                    <span className="inline-flex items-center gap-1 text-[var(--color-banyan)]">
-                      <Calendar className="w-3 h-3" />
-                      <span>{story.year}</span>
+        {publishedStories.length > 0 ? (
+          <div className="space-y-4 sm:space-y-5">
+            {publishedStories.map((story, index) => (
+              <Link
+                key={story.id}
+                href={`/story/${story.slug}`}
+                className="group block p-5 sm:p-6 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-sm transition-all duration-200 hover:shadow-[0_4px_12px_rgba(43,29,20,0.06)] hover:border-[var(--color-terracotta)]/40"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4">
+                  
+                  {/* Chapter & Title */}
+                  <div className="flex items-baseline gap-3 sm:gap-4">
+                    <span className="font-serif text-xs sm:text-sm font-semibold text-[var(--color-terracotta)] uppercase tracking-wider shrink-0 w-24">
+                      {story.chapter_label}
                     </span>
-                  )}
-                  <span>•</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{story.reading_time}</span>
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-[var(--color-terracotta)] opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline-block ml-1" />
+                    <div>
+                      <h2 className="font-serif text-lg sm:text-xl font-normal text-[var(--text-primary)] group-hover:text-[var(--color-terracotta)] transition-colors">
+                        {story.title}
+                      </h2>
+                      {story.subtitle && (
+                        <p className="font-serif italic text-xs sm:text-sm text-[var(--text-muted)] mt-0.5">
+                          {story.subtitle}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Metadata: Year & Read Time */}
+                  <div className="flex items-center gap-3 text-xs text-[var(--text-muted)] font-serif shrink-0 mt-2 sm:mt-0 pl-27 sm:pl-0">
+                    {story.year && (
+                      <span className="inline-flex items-center gap-1 text-[var(--color-banyan)]">
+                        <Calendar className="w-3 h-3" />
+                        <span>{story.year}</span>
+                      </span>
+                    )}
+                    {story.year && <span>•</span>}
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      <span>{story.reading_time}</span>
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-[var(--color-terracotta)] opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline-block ml-1" />
+                  </div>
+
                 </div>
 
-              </div>
-
-              {/* Excerpt */}
-              <p className="mt-3 pl-0 sm:pl-28 text-xs sm:text-sm text-[var(--text-secondary)] font-serif leading-relaxed line-clamp-2">
-                {story.excerpt.replace(/^\[Placeholder Excerpt:\s*/, '').replace(/\]$/, '')}
-              </p>
-            </Link>
-          ))}
-        </div>
+                {/* Excerpt */}
+                <p className="mt-3 pl-0 sm:pl-28 text-xs sm:text-sm text-[var(--text-secondary)] font-serif leading-relaxed line-clamp-2">
+                  {story.excerpt}
+                </p>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="p-8 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm text-center font-serif text-sm text-[var(--text-secondary)] italic space-y-3">
+            <p>All 16 manuscript chapters are currently imported in <strong>draft mode</strong>.</p>
+            <p className="text-xs text-[var(--text-muted)]">
+              Sign in to the <Link href="/login" className="text-[var(--color-terracotta)] underline">Author Studio</Link> to preview and publish chapters to the public Table of Contents.
+            </p>
+          </div>
+        )}
 
         {/* Bottom Navigation */}
-        <div className="mt-12 text-center">
-          <Link
-            href={`/story/${publishedStories[0]?.slug || 'chapter-1-the-ancestral-soil'}`}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif rounded-sm shadow-sm transition-all"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>Start from Chapter I</span>
-          </Link>
-        </div>
+        {publishedStories.length > 0 && (
+          <div className="mt-12 text-center">
+            <Link
+              href={`/story/${publishedStories[0].slug}`}
+              className="inline-flex items-center gap-2 px-8 py-3 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif rounded-sm shadow-sm transition-all"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Start from Chapter I</span>
+            </Link>
+          </div>
+        )}
 
       </div>
     </div>

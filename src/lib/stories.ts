@@ -1,18 +1,17 @@
 import { createClient } from '@/lib/supabase/server';
-import { sampleStories } from '@/data/sampleStories';
 import { Story } from '@/types/story';
 
 /**
  * Fetch all published stories in sequential order.
  * Strictly respects visibility = 'published'.
+ * Returns an empty array if no stories are published or database is empty.
  */
 export async function getPublishedStories(): Promise<Story[]> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    // Graceful fallback to sample placeholder dataset when Supabase credentials are pending
-    return sampleStories.filter((s) => s.visibility === 'published');
+    return [];
   }
 
   try {
@@ -23,13 +22,13 @@ export async function getPublishedStories(): Promise<Story[]> {
       .eq('visibility', 'published')
       .order('order_index', { ascending: true });
 
-    if (error || !data || data.length === 0) {
-      return sampleStories.filter((s) => s.visibility === 'published');
+    if (error || !data) {
+      return [];
     }
 
     return data as Story[];
   } catch {
-    return sampleStories.filter((s) => s.visibility === 'published');
+    return [];
   }
 }
 
@@ -42,8 +41,7 @@ export async function getStoryBySlug(slug: string): Promise<Story | null> {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    const story = sampleStories.find((s) => s.slug === slug);
-    return story && story.visibility === 'published' ? story : null;
+    return null;
   }
 
   try {
@@ -56,13 +54,12 @@ export async function getStoryBySlug(slug: string): Promise<Story | null> {
       .maybeSingle();
 
     if (error || !data) {
-      const fallback = sampleStories.find((s) => s.slug === slug);
-      return fallback && fallback.visibility === 'published' ? fallback : null;
+      return null;
     }
 
     return data as Story;
   } catch {
-    const fallback = sampleStories.find((s) => s.slug === slug);
-    return fallback && fallback.visibility === 'published' ? fallback : null;
+    return null;
   }
 }
+

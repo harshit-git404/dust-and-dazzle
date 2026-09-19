@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPublishedStories, getStoryBySlug } from '@/lib/stories';
-import { sampleStories } from '@/data/sampleStories';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
 import { ArrowLeft, ArrowRight, ListFilter, Clock, Calendar, MessageSquare, Feather } from 'lucide-react';

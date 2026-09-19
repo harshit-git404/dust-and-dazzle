@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { sampleStories } from '@/data/sampleStories';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { BookOpen, Plus, FileText, CheckCircle2, EyeOff, MessageSquare, Clock, ArrowRight } from 'lucide-react';
 import { Story } from '@/types/story';
@@ -22,14 +21,10 @@ export default async function AdminDashboardPage() {
 
       if (data && data.length > 0) {
         stories = data as Story[];
-      } else {
-        stories = sampleStories;
       }
     } catch {
-      stories = sampleStories;
+      stories = [];
     }
-  } else {
-    stories = sampleStories;
   }
 
   publishedCount = stories.filter((s) => s.visibility === 'published').length;

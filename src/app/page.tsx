@@ -40,8 +40,8 @@ export default async function HomePage() {
         <div className="my-8 sm:my-12">
           <PhotoPlate
             src="/images/sample-grandfather.png"
-            alt="Frontispiece: Vintage sepia portrait under the banyan tree"
-            caption="Frontispiece: Beneath the ancestral banyan canopy at twilight, c. 1970s Awadh"
+            alt="Frontispiece Portrait Placeholder"
+            caption="[Archival Frontispiece / Author Plate Placeholder]"
             effect="tape-corners"
             width={720}
             height={500}
@@ -50,8 +50,8 @@ export default async function HomePage() {
 
         {/* Dedication / Epigraph Inset Card */}
         <div className="my-10 p-6 sm:p-8 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm max-w-xl mx-auto shadow-[0_2px_12px_rgba(43,29,20,0.04)]">
-          <p className="font-serif italic text-base sm:text-lg text-[var(--text-primary)] leading-relaxed">
-            &ldquo;For the red earth of the village paths that gave us our first steps, and the shimmering city towers where our dreams took flight.&rdquo;
+          <p className="font-serif italic text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+            [Author Dedication Placeholder — Words from Ajeet Kumar Singh]
           </p>
           <div className="mt-4 text-xs uppercase tracking-widest text-[var(--color-terracotta)] font-semibold">
             — Dedication
@@ -85,43 +85,51 @@ export default async function HomePage() {
             <h2 className="font-serif text-xl sm:text-2xl text-[var(--text-primary)] font-normal">
               Collected Stories in Sequence
             </h2>
-            <Link
-              href="/toc"
-              className="text-xs uppercase tracking-wider text-[var(--color-terracotta)] hover:underline flex items-center gap-1 font-serif"
-            >
-              <span>View All 16</span>
-              <ArrowRight className="w-3 h-3" />
-            </Link>
+            {publishedStories.length > 0 && (
+              <Link
+                href="/toc"
+                className="text-xs uppercase tracking-wider text-[var(--color-terracotta)] hover:underline flex items-center gap-1 font-serif"
+              >
+                <span>View All {publishedStories.length}</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            )}
           </div>
 
-          <div className="space-y-4">
-            {publishedStories.slice(0, 4).map((story) => (
-              <Link
-                key={story.id}
-                href={`/story/${story.slug}`}
-                className="group block p-4 sm:p-5 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-sm transition-all hover:shadow-sm"
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-serif text-xs uppercase tracking-widest text-[var(--color-terracotta)] font-semibold">
-                      {story.chapter_label}
-                    </span>
-                    <h3 className="font-serif text-base sm:text-lg text-[var(--text-primary)] group-hover:text-[var(--color-terracotta)] transition-colors">
-                      {story.title.replace(/^\[Placeholder\]\s*/, '')}
-                    </h3>
+          {publishedStories.length > 0 ? (
+            <div className="space-y-4">
+              {publishedStories.slice(0, 4).map((story) => (
+                <Link
+                  key={story.id}
+                  href={`/story/${story.slug}`}
+                  className="group block p-4 sm:p-5 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-sm transition-all hover:shadow-sm"
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-serif text-xs uppercase tracking-widest text-[var(--color-terracotta)] font-semibold">
+                        {story.chapter_label}
+                      </span>
+                      <h3 className="font-serif text-base sm:text-lg text-[var(--text-primary)] group-hover:text-[var(--color-terracotta)] transition-colors">
+                        {story.title}
+                      </h3>
+                    </div>
+                    {story.year && (
+                      <span className="text-xs text-[var(--color-banyan)] font-serif italic shrink-0">
+                        {story.year}
+                      </span>
+                    )}
                   </div>
-                  {story.year && (
-                    <span className="text-xs text-[var(--color-banyan)] font-serif italic shrink-0">
-                      {story.year}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1.5 text-xs sm:text-sm text-[var(--text-secondary)] font-serif line-clamp-2">
-                  {story.excerpt.replace(/^\[Placeholder Excerpt:\s*/, '').replace(/\]$/, '')}
-                </p>
-              </Link>
-            ))}
-          </div>
+                  <p className="mt-1.5 text-xs sm:text-sm text-[var(--text-secondary)] font-serif line-clamp-2">
+                    {story.excerpt}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm text-center font-serif text-sm text-[var(--text-secondary)] italic">
+              All 16 manuscript chapters are currently preserved in <strong>draft mode</strong> in the Author Studio. Publish chapters from the Studio or run the publish script to display them here.
+            </div>
+          )}
         </div>
 
       </div>
