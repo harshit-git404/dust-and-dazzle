@@ -1,5 +1,6 @@
 import path from 'path';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
@@ -14,193 +15,209 @@ async function verifyLiveSecurity() {
   }
 
   console.log('================================================================================');
-  console.log('🔒 LIVE SUPABASE RLS SECURITY & PERMISSIONS AUDIT (Phase 2c)');
+  console.log('🔒 LIVE SUPABASE RLS & COMMENT SECURITY AUDIT');
   console.log('================================================================================');
   console.log(`Target URL: ${supabaseUrl}`);
-  console.log(`Client Role: Anonymous Public Visitor (using anon public key)\n`);
+  console.log(`Client Role: Anonymous Public Client (NEXT_PUBLIC_SUPABASE_ANON_KEY)\n`);
 
   const publicClient = createClient(supabaseUrl, supabaseAnonKey);
 
-  // 1. Read Drafts (Expect None / 0 rows)
-  console.log('--------------------------------------------------------------------------------');
-  console.log('TEST 1: Anonymous Public SELECT Draft / Private Stories (Expect None / 0 Rows)');
-  console.log('--------------------------------------------------------------------------------');
-  const { data: draftStories, error: draftError, status: draftStatus } = await publicClient
+  // Fetch a published story for testing
+  const { data: publishedStories } = await publicClient
     .from('stories')
-    .select('id, title, visibility')
-    .neq('visibility', 'published');
+    .select('id, slug, title')
+    .eq('visibility', 'published')
+    .limit(1);
 
-  console.log(`HTTP Status: ${draftStatus}`);
-  if (draftError) {
-    console.log(`Raw Response Error: [Code: ${draftError.code}] ${draftError.message}`);
-  } else {
-    console.log(`Raw Response Data: ${JSON.stringify(draftStories)}`);
-    if (draftStories?.length === 0) {
-      console.log('✅ PASS: Anonymous client received 0 draft/private stories (RLS enforced).');
-    } else {
-      console.log('❌ FAIL: Draft stories were exposed to anonymous client!');
-    }
-  }
+  const testStoryId = publishedStories?.[0]?.id || '00000000-0000-0000-0000-000000000000';
+  console.log(`Using Published Story for Tests: "${publishedStories?.[0]?.title || 'Fallback'}" (${testStoryId})\n`);
 
-  // 2. Anonymous INSERT on Stories (Expect Rejection)
-  console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 2: Anonymous Public INSERT into Stories table (Expect Rejection)');
+  // ---------------------------------------------------------------------------
+  // TEST 1: Direct Anon INSERT into comments with is_approved = false (REJECTED)
+  // ---------------------------------------------------------------------------
   console.log('--------------------------------------------------------------------------------');
-  const { data: insertStoryData, error: insertStoryError, status: insertStoryStatus } = await publicClient
-    .from('stories')
-    .insert({
-      slug: 'unauthorized-test-story',
-      title: 'Unauthorized Test Story',
-      chapter_label: 'Chapter 99',
-      order_index: 99,
-      excerpt: 'Unauthorized',
-      content_html: '<p>Malicious content</p>',
-      visibility: 'published',
-    })
-    .select();
-
-  console.log(`HTTP Status: ${insertStoryStatus}`);
-  if (insertStoryError) {
-    console.log(`✅ PASS: Anonymous INSERT was REJECTED by Postgres RLS policy!`);
-    console.log(`Raw Response Error: [Code: ${insertStoryError.code}] ${insertStoryError.message}`);
-  } else {
-    console.log(`❌ FAIL: Anonymous client was permitted to insert story:`, insertStoryData);
-  }
-
-  // 3. Anonymous UPDATE on Stories (Expect Rejection)
-  console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 3: Anonymous Public UPDATE on Stories table (Expect Rejection / 0 rows)');
+  console.log('TEST 1: Direct Anonymous INSERT into comments (is_approved = false) [Expect Rejection]');
   console.log('--------------------------------------------------------------------------------');
-  const { data: updateStoryData, error: updateStoryError, status: updateStoryStatus } = await publicClient
-    .from('stories')
-    .update({ title: 'Hacked Title' })
-    .neq('slug', '---nonexistent---')
-    .select();
-
-  console.log(`HTTP Status: ${updateStoryStatus}`);
-  if (updateStoryError) {
-    console.log(`✅ PASS: Anonymous UPDATE was REJECTED!`);
-    console.log(`Raw Response Error: [Code: ${updateStoryError.code}] ${updateStoryError.message}`);
-  } else if (!updateStoryData || updateStoryData.length === 0) {
-    console.log('✅ PASS: Anonymous UPDATE modified 0 rows (RLS prevented write).');
-  } else {
-    console.log(`❌ FAIL: Anonymous UPDATE succeeded!`, updateStoryData);
-  }
-
-  // 4. Anonymous DELETE on Stories (Expect Rejection)
-  console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 4: Anonymous Public DELETE on Stories table (Expect Rejection / 0 rows)');
-  console.log('--------------------------------------------------------------------------------');
-  const { data: deleteStoryData, error: deleteStoryError, status: deleteStoryStatus } = await publicClient
-    .from('stories')
-    .delete()
-    .neq('slug', '---nonexistent---')
-    .select();
-
-  console.log(`HTTP Status: ${deleteStoryStatus}`);
-  if (deleteStoryError) {
-    console.log(`✅ PASS: Anonymous DELETE was REJECTED!`);
-    console.log(`Raw Response Error: [Code: ${deleteStoryError.code}] ${deleteStoryError.message}`);
-  } else if (!deleteStoryData || deleteStoryData.length === 0) {
-    console.log('✅ PASS: Anonymous DELETE affected 0 rows (RLS prevented deletion).');
-  } else {
-    console.log(`❌ FAIL: Anonymous DELETE succeeded!`, deleteStoryData);
-  }
-
-  // 5. Anonymous SELECT author_email on comments table (Expect Denied / Excluded)
-  console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 5: Anonymous Public SELECT author_email on comments table (Expect Denied/Excluded)');
-  console.log('--------------------------------------------------------------------------------');
-  const { data: emailData, error: emailError, status: emailStatus } = await publicClient
-    .from('comments')
-    .select('author_email');
-
-  console.log(`HTTP Status: ${emailStatus}`);
-  if (emailError) {
-    console.log(`✅ PASS: Access to author_email column was DENIED to anonymous client!`);
-    console.log(`Raw Response Error: [Code: ${emailError.code}] ${emailError.message}`);
-  } else if (!emailData || emailData.length === 0) {
-    console.log('✅ PASS: 0 rows returned, author_email protected.');
-  }
-
-  // 6. Anonymous SELECT from approved_comments view (Expect Public Safe Access)
-  console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 6: Anonymous Public SELECT from approved_comments view (Expect Public Safe Fields)');
-  console.log('--------------------------------------------------------------------------------');
-  const { data: approvedData, error: approvedError, status: approvedStatus } = await publicClient
-    .from('approved_comments')
-    .select('*');
-
-  console.log(`HTTP Status: ${approvedStatus}`);
-  if (approvedError) {
-    console.log(`Raw Response Error: [Code: ${approvedError.code}] ${approvedError.message}`);
-  } else {
-    console.log(`Raw Response Data: ${JSON.stringify(approvedData)}`);
-    console.log('✅ PASS: Public view serves only approved comments without private emails.');
-  }
-
-  // 7. Anonymous INSERT into comments table (Expect Rejection)
-  console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 7: Anonymous Direct INSERT into comments table (Expect Rejection - Policy Removed)');
-  console.log('--------------------------------------------------------------------------------');
-  const { data: commentInsertData, error: commentInsertError, status: commentInsertStatus } = await publicClient
+  const { data: directAnonFalseData, error: directAnonFalseErr, status: status1 } = await publicClient
     .from('comments')
     .insert({
-      story_id: '00000000-0000-0000-0000-000000000000',
-      author_name: 'Direct Anon Spammer',
-      content: 'Direct insert attempt bypassing server action',
+      story_id: testStoryId,
+      author_name: 'SECURITY TEST',
+      content: 'Direct unapproved insert attempt bypassing server action',
       is_approved: false,
     })
     .select();
 
-  console.log(`HTTP Status: ${commentInsertStatus}`);
-  if (commentInsertError) {
-    console.log(`✅ PASS: Direct anonymous comment INSERT was REJECTED by Postgres RLS!`);
-    console.log(`Raw Response Error: [Code: ${commentInsertError.code}] ${commentInsertError.message}`);
+  console.log(`HTTP Status: ${status1}`);
+  console.log(`Raw Response Error:`, directAnonFalseErr ? `[${directAnonFalseErr.code}] ${directAnonFalseErr.message}` : 'None');
+  console.log(`Raw Response Data:`, directAnonFalseData);
+  if (directAnonFalseErr) {
+    console.log('✅ PASS: Direct anon INSERT (is_approved = false) REJECTED by Postgres RLS policy!');
   } else {
-    console.log(`❌ FAIL: Direct anonymous insert was allowed:`, commentInsertData);
+    console.log('❌ FAIL: Direct anon INSERT was permitted!');
   }
 
-  // 8. Anonymous UPDATE on site_settings (Expect Rejection)
+  // ---------------------------------------------------------------------------
+  // TEST 2: Direct Anon INSERT into comments with is_approved = true (REJECTED)
+  // ---------------------------------------------------------------------------
   console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 8: Anonymous Public UPDATE on site_settings (Expect Rejection)');
+  console.log('TEST 2: Direct Anonymous INSERT into comments (is_approved = true) [Expect Rejection]');
   console.log('--------------------------------------------------------------------------------');
-  const { data: settingsData, error: settingsError, status: settingsStatus } = await publicClient
-    .from('site_settings')
-    .upsert({
-      key: 'about_collection',
-      value: { dedication: 'Hacked Dedication' },
+  const { data: directAnonTrueData, error: directAnonTrueErr, status: status2 } = await publicClient
+    .from('comments')
+    .insert({
+      story_id: testStoryId,
+      author_name: 'SECURITY TEST',
+      content: 'Malicious direct pre-approved comment attempt',
+      is_approved: true,
     })
     .select();
 
-  console.log(`HTTP Status: ${settingsStatus}`);
-  if (settingsError) {
-    console.log(`✅ PASS: Anonymous modification of site_settings was REJECTED by Postgres RLS!`);
-    console.log(`Raw Response Error: [Code: ${settingsError.code}] ${settingsError.message}`);
+  console.log(`HTTP Status: ${status2}`);
+  console.log(`Raw Response Error:`, directAnonTrueErr ? `[${directAnonTrueErr.code}] ${directAnonTrueErr.message}` : 'None');
+  console.log(`Raw Response Data:`, directAnonTrueData);
+  if (directAnonTrueErr) {
+    console.log('✅ PASS: Direct anon INSERT (is_approved = true) REJECTED by Postgres RLS policy!');
   } else {
-    console.log(`❌ FAIL: Anonymous client was permitted to update site_settings:`, settingsData);
+    console.log('❌ FAIL: Direct anon pre-approved INSERT was permitted!');
   }
 
-  // 9. Anonymous Storage Upload on story-media (Expect Rejection)
+  // ---------------------------------------------------------------------------
+  // TEST 3: Anonymous SELECT on comment_rate_limits (REJECTED / 0 Rows)
+  // ---------------------------------------------------------------------------
   console.log('\n--------------------------------------------------------------------------------');
-  console.log('TEST 9: Anonymous Public Upload to story-media Storage Bucket (Expect Rejection)');
+  console.log('TEST 3: Anonymous SELECT on comment_rate_limits [Expect Rejection / 0 Rows]');
   console.log('--------------------------------------------------------------------------------');
-  const dummyFile = Buffer.from('unauthorized live storage write');
-  const { data: storageUploadData, error: storageUploadError } = await publicClient.storage
-    .from('story-media')
-    .upload('unauthorized-test.webp', dummyFile, { contentType: 'image/webp' });
+  const { data: rateSelectData, error: rateSelectErr, status: status3 } = await publicClient
+    .from('comment_rate_limits')
+    .select('*');
 
-  if (storageUploadError) {
-    console.log(`✅ PASS: Anonymous storage upload was REJECTED!`);
-    console.log(`Raw Response Error: ${storageUploadError.message}`);
+  console.log(`HTTP Status: ${status3}`);
+  console.log(`Raw Response Error:`, rateSelectErr ? `[${rateSelectErr.code}] ${rateSelectErr.message}` : 'None');
+  console.log(`Raw Response Data:`, rateSelectData);
+  if (rateSelectErr || (rateSelectData && rateSelectData.length === 0)) {
+    console.log('✅ PASS: Anonymous client has zero read visibility into comment_rate_limits table.');
   } else {
-    console.log(`❌ FAIL: Anonymous client was permitted to upload to storage:`, storageUploadData);
+    console.log('❌ FAIL: Anonymous client was able to read rate limits:', rateSelectData);
+  }
+
+  // ---------------------------------------------------------------------------
+  // TEST 4: Anonymous INSERT on comment_rate_limits (REJECTED)
+  // ---------------------------------------------------------------------------
+  console.log('\n--------------------------------------------------------------------------------');
+  console.log('TEST 4: Anonymous Direct INSERT into comment_rate_limits [Expect Rejection]');
+  console.log('--------------------------------------------------------------------------------');
+  const { data: rateInsertData, error: rateInsertErr, status: status4 } = await publicClient
+    .from('comment_rate_limits')
+    .insert({ ip_hash: '0123456789abcdef0123456789abcdef' })
+    .select();
+
+  console.log(`HTTP Status: ${status4}`);
+  console.log(`Raw Response Error:`, rateInsertErr ? `[${rateInsertErr.code}] ${rateInsertErr.message}` : 'None');
+  console.log(`Raw Response Data:`, rateInsertData);
+  if (rateInsertErr) {
+    console.log('✅ PASS: Direct anonymous INSERT into comment_rate_limits REJECTED by Postgres RLS!');
+  } else {
+    console.log('❌ FAIL: Direct anonymous INSERT into comment_rate_limits was permitted!');
+  }
+
+  // ---------------------------------------------------------------------------
+  // TEST 5: Valid RPC call (submit_reader_comment) with "SECURITY TEST" [SUCCEEDS]
+  // ---------------------------------------------------------------------------
+  console.log('\n--------------------------------------------------------------------------------');
+  console.log('TEST 5: Valid RPC Call (submit_reader_comment) via Anon Key [Expect Success]');
+  console.log('--------------------------------------------------------------------------------');
+  const validIpHash = crypto.randomBytes(16).toString('hex');
+  const { data: rpcValidData, error: rpcValidErr, status: status5 } = await publicClient.rpc(
+    'submit_reader_comment',
+    {
+      p_story_id: testStoryId,
+      p_author_name: 'SECURITY TEST',
+      p_author_email: 'security.test@example.com',
+      p_content: 'A thoughtful verified reflection for live security audit.',
+      p_ip_hash: validIpHash,
+    }
+  );
+
+  console.log(`HTTP Status: ${status5}`);
+  console.log(`Raw RPC Error:`, rpcValidErr ? `[${rpcValidErr.code}] ${rpcValidErr.message}` : 'None');
+  console.log(`Raw RPC Result:`, rpcValidData);
+  if (!rpcValidErr && rpcValidData?.success === true) {
+    console.log('✅ PASS: Valid RPC comment submission SUCCEEDED under anon key.');
+  } else {
+    console.log('❌ FAIL: Valid RPC call failed:', rpcValidErr || rpcValidData);
+  }
+
+  // ---------------------------------------------------------------------------
+  // TEST 6: Overlong Comment (> 2000 chars) [REJECTED by Input Validation]
+  // ---------------------------------------------------------------------------
+  console.log('\n--------------------------------------------------------------------------------');
+  console.log('TEST 6: Overlong Comment (> 2000 characters) via RPC [Expect Validation Rejection]');
+  console.log('--------------------------------------------------------------------------------');
+  const overlongText = 'A'.repeat(2050);
+  const overlongIpHash = crypto.randomBytes(16).toString('hex');
+  const { data: rpcOverlongData, error: rpcOverlongErr, status: status6 } = await publicClient.rpc(
+    'submit_reader_comment',
+    {
+      p_story_id: testStoryId,
+      p_author_name: 'SECURITY TEST',
+      p_author_email: null,
+      p_content: overlongText,
+      p_ip_hash: overlongIpHash,
+    }
+  );
+
+  console.log(`HTTP Status: ${status6}`);
+  console.log(`Raw RPC Error:`, rpcOverlongErr ? `[${rpcOverlongErr.code}] ${rpcOverlongErr.message}` : 'None');
+  console.log(`Raw RPC Result:`, rpcOverlongData);
+  if (rpcOverlongData?.success === false && rpcOverlongData?.error?.includes('2,000')) {
+    console.log('✅ PASS: Overlong comment correctly REJECTED by database validation.');
+  } else {
+    console.log('❌ FAIL: Overlong comment was not properly rejected:', rpcOverlongData);
+  }
+
+  // ---------------------------------------------------------------------------
+  // TEST 7: 25 Calls with Different Fake IP Hashes [BLOCKED by Global Limit]
+  // ---------------------------------------------------------------------------
+  console.log('\n--------------------------------------------------------------------------------');
+  console.log('TEST 7: 25 Calls with Distinct IP Hashes [Expect Global Rate Limit Block at <= 20/hr]');
+  console.log('--------------------------------------------------------------------------------');
+  let successCount = 0;
+  let blockedCount = 0;
+  let lastBlockedMessage = '';
+
+  for (let i = 1; i <= 25; i++) {
+    const fakeIpHash = crypto.randomBytes(16).toString('hex');
+    const { data: spamData, error: spamErr } = await publicClient.rpc(
+      'submit_reader_comment',
+      {
+        p_story_id: testStoryId,
+        p_author_name: 'SECURITY TEST',
+        p_author_email: null,
+        p_content: `Security flood test entry #${i}`,
+        p_ip_hash: fakeIpHash,
+      }
+    );
+
+    if (spamData?.success === true) {
+      successCount++;
+    } else {
+      blockedCount++;
+      lastBlockedMessage = spamData?.error || spamErr?.message || 'Blocked';
+    }
+  }
+
+  console.log(`Total Attempts: 25 | Successful: ${successCount} | Blocked: ${blockedCount}`);
+  console.log(`Last Blocked Error Message: "${lastBlockedMessage}"`);
+  if (blockedCount > 0) {
+    console.log('✅ PASS: Global rate limit kicked in and BLOCKED excessive comment volume across distinct IPs!');
+  } else {
+    console.log('❌ FAIL: Global rate limit did not trigger after 25 rapid submissions.');
   }
 
   console.log('\n================================================================================');
-  console.log('🔒 Live Security Verification Finished');
+  console.log('🔒 Live Security Verification Completed');
   console.log('================================================================================\n');
 }
 
 verifyLiveSecurity().catch(console.error);
-

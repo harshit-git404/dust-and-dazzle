@@ -114,7 +114,7 @@ export function CommentForm({ storyId }: CommentFormProps) {
           <input
             id="reader-email"
             type="email"
-            maxLength={100}
+            maxLength={254}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Never shared or published"
@@ -131,7 +131,7 @@ export function CommentForm({ storyId }: CommentFormProps) {
           id="reader-reflection"
           required
           rows={3}
-          maxLength={1000}
+          maxLength={2000}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Share a memory, reaction, or reflection inspired by this story..."
@@ -142,7 +142,7 @@ export function CommentForm({ storyId }: CommentFormProps) {
             <Lock className="w-3 h-3 text-[var(--color-banyan)]" />
             <span>Moderated gently by the author before display.</span>
           </span>
-          <span>{content.length}/1000</span>
+          <span>{content.length}/2000</span>
         </div>
       </div>
 

@@ -92,15 +92,15 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
     const content = input.content?.trim();
     const email = input.authorEmail?.trim() || null;
 
-    if (!name || name.length < 2 || name.length > 80) {
-      return { success: false, error: 'Please enter a valid name (2 to 80 characters).' };
+    if (!name || name.length < 1 || name.length > 80) {
+      return { success: false, error: 'Please enter a valid name (1 to 80 characters).' };
     }
 
-    if (!content || content.length < 5 || content.length > 1000) {
-      return { success: false, error: 'Reflection must be between 5 and 1,000 characters.' };
+    if (!content || content.length < 1 || content.length > 2000) {
+      return { success: false, error: 'Reflection must be between 1 and 2,000 characters.' };
     }
 
-    if (email && (email.length > 100 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
+    if (email && (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
       return { success: false, error: 'Please enter a valid email address or leave it blank.' };
     }
 

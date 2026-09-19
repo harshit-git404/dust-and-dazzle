@@ -7,24 +7,28 @@ export const revalidate = 0;
 /**
  * Health Check API Endpoint
  *
- * Performs a lightweight database query to keep the Supabase free tier instance active
- * and prevents automatic pausing due to inactivity. Scheduled via Vercel Cron.
+ * 1. Performs a lightweight database query to keep the Supabase instance awake.
+ * 2. Cleans up stale rate-limit records (> 1 day old) via SECURITY DEFINER RPC
+ *    without requiring the service role key.
+ * Scheduled via Vercel Cron.
  */
 export async function GET() {
   const start = Date.now();
 
   try {
     const supabase = await createClient();
-    const { error } = await supabase
+
+    // 1. Keep-alive database read
+    const { error: readError } = await supabase
       .from('stories')
       .select('id')
       .limit(1);
 
-    if (error) {
+    if (readError) {
       return NextResponse.json(
         {
           status: 'error',
-          error: error.message,
+          error: readError.message,
           timestamp: new Date().toISOString(),
           latencyMs: Date.now() - start,
         },
@@ -32,10 +36,20 @@ export async function GET() {
       );
     }
 
+    // 2. Perform daily maintenance cleanup on rate limits
+    let cleanedCount: number | null = null;
+    try {
+      const { data } = await supabase.rpc('cleanup_old_rate_limits');
+      cleanedCount = data;
+    } catch {
+      // Non-blocking cleanup
+    }
+
     return NextResponse.json(
       {
         status: 'healthy',
         database: 'connected',
+        cleanedRateLimits: cleanedCount ?? 0,
         timestamp: new Date().toISOString(),
         latencyMs: Date.now() - start,
       },
