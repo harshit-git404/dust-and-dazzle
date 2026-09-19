@@ -117,7 +117,23 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
 
     const supabase = await createClient();
 
-    // 5. Check if comments are enabled for this story
+    // 5. Submit via secure RPC function (runs as SECURITY DEFINER using anon key)
+    const { data: rpcData, error: rpcErr } = await supabase.rpc('submit_reader_comment', {
+      p_story_id: input.storyId,
+      p_author_name: name,
+      p_author_email: email,
+      p_content: content,
+      p_ip_hash: ipHash,
+    });
+
+    if (!rpcErr && rpcData) {
+      if (rpcData.success === false) {
+        return { success: false, error: rpcData.error || 'Submission failed.' };
+      }
+      return { success: true };
+    }
+
+    // 6. Direct Table Fallback (if RPC is not installed)
     const { data: story, error: storyErr } = await supabase
       .from('stories')
       .select('id, allow_comments, visibility')
@@ -132,7 +148,6 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
       return { success: false, error: 'Reflections are closed for this chapter.' };
     }
 
-    // 6. Rate limit check (max 5 comments per 10 minutes per IP hash)
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
     const { data: recentAttempts } = await supabase
       .from('comment_rate_limits')
@@ -147,10 +162,8 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
       };
     }
 
-    // Record rate limit attempt
     await supabase.from('comment_rate_limits').insert({ ip_hash: ipHash });
 
-    // 7. Insert comment (always unapproved)
     const { error: insertErr } = await supabase.from('comments').insert({
       story_id: input.storyId,
       author_name: name,
