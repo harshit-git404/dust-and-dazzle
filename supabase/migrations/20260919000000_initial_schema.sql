@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.stories (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Index for ordering and slug lookups
+-- Index for ordering, slug, and visibility lookups
 CREATE INDEX IF NOT EXISTS idx_stories_order ON public.stories(order_index ASC);
 CREATE INDEX IF NOT EXISTS idx_stories_slug ON public.stories(slug);
 CREATE INDEX IF NOT EXISTS idx_stories_visibility ON public.stories(visibility);
@@ -52,46 +52,62 @@ ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
 -- RLS Policies: STORIES
 -- ==============================================================================
 
--- Policy: Public visitors can ONLY view published stories
+-- Drop existing policies if re-running
+DROP POLICY IF EXISTS "Public visitors can only view published stories" ON public.stories;
+DROP POLICY IF EXISTS "Authenticated author can perform all actions on stories" ON public.stories;
+
+-- Policy 1: Public visitors (anon) can ONLY view published stories
 CREATE POLICY "Public visitors can only view published stories"
     ON public.stories
     FOR SELECT
     TO public
     USING (visibility = 'published');
 
--- Policy: Authenticated Author has full access (SELECT, INSERT, UPDATE, DELETE)
+-- Policy 2: Strictly restrict write access to the authenticated author (verified via JWT email & auth.uid)
 CREATE POLICY "Authenticated author can perform all actions on stories"
     ON public.stories
     FOR ALL
     TO authenticated
-    USING (true)
-    WITH CHECK (true);
+    USING (
+        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
+    )
+    WITH CHECK (
+        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
+    );
 
 -- ==============================================================================
 -- RLS Policies: COMMENTS
 -- ==============================================================================
 
--- Policy: Public visitors can ONLY view approved comments
+DROP POLICY IF EXISTS "Public visitors can only view approved comments" ON public.comments;
+DROP POLICY IF EXISTS "Public visitors can submit comments" ON public.comments;
+DROP POLICY IF EXISTS "Authenticated author can manage all comments" ON public.comments;
+
+-- Policy 1: Public visitors can ONLY view approved comments
 CREATE POLICY "Public visitors can only view approved comments"
     ON public.comments
     FOR SELECT
     TO public
     USING (is_approved = true);
 
--- Policy: Public visitors can submit comments (always pending approval)
+-- Policy 2: Public visitors can submit comments (always forced to is_approved = false)
 CREATE POLICY "Public visitors can submit comments"
     ON public.comments
     FOR INSERT
     TO public
     WITH CHECK (is_approved = false);
 
--- Policy: Authenticated Author can manage all comments (SELECT, UPDATE, DELETE)
+-- Policy 3: Authenticated Author can manage all comments (approve, delete, edit)
 CREATE POLICY "Authenticated author can manage all comments"
     ON public.comments
     FOR ALL
     TO authenticated
-    USING (true)
-    WITH CHECK (true);
+    USING (
+        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
+    )
+    WITH CHECK (
+        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
+    );
 
 -- ==============================================================================
 -- Trigger for automatic updated_at timestamps
