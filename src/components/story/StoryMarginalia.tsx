@@ -14,18 +14,53 @@ export function StoryMarginalia({ story }: StoryMarginaliaProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const el = document.documentElement;
-      const totalHeight = el.scrollHeight - el.clientHeight;
-      if (totalHeight > 0) {
-        const current = (window.scrollY / totalHeight) * 100;
-        setScrollProgress(Math.min(100, Math.max(0, Math.round(current))));
+      const proseEl = document.querySelector('.story-prose') as HTMLElement | null;
+      if (!proseEl) {
+        const el = document.documentElement;
+        const totalHeight = el.scrollHeight - el.clientHeight;
+        if (totalHeight > 0) {
+          const current = (window.scrollY / totalHeight) * 100;
+          setScrollProgress(Math.min(100, Math.max(0, Math.round(current))));
+        }
+        return;
+      }
+
+      // Calculate progress accurately based on the story text itself
+      const rect = proseEl.getBoundingClientRect();
+      const proseTop = rect.top + window.scrollY;
+      const proseHeight = proseEl.offsetHeight;
+      const viewportHeight = window.innerHeight;
+
+      // Reading starts when top of story is near the upper viewport
+      const start = Math.max(0, proseTop - viewportHeight * 0.25);
+      // Reading completes (100%) when the reader reaches the final paragraph of the story text
+      const end = proseTop + proseHeight - viewportHeight * 0.55;
+
+      const totalDistance = end - start;
+      if (totalDistance <= 0) {
+        setScrollProgress(100);
+        return;
+      }
+
+      const currentScroll = window.scrollY;
+      if (currentScroll <= start) {
+        setScrollProgress(0);
+      } else if (currentScroll >= end) {
+        setScrollProgress(100);
+      } else {
+        const progress = ((currentScroll - start) / totalDistance) * 100;
+        setScrollProgress(Math.min(100, Math.max(0, Math.round(progress))));
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   const photos =

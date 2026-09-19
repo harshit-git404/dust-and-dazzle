@@ -51,24 +51,37 @@
 }
 
 /* Drop Cap Typography */
-.drop-cap-paragraph::first-letter,
-.story-prose > p:first-of-type::first-letter,
 .drop-cap {
   float: left;
   font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
-  font-size: 3.8rem;
-  line-height: 0.82;
-  margin-top: 0.2rem;
-  margin-right: 0.75rem;
+  font-size: 3.3rem;
+  line-height: 0.8;
+  margin-top: 0.15rem;
+  margin-right: 0.15rem;
   margin-bottom: -0.1rem;
-  padding: 0.15rem 0.2rem 0 0;
+  padding: 0.05rem 0.1rem 0 0;
   color: var(--color-terracotta);
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.candlelight .drop-cap-paragraph::first-letter,
-.candlelight .story-prose > p:first-of-type::first-letter,
-.candlelight .drop-cap {
+/* Fallback for paragraphs without explicit drop-cap span */
+.story-prose > p:first-of-type:not(:has(.drop-cap))::first-letter,
+.drop-cap-paragraph:not(:has(.drop-cap))::first-letter {
+  float: left;
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  font-size: 3.3rem;
+  line-height: 0.8;
+  margin-top: 0.15rem;
+  margin-right: 0.15rem;
+  margin-bottom: -0.1rem;
+  padding: 0.05rem 0.1rem 0 0;
+  color: var(--color-terracotta);
+  font-weight: 600;
+}
+
+.candlelight .drop-cap,
+.candlelight .story-prose > p:first-of-type:not(:has(.drop-cap))::first-letter,
+.candlelight .drop-cap-paragraph:not(:has(.drop-cap))::first-letter {
   color: var(--color-diya);
   text-shadow: 0 0 12px var(--color-diya-glow);
 }
