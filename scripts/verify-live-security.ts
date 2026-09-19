@@ -161,9 +161,46 @@ async function verifyLiveSecurity() {
     console.log(`❌ FAIL: Direct anonymous insert was allowed:`, commentInsertData);
   }
 
+  // 8. Anonymous UPDATE on site_settings (Expect Rejection)
+  console.log('\n--------------------------------------------------------------------------------');
+  console.log('TEST 8: Anonymous Public UPDATE on site_settings (Expect Rejection)');
+  console.log('--------------------------------------------------------------------------------');
+  const { data: settingsData, error: settingsError, status: settingsStatus } = await publicClient
+    .from('site_settings')
+    .upsert({
+      key: 'about_collection',
+      value: { dedication: 'Hacked Dedication' },
+    })
+    .select();
+
+  console.log(`HTTP Status: ${settingsStatus}`);
+  if (settingsError) {
+    console.log(`✅ PASS: Anonymous modification of site_settings was REJECTED by Postgres RLS!`);
+    console.log(`Raw Response Error: [Code: ${settingsError.code}] ${settingsError.message}`);
+  } else {
+    console.log(`❌ FAIL: Anonymous client was permitted to update site_settings:`, settingsData);
+  }
+
+  // 9. Anonymous Storage Upload on story-media (Expect Rejection)
+  console.log('\n--------------------------------------------------------------------------------');
+  console.log('TEST 9: Anonymous Public Upload to story-media Storage Bucket (Expect Rejection)');
+  console.log('--------------------------------------------------------------------------------');
+  const dummyFile = Buffer.from('unauthorized live storage write');
+  const { data: storageUploadData, error: storageUploadError } = await publicClient.storage
+    .from('story-media')
+    .upload('unauthorized-test.webp', dummyFile, { contentType: 'image/webp' });
+
+  if (storageUploadError) {
+    console.log(`✅ PASS: Anonymous storage upload was REJECTED!`);
+    console.log(`Raw Response Error: ${storageUploadError.message}`);
+  } else {
+    console.log(`❌ FAIL: Anonymous client was permitted to upload to storage:`, storageUploadData);
+  }
+
   console.log('\n================================================================================');
   console.log('🔒 Live Security Verification Finished');
   console.log('================================================================================\n');
 }
 
 verifyLiveSecurity().catch(console.error);
+
