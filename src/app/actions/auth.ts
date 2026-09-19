@@ -11,19 +11,30 @@ export async function loginAction(formData: FormData): Promise<{ error?: string 
     return { error: 'Please enter both email and password.' };
   }
 
-  const allowedAuthorEmail = process.env.AUTHOR_EMAIL;
-  if (allowedAuthorEmail && email.toLowerCase() !== allowedAuthorEmail.toLowerCase()) {
-    return { error: 'Access restricted: Only the author can access the Studio.' };
-  }
-
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
-  if (error) {
-    return { error: error.message };
+  if (authError || !authData.user) {
+    return { error: authError?.message || 'Invalid login credentials.' };
+  }
+
+  // Verify that the user is an authorized author in the database (public.is_author() / authors table)
+  const { data: isAuthor, error: authorError } = await supabase.rpc('is_author');
+
+  if (authorError || !isAuthor) {
+    const { data: authorRecord } = await supabase
+      .from('authors')
+      .select('user_id')
+      .eq('user_id', authData.user.id)
+      .maybeSingle();
+
+    if (!authorRecord) {
+      await supabase.auth.signOut();
+      return { error: 'Not authorised.' };
+    }
   }
 
   redirect('/admin');
@@ -34,3 +45,4 @@ export async function logoutAction() {
   await supabase.auth.signOut();
   redirect('/');
 }
+

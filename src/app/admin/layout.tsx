@@ -20,6 +20,22 @@ export default async function AdminLayout({
     redirect('/login');
   }
 
+  if (user) {
+    const { data: isAuthor } = await supabase.rpc('is_author');
+    if (isAuthor === false) {
+      const { data: authorRecord } = await supabase
+        .from('authors')
+        .select('user_id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (!authorRecord) {
+        await supabase.auth.signOut();
+        redirect('/login');
+      }
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[var(--bg-canvas)] py-8 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
@@ -40,7 +56,7 @@ export default async function AdminLayout({
                 </span>
               </div>
               <p className="font-serif italic text-xs text-[var(--text-muted)]">
-                Logged in as {user?.email || 'author@dustanddazzle.com'}
+                Logged in as {user?.email || 'Author'}
               </p>
             </div>
           </div>

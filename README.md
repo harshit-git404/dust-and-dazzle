@@ -42,9 +42,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key-here
 # Supabase Service Role Key (CONFIDENTIAL: Server-side only, NEVER commit)
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 
-# Author Login Email (Sole allowed author login)
-AUTHOR_EMAIL=author@dustanddazzle.com
-
 # Site URL
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```

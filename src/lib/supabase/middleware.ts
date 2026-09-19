@@ -65,18 +65,37 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Route protection for /admin: unauthenticated visitors are redirected to /login
+  // Route protection for /admin: unauthenticated visitors or non-authors are redirected to /login
   if (request.nextUrl.pathname.startsWith('/admin')) {
     if (!user) {
       const redirectUrl = new URL('/login', request.url);
       redirectUrl.searchParams.set('redirectedFrom', request.nextUrl.pathname);
       return NextResponse.redirect(redirectUrl);
     }
+
+    const { data: isAuthor } = await supabase.rpc('is_author');
+    if (isAuthor === false) {
+      const { data: authorRecord } = await supabase
+        .from('authors')
+        .select('user_id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (!authorRecord) {
+        await supabase.auth.signOut();
+        const redirectUrl = new URL('/login', request.url);
+        redirectUrl.searchParams.set('error', 'unauthorized');
+        return NextResponse.redirect(redirectUrl);
+      }
+    }
   }
 
-  // If already logged in, visiting /login redirects straight to /admin
+  // If already logged in and author, visiting /login redirects straight to /admin
   if (request.nextUrl.pathname === '/login' && user) {
-    return NextResponse.redirect(new URL('/admin', request.url));
+    const { data: isAuthor } = await supabase.rpc('is_author');
+    if (isAuthor) {
+      return NextResponse.redirect(new URL('/admin', request.url));
+    }
   }
 
   return response;
