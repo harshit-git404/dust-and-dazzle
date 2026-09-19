@@ -4,6 +4,8 @@ A literary short story collection web application for author **Ajeet Kumar Singh
 
 Designed with the quiet elegance of a hand-bound memoir—aged rag paper textures, Playfair Display & Newsreader typography, Diya gold accents, washi tape photo plates, and a continuous flow of 16 chapters.
 
+🌐 **Live Website**: [https://dust-and-dazzle.vercel.app](https://dust-and-dazzle.vercel.app)
+
 ---
 
 ## 🚀 Quick Start

@@ -2,6 +2,8 @@
 
 A step-by-step guide for deploying the **Dust and Dazzle** literary web application to **Vercel** with **Supabase**.
 
+🌐 **Production URL**: [https://dust-and-dazzle.vercel.app](https://dust-and-dazzle.vercel.app)
+
 ---
 
 ## 1. Prerequisites
