@@ -7,7 +7,7 @@ import { BookOpen, ArrowRight, Sparkles, Feather } from 'lucide-react';
 
 export default async function HomePage() {
   const publishedStories = await getPublishedStories();
-  const firstStory = publishedStories[0] || { slug: 'chapter-1-the-ancestral-soil' };
+  const firstStory = publishedStories[0] || { slug: 'the-forgotten-pillar' };
 
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-6">
