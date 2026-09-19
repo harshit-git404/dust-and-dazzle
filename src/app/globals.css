@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-canvas: #FFF8F5;
+    --bg-surface: #F5EBDA;
+    --bg-surface-elevated: #EBDDC4;
+    --border-subtle: #D8C7AA;
+    --border-strong: #88726B;
+    --text-primary: #261910;
+    --text-secondary: #55433C;
+    --text-muted: #88726B;
+    --color-terracotta: #A9502E;
+    --color-terracotta-hover: #8E3E21;
+    --color-banyan: #3F4A32;
+    --color-diya: #C9922E;
+    --color-diya-glow: rgba(201, 146, 46, 0.25);
+  }
+
+  .candlelight {
+    --bg-canvas: #1A120B;
+    --bg-surface: #261910;
+    --bg-surface-elevated: #332216;
+    --border-subtle: #4D382A;
+    --border-strong: #7A5B44;
+    --text-primary: #F5EBDA;
+    --text-secondary: #D8C7AA;
+    --text-muted: #A38C7A;
+    --color-terracotta: #D4714D;
+    --color-terracotta-hover: #E28867;
+    --color-banyan: #8FA576;
+    --color-diya: #E5B25D;
+    --color-diya-glow: rgba(229, 178, 93, 0.35);
+  }
+}
+
+/* Background Paper Grain (Pure CSS SVG data-uri, extremely lightweight <1KB) */
+.paper-texture {
+  background-color: var(--bg-canvas);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+.candlelight .paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* Drop Cap Typography */
+.drop-cap-paragraph::first-letter,
+.drop-cap {
+  float: left;
+  font-family: var(--font-playfair), serif;
+  font-size: 3.75rem;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  color: var(--color-terracotta);
+  font-weight: 500;
+}
+
+.candlelight .drop-cap-paragraph::first-letter,
+.candlelight .drop-cap {
+  color: var(--color-diya);
+  text-shadow: 0 0 12px var(--color-diya-glow);
+}
+
+/* Washi Tape Photo Mount Effect */
+.washi-tape-top {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 90px;
+  height: 24px;
+  background: rgba(220, 205, 180, 0.7);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-left: 2px dashed rgba(180, 160, 130, 0.4);
+  border-right: 2px dashed rgba(180, 160, 130, 0.4);
+  backdrop-filter: blur(1px);
+  z-index: 10;
+}
+
+.washi-tape-corner-tl {
+  position: absolute;
+  top: -10px;
+  left: -15px;
+  transform: rotate(-35deg);
+  width: 70px;
+  height: 20px;
+  background: rgba(220, 205, 180, 0.65);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.washi-tape-corner-tr {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  transform: rotate(35deg);
+  width: 70px;
+  height: 20px;
+  background: rgba(220, 205, 180, 0.65);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+/* Push Pin Effect */
+.corner-pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #E5B25D 0%, #A97A2E 70%, #593D14 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  z-index: 15;
+}
+
+/* Custom Scrollbar for tactile feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
