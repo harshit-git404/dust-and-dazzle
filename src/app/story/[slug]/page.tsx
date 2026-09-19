@@ -7,6 +7,8 @@ import { PhotoPlate } from '@/components/PhotoPlate';
 import { ArrowLeft, ArrowRight, ListFilter, Clock, Calendar, MessageSquare, Feather } from 'lucide-react';
 import type { Metadata } from 'next';
 
+import { getApprovedComments } from '@/lib/comments';
+
 interface StoryPageProps {
   params: Promise<{
     slug: string;
@@ -43,7 +45,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
   const currentIndex = allPublished.findIndex((s) => s.slug === slug);
   const prevStory = currentIndex > 0 ? allPublished[currentIndex - 1] : null;
   const nextStory = currentIndex >= 0 && currentIndex < allPublished.length - 1 ? allPublished[currentIndex + 1] : null;
-
+  const approvedComments = await getApprovedComments(story.id);
 
   return (
     <article className="py-12 sm:py-20 px-4 sm:px-6">
@@ -174,7 +176,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
           </div>
         </nav>
 
-        {/* Reader Comments Section Preview (Moderation arrives in Phase 4) */}
+        {/* Reader Comments Section (Served strictly via public approved_comments view) */}
         <section className="mt-16 p-6 sm:p-8 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm">
           <div className="flex items-center gap-2 mb-4">
             <MessageSquare className="w-4 h-4 text-[var(--color-terracotta)]" />
@@ -187,17 +189,30 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
             Reader comments are quietly reviewed and moderated by the author before appearing on the page.
           </p>
 
-          <div className="space-y-4">
-            <div className="p-4 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm">
-              <div className="flex items-center justify-between text-xs text-[var(--text-muted)] font-serif">
-                <span className="font-medium text-[var(--text-primary)]">Rameshwar P. (Reader)</span>
-                <span>Archived Reflection</span>
-              </div>
-              <p className="mt-2 text-xs sm:text-sm text-[var(--text-secondary)] font-serif italic">
-                &ldquo;Reading this reminded me so vividly of our courtyard in eastern UP during the 1970s. The quiet pacing and imagery are wonderful.&rdquo;
+          {approvedComments.length > 0 ? (
+            <div className="space-y-4">
+              {approvedComments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className="p-4 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm"
+                >
+                  <div className="flex items-center justify-between text-xs text-[var(--text-muted)] font-serif">
+                    <span className="font-medium text-[var(--text-primary)]">{comment.author_name}</span>
+                    <span>{new Date(comment.created_at).toLocaleDateString()}</span>
+                  </div>
+                  <p className="mt-2 text-xs sm:text-sm text-[var(--text-secondary)] font-serif italic">
+                    &ldquo;{comment.content}&rdquo;
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-4 bg-[var(--bg-canvas)]/50 border border-[var(--border-subtle)]/50 rounded-sm text-center">
+              <p className="text-xs font-serif italic text-[var(--text-muted)]">
+                No reflections shared for this chapter yet.
               </p>
             </div>
-          </div>
+          )}
         </section>
 
       </div>
