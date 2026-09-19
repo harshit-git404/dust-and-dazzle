@@ -2,26 +2,36 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
 export async function createClient() {
-  const cookieStore = await cookies();
+  let cookieStore: any = null;
+  try {
+    cookieStore = await cookies();
+  } catch {
+    // Called outside Next.js request scope (e.g. standalone test/script)
+    cookieStore = null;
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       get(name: string) {
-        return cookieStore.get(name)?.value;
+        return cookieStore?.get ? cookieStore.get(name)?.value : undefined;
       },
       set(name: string, value: string, options: CookieOptions) {
         try {
-          cookieStore.set({ name, value, ...options });
+          if (cookieStore?.set) {
+            cookieStore.set({ name, value, ...options });
+          }
         } catch {
-          // The `set` method was called from a Server Component.
           // Handled via middleware if needed.
         }
       },
       remove(name: string, options: CookieOptions) {
         try {
-          cookieStore.set({ name, value: '', ...options, maxAge: 0 });
+          if (cookieStore?.set) {
+            cookieStore.set({ name, value: '', ...options, maxAge: 0 });
+          }
         } catch {
           // Handled via middleware if needed.
         }
