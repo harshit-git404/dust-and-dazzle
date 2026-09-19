@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
 import { getPublishedStories } from '@/lib/stories';
+import { getSiteSettingsAction } from '@/app/actions/settings';
 import { BookOpen, ArrowRight, Sparkles, Feather } from 'lucide-react';
 
 export default async function HomePage() {
   const publishedStories = await getPublishedStories();
+  const settings = await getSiteSettingsAction();
   const firstStory = publishedStories[0] || { slug: 'the-forgotten-pillar' };
 
   return (
@@ -39,9 +41,9 @@ export default async function HomePage() {
         {/* Frontispiece Archival Photograph Plate */}
         <div className="my-8 sm:my-12">
           <PhotoPlate
-            src="/images/sample-grandfather.png"
-            alt="Frontispiece Portrait Placeholder"
-            caption="[Archival Frontispiece / Author Plate Placeholder]"
+            src={settings.portrait_url || '/images/sample-grandfather.png'}
+            alt={settings.portrait_caption || 'Ajeet Kumar Singh, Author & Chronicler'}
+            caption={settings.portrait_caption || 'Ajeet Kumar Singh, Author & Chronicler'}
             effect="tape-corners"
             width={720}
             height={500}
@@ -51,7 +53,7 @@ export default async function HomePage() {
         {/* Dedication / Epigraph Inset Card */}
         <div className="my-10 p-6 sm:p-8 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm max-w-xl mx-auto shadow-[0_2px_12px_rgba(43,29,20,0.04)]">
           <p className="font-serif italic text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-            [Author Dedication Placeholder — Words from Ajeet Kumar Singh]
+            &ldquo;{settings.dedication}&rdquo;
           </p>
           <div className="mt-4 text-xs uppercase tracking-widest text-[var(--color-terracotta)] font-semibold">
             — Dedication
