@@ -5,10 +5,13 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
+import ImageExtension from '@tiptap/extension-image';
 import { Story, StoryVisibility } from '@/types/story';
 import { saveStoryAction } from '@/app/actions/stories';
+import { uploadPhotoAction } from '@/app/actions/media';
 import { cleanPastedText, calculateReadingTime, generateExcerpt } from '@/lib/editor-utils';
 import { DiyaDivider } from '@/components/DiyaDivider';
+import { PhotoPlate } from '@/components/PhotoPlate';
 import { useRouter } from 'next/navigation';
 import {
   Bold,
@@ -29,6 +32,10 @@ import {
   Save,
   ArrowLeft,
   RotateCcw,
+  Image as ImageIcon,
+  MessageSquare,
+  Upload,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -46,6 +53,9 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
   const [chapterLabel, setChapterLabel] = useState(story?.chapter_label || '');
   const [excerpt, setExcerpt] = useState(story?.excerpt || '');
   const [visibility, setVisibility] = useState<StoryVisibility>(story?.visibility || 'draft');
+  const [allowComments, setAllowComments] = useState<boolean>(
+    story?.allow_comments !== undefined ? story.allow_comments : true
+  );
 
   // Optimistic concurrency tracking
   const [lastKnownUpdatedAt, setLastKnownUpdatedAt] = useState<string | null>(
@@ -72,6 +82,17 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
     rawSnapshot: string | null;
   }>({ show: false, changesCount: 0, rawSnapshot: null });
 
+  // Local draft restored banner
+  const [restoredNotice, setRestoredNotice] = useState<boolean>(false);
+
+  // Photo insert modal state
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [photoCaption, setPhotoCaption] = useState('');
+  const [photoAlt, setPhotoAlt] = useState('');
+  const [photoYear, setPhotoYear] = useState('');
+  const [photoUploadError, setPhotoUploadError] = useState<string | null>(null);
+
   // References for debounced autosave
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isDirtyRef = useRef(false);
@@ -86,6 +107,10 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
         },
         bulletList: false,
         orderedList: false,
+      }),
+      ImageExtension.configure({
+        inline: false,
+        allowBase64: false,
       }),
       Placeholder.configure({
         placeholder:
@@ -107,7 +132,6 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
 
         if (modified && changesCount > 0) {
           event.preventDefault();
-          // Insert cleaned text into document
           view.dispatch(view.state.tr.insertText(cleanedText));
 
           setPasteNotice({
@@ -116,7 +140,6 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
             rawSnapshot: text,
           });
 
-          // Auto-hide notice after 8 seconds
           setTimeout(() => {
             setPasteNotice((prev) => ({ ...prev, show: false }));
           }, 8000);
@@ -126,6 +149,17 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
 
         return false;
       },
+      handleDrop: (view, event, slice, moved) => {
+        if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
+          const file = event.dataTransfer.files[0];
+          if (file.type.startsWith('image/')) {
+            event.preventDefault();
+            handleDirectImageUpload(file);
+            return true;
+          }
+        }
+        return false;
+      },
     },
     onUpdate: () => {
       isDirtyRef.current = true;
@@ -133,6 +167,128 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
       triggerDebouncedAutosave();
     },
   });
+
+  // Check for local storage recovery on initial load
+  useEffect(() => {
+    try {
+      const storageKey = `story_backup_${storyId || 'new'}`;
+      const savedDraft = localStorage.getItem(storageKey);
+      if (savedDraft) {
+        const parsed = JSON.parse(savedDraft);
+        const draftDate = new Date(parsed.timestamp).getTime();
+        const serverDate = story?.updated_at ? new Date(story.updated_at).getTime() : 0;
+
+        if (draftDate > serverDate + 5000 && parsed.contentHtml && parsed.contentHtml.length > 50) {
+          setRestoredNotice(true);
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, [storyId, story?.updated_at]);
+
+  const loadSavedLocalDraft = () => {
+    try {
+      const storageKey = `story_backup_${storyId || 'new'}`;
+      const savedDraft = localStorage.getItem(storageKey);
+      if (savedDraft && editor) {
+        const parsed = JSON.parse(savedDraft);
+        if (parsed.title) setTitle(parsed.title);
+        if (parsed.subtitle) setSubtitle(parsed.subtitle);
+        if (parsed.year) setYear(parsed.year);
+        if (parsed.excerpt) setExcerpt(parsed.excerpt);
+        if (parsed.visibility) setVisibility(parsed.visibility);
+        if (parsed.contentJson) {
+          editor.commands.setContent(parsed.contentJson);
+        } else if (parsed.contentHtml) {
+          editor.commands.setContent(parsed.contentHtml);
+        }
+        setRestoredNotice(false);
+      }
+    } catch {
+      // ignore
+    }
+  };
+
+  const discardLocalDraft = () => {
+    try {
+      const storageKey = `story_backup_${storyId || 'new'}`;
+      localStorage.removeItem(storageKey);
+      setRestoredNotice(false);
+    } catch {
+      // ignore
+    }
+  };
+
+  // Direct drop upload handler
+  const handleDirectImageUpload = async (file: File) => {
+    setUploadingPhoto(true);
+    setPhotoUploadError(null);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await uploadPhotoAction(formData);
+      if (res.success && res.url && editor) {
+        editor
+          .chain()
+          .focus()
+          .setImage({
+            src: res.url,
+            alt: file.name.replace(/\.[^/.]+$/, ''),
+            title: file.name,
+          })
+          .run();
+      } else {
+        alert(res.error || 'Photo upload failed');
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Photo upload failed');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  // Photo modal submit handler
+  const handlePhotoModalUpload = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const file = formData.get('file') as File | null;
+    if (!file || !file.size) {
+      setPhotoUploadError('Please select a photo file.');
+      return;
+    }
+
+    setUploadingPhoto(true);
+    setPhotoUploadError(null);
+
+    try {
+      const res = await uploadPhotoAction(formData);
+      if (res.success && res.url && editor) {
+        editor
+          .chain()
+          .focus()
+          .setImage({
+            src: res.url,
+            alt: photoAlt.trim() || file.name,
+            title: photoCaption.trim() || undefined,
+          })
+          .run();
+
+        setIsPhotoModalOpen(false);
+        setPhotoCaption('');
+        setPhotoAlt('');
+        setPhotoYear('');
+      } else {
+        setPhotoUploadError(res.error || 'Photo upload failed');
+      }
+    } catch (err) {
+      setPhotoUploadError(err instanceof Error ? err.message : 'Photo upload failed');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
 
   // Calculate live word count and reading time
   const plainText = editor?.getText() || '';
@@ -147,7 +303,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
       const contentHtml = editor.getHTML();
       const contentJson = editor.getJSON();
 
-      // Local storage backup first (guarantees text is never lost even offline)
+      // Local storage backup first
       const storageKey = `story_backup_${storyId || 'new'}`;
       try {
         localStorage.setItem(
@@ -158,6 +314,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
             year,
             excerpt,
             visibility,
+            allowComments,
             contentHtml,
             contentJson,
             timestamp: new Date().toISOString(),
@@ -178,6 +335,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           content_html: contentHtml,
           content_json: contentJson as Record<string, unknown>,
           visibility,
+          allow_comments: allowComments,
           lastKnownUpdatedAt,
         });
 
@@ -193,7 +351,6 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           setLastSavedTime(new Date());
           setLastKnownUpdatedAt(res.story.updated_at || new Date().toISOString());
 
-          // If new story was just created, update URL without full reload
           if (!storyId && res.story.id) {
             setStoryId(res.story.id);
             window.history.replaceState(null, '', `/admin/story/${res.story.id}`);
@@ -215,6 +372,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
       year,
       excerpt,
       visibility,
+      allowComments,
       lastKnownUpdatedAt,
     ]
   );
@@ -260,7 +418,6 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
 
-  // Handle Undo for Paste Cleanup
   const handleUndoPaste = () => {
     if (editor && pasteNotice.rawSnapshot) {
       editor.commands.undo();
@@ -281,7 +438,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           <span>Back to Author Studio</span>
         </Link>
 
-        {/* Right side controls: Autosave Badge, Preview Toggle, Save Button */}
+        {/* Right side controls */}
         <div className="flex items-center gap-3 flex-wrap">
           {/* Autosave Status Badge */}
           <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] bg-[var(--bg-surface)] px-2.5 py-1 rounded-sm border border-[var(--border-subtle)]">
@@ -352,6 +509,30 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           </button>
         </div>
       </div>
+
+      {/* Restored Draft Notice */}
+      {restoredNotice && (
+        <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-sm text-xs text-amber-800 dark:text-amber-200 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>A newer unsaved draft was found in your browser storage.</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={loadSavedLocalDraft}
+              className="px-2.5 py-1 bg-amber-600 text-white rounded-xs font-medium hover:bg-amber-700"
+            >
+              Restore Draft
+            </button>
+            <button
+              onClick={discardLocalDraft}
+              className="px-2 py-1 text-amber-700 dark:text-amber-300 hover:underline"
+            >
+              Discard
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Concurrency Conflict Warning Banner */}
       {concurrencyConflict && (
@@ -489,7 +670,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
 
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
               {/* Chapter Label */}
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="story-chapter"
                   className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1"
@@ -512,7 +693,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
               </div>
 
               {/* Optional Year */}
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="story-year"
                   className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1"
@@ -534,9 +715,27 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
                 />
               </div>
 
+              {/* Comments Toggle */}
+              <div className="sm:col-span-3 flex items-center pt-5">
+                <label className="flex items-center gap-2 cursor-pointer text-xs text-[var(--text-primary)]">
+                  <input
+                    type="checkbox"
+                    checked={allowComments}
+                    onChange={(e) => {
+                      setAllowComments(e.target.checked);
+                      isDirtyRef.current = true;
+                      setSaveStatus('unsaved');
+                      triggerDebouncedAutosave();
+                    }}
+                    className="w-4 h-4 accent-[var(--color-terracotta)] rounded-xs"
+                  />
+                  <span>Allow Reader Reflections</span>
+                </label>
+              </div>
+
               {/* Live Statistics */}
-              <div className="sm:col-span-4 flex items-end">
-                <div className="w-full px-3.5 py-2 bg-[var(--bg-canvas)]/50 border border-[var(--border-subtle)]/70 rounded-sm text-xs text-[var(--text-muted)] flex items-center justify-between">
+              <div className="sm:col-span-3 flex items-end">
+                <div className="w-full px-3 py-2 bg-[var(--bg-canvas)]/50 border border-[var(--border-subtle)]/70 rounded-sm text-xs text-[var(--text-muted)] flex items-center justify-between">
                   <span>{wordCount} words</span>
                   <span>{readingTime}</span>
                 </div>
@@ -647,6 +846,20 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
 
               <div className="w-[1px] h-5 bg-[var(--border-subtle)] mx-1" />
 
+              {/* Photo Plate Insertion */}
+              <button
+                type="button"
+                onClick={() => setIsPhotoModalOpen(true)}
+                disabled={!editor}
+                className="inline-flex items-center gap-1 p-2 rounded-xs text-[var(--text-secondary)] hover:bg-[var(--bg-surface-elevated)] hover:text-[var(--color-terracotta)] transition-colors"
+                title="Insert Archival Photo Plate"
+              >
+                <ImageIcon className="w-4 h-4" />
+                <span className="text-xs hidden sm:inline">Photo</span>
+              </button>
+
+              <div className="w-[1px] h-5 bg-[var(--border-subtle)] mx-1" />
+
               {/* Undo */}
               <button
                 type="button"
@@ -677,6 +890,107 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
 
           </div>
 
+        </div>
+      )}
+
+      {/* Archival Photo Upload Modal */}
+      {isPhotoModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-serif">
+          <div className="w-full max-w-md bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm shadow-xl p-6">
+            <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--border-subtle)]">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-[var(--color-terracotta)]" />
+                <h3 className="text-base font-normal text-[var(--text-primary)]">
+                  Insert Archival Photo
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsPhotoModalOpen(false)}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {photoUploadError && (
+              <div className="mb-4 p-2.5 bg-red-950/10 border border-red-500/30 rounded-sm text-xs text-red-700 dark:text-red-300">
+                {photoUploadError}
+              </div>
+            )}
+
+            <form onSubmit={handlePhotoModalUpload} className="space-y-4 text-xs">
+              <div>
+                <label className="block uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                  Select Image File (JPEG, PNG, WebP)
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  required
+                  className="w-full text-xs text-[var(--text-primary)] file:mr-3 file:py-1.5 file:px-3 file:rounded-xs file:border-0 file:text-xs file:font-serif file:bg-[var(--color-terracotta)] file:text-white hover:file:bg-[var(--color-terracotta-hover)]"
+                />
+                <p className="text-[10px] text-[var(--text-muted)] italic mt-1">
+                  Image is compressed to WebP and all EXIF/GPS metadata is stripped automatically.
+                </p>
+              </div>
+
+              <div>
+                <label className="block uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                  Alt Text (Required for accessibility)
+                </label>
+                <input
+                  type="text"
+                  value={photoAlt}
+                  onChange={(e) => setPhotoAlt(e.target.value)}
+                  placeholder="e.g. Clay pottery in the village courtyard"
+                  required
+                  className="w-full px-3 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
+                />
+              </div>
+
+              <div>
+                <label className="block uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                  Photo Caption (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={photoCaption}
+                  onChange={(e) => setPhotoCaption(e.target.value)}
+                  placeholder="e.g. Village square during the festival of lights"
+                  className="w-full px-3 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[var(--border-subtle)]">
+                <button
+                  type="button"
+                  onClick={() => setIsPhotoModalOpen(false)}
+                  disabled={uploadingPhoto}
+                  className="px-3.5 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={uploadingPhoto}
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-white text-xs rounded-sm transition-all disabled:opacity-50"
+                >
+                  {uploadingPhoto ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Optimizing &amp; Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Insert into Chapter</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 

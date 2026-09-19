@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS public.stories (
     content_json JSONB,
     cover_image_url TEXT,
     image_caption TEXT,
+    allow_comments BOOLEAN NOT NULL DEFAULT true,
     published_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
@@ -166,3 +167,70 @@ CREATE TRIGGER set_stories_updated_at
     BEFORE UPDATE ON public.stories
     FOR EACH ROW
     EXECUTE FUNCTION public.handle_updated_at();
+
+-- ==============================================================================
+-- 8. Site Settings & Comment Rate Limiting
+-- ==============================================================================
+
+CREATE TABLE IF NOT EXISTS public.site_settings (
+    key TEXT PRIMARY KEY,
+    value JSONB NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can view site settings"
+    ON public.site_settings
+    FOR SELECT
+    TO public
+    USING (true);
+
+CREATE POLICY "Author can manage site settings"
+    ON public.site_settings
+    FOR ALL
+    TO authenticated
+    USING (public.is_author())
+    WITH CHECK (public.is_author());
+
+CREATE TABLE IF NOT EXISTS public.comment_rate_limits (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ip_hash TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_comment_rate_limits ON public.comment_rate_limits(ip_hash, created_at);
+
+ALTER TABLE public.comment_rate_limits ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Author and service can manage rate limits"
+    ON public.comment_rate_limits
+    FOR ALL
+    TO authenticated
+    USING (public.is_author())
+    WITH CHECK (public.is_author());
+
+-- ==============================================================================
+-- 9. Storage Bucket: story-media
+-- ==============================================================================
+
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('story-media', 'story-media', true)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "Public can view story media" ON storage.objects
+    FOR SELECT TO public
+    USING (bucket_id = 'story-media');
+
+CREATE POLICY "Author can upload story media" ON storage.objects
+    FOR INSERT TO authenticated
+    WITH CHECK (bucket_id = 'story-media' AND public.is_author());
+
+CREATE POLICY "Author can update story media" ON storage.objects
+    FOR UPDATE TO authenticated
+    USING (bucket_id = 'story-media' AND public.is_author());
+
+CREATE POLICY "Author can delete story media" ON storage.objects
+    FOR DELETE TO authenticated
+    USING (bucket_id = 'story-media' AND public.is_author());
+

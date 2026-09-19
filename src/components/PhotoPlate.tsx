@@ -5,32 +5,68 @@ interface PhotoPlateProps {
   src: string;
   alt: string;
   caption?: string;
+  year?: string;
   width?: number;
   height?: number;
-  effect?: 'tape-top' | 'tape-corners' | 'corner-pins' | 'simple-frame';
+  effect?: 'tape-top' | 'tape-corners' | 'corner-pins' | 'simple-frame' | 'auto';
   className?: string;
 }
+
+/**
+ * Deterministic string hash function.
+ */
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+const EFFECTS: ('tape-top' | 'tape-corners' | 'corner-pins' | 'simple-frame')[] = [
+  'tape-top',
+  'tape-corners',
+  'corner-pins',
+  'simple-frame',
+];
+
+const ROTATIONS = [
+  'rotate-[-0.75deg]',
+  'rotate-[0.8deg]',
+  'rotate-[-1.2deg]',
+  'rotate-[0.5deg]',
+  'rotate-[-0.4deg]',
+  'rotate-[1.1deg]',
+];
 
 export function PhotoPlate({
   src,
   alt,
   caption,
+  year,
   width = 800,
   height = 540,
-  effect = 'tape-top',
+  effect = 'auto',
   className = '',
 }: PhotoPlateProps) {
+  const hash = hashString(src || 'photo');
+  const chosenEffect = effect === 'auto' ? EFFECTS[hash % EFFECTS.length] : effect;
+  const chosenRotation = ROTATIONS[hash % ROTATIONS.length];
+
   return (
-    <figure className={`relative my-10 mx-auto max-w-2xl group ${className}`}>
-      {/* Tape & Pin decorations (lightweight CSS/SVG) */}
-      {effect === 'tape-top' && <div className="washi-tape-top" aria-hidden="true" />}
-      {effect === 'tape-corners' && (
+    <figure
+      className={`relative my-10 mx-auto max-w-2xl group transition-transform duration-300 sm:${chosenRotation} ${className}`}
+    >
+      {/* Tape & Pin decorations */}
+      {chosenEffect === 'tape-top' && <div className="washi-tape-top" aria-hidden="true" />}
+      {chosenEffect === 'tape-corners' && (
         <>
           <div className="washi-tape-corner-tl" aria-hidden="true" />
           <div className="washi-tape-corner-tr" aria-hidden="true" />
         </>
       )}
-      {effect === 'corner-pins' && (
+      {chosenEffect === 'corner-pins' && (
         <>
           <div className="corner-pin -top-2 -left-2" aria-hidden="true" />
           <div className="corner-pin -top-2 -right-2" aria-hidden="true" />
@@ -38,24 +74,27 @@ export function PhotoPlate({
       )}
 
       {/* Outer Paper Frame */}
-      <div className="relative p-3 sm:p-4 bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] shadow-[0_4px_16px_rgba(43,29,20,0.08)] rounded-sm transition-all duration-300">
+      <div className="relative p-3 sm:p-4 bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] shadow-[0_4px_16px_rgba(43,29,20,0.08)] rounded-sm">
         {/* Inner double border archival inset */}
         <div className="relative overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-surface)]">
           <Image
             src={src}
-            alt={alt}
+            alt={alt || 'Archival photograph plate'}
             width={width}
             height={height}
-            className="w-full h-auto object-cover sepia-[0.3] contrast-[1.05] brightness-[0.96] transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+            unoptimized={src.startsWith('http')}
+            className="w-full h-auto object-cover sepia-[0.25] contrast-[1.04] brightness-[0.97] transition-transform duration-700 ease-out group-hover:scale-[1.015]"
           />
         </div>
 
-        {caption && (
+        {(caption || year) && (
           <figcaption className="mt-3 text-center font-serif italic text-xs sm:text-sm text-[var(--text-secondary)] tracking-wide">
             {caption}
+            {year && <span className="ml-2 font-normal not-italic text-[var(--text-muted)] text-xs font-mono">• Circa {year}</span>}
           </figcaption>
         )}
       </div>
     </figure>
   );
 }
+
