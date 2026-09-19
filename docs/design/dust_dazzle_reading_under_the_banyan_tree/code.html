@@ -1,0 +1,462 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Under the Banyan Tree — Dust and Dazzle</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..800;1,400..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#f8ddcf",
+            "surface-dim": "#efd5c6",
+            "secondary": "#576248",
+            "inverse-on-surface": "#ffede4",
+            "secondary-fixed": "#dae7c6",
+            "tertiary-container": "#8e6100",
+            "primary-fixed": "#ffdbcf",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "tertiary-fixed-dim": "#f9bc55",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#6e4b00",
+            "on-primary": "#ffffff",
+            "outline": "#88726b",
+            "surface": "#fff8f5",
+            "surface-container-low": "#fff1ea",
+            "surface-tint": "#9a4524",
+            "on-tertiary-fixed-variant": "#604100",
+            "surface-bright": "#fff8f5",
+            "on-tertiary-container": "#ffe7c8",
+            "background": "#fff8f5",
+            "primary-fixed-dim": "#ffb59b",
+            "on-tertiary-fixed": "#281900",
+            "on-secondary": "#ffffff",
+            "primary": "#8a3919",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#55433c",
+            "on-secondary-fixed": "#151e0a",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#f8ddcf",
+            "inverse-primary": "#ffb59b",
+            "primary-container": "#a9502e",
+            "tertiary-fixed": "#ffdead",
+            "on-error-container": "#93000a",
+            "on-background": "#261910",
+            "secondary-container": "#dae7c6",
+            "outline-variant": "#dcc1b8",
+            "on-secondary-container": "#5d684e",
+            "secondary-fixed-dim": "#becbac",
+            "surface-container": "#ffeade",
+            "on-primary-container": "#ffe6de",
+            "surface-container-high": "#fee3d4",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#380d00",
+            "on-surface": "#261910",
+            "inverse-surface": "#3d2d23",
+            "error": "#ba1a1a",
+            "on-secondary-fixed-variant": "#3f4a32"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.75rem",
+            "space-xl": "3.5rem",
+            "gutter": "1.5rem",
+            "space-lg": "2rem",
+            "margin": "1.5rem",
+            "margin-desktop": "3rem",
+            "space-xs": "0.375rem",
+            "space-md": "1.25rem"
+          },
+          "fontFamily": {
+            "body-reading": ["Newsreader", "serif"],
+            "display-hero-mobile": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "body-italic": ["Newsreader", "serif"],
+            "display-hero": ["Playfair Display", "serif"],
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-lg-mobile": ["Playfair Display", "serif"],
+            "body-md": ["Newsreader", "serif"],
+            "label-caption": ["Newsreader", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "label-smallcaps": ["Newsreader", "serif"],
+            "body-reading-mobile": ["Newsreader", "serif"]
+          },
+          "fontSize": {
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+    .diya-gold-halo {
+      box-shadow: 0 0 20px 2px rgba(201, 146, 46, 0.18);
+    }
+    .tape-accent {
+      background: rgba(235, 221, 196, 0.85);
+      backdrop-filter: blur(1px);
+      box-shadow: 0 1px 2px rgba(38, 25, 16, 0.08);
+    }
+    ::selection {
+      background-color: #ffdbcf;
+      color: #380d00;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-fixed selection:text-on-primary-fixed transition-colors duration-500 min-h-screen flex flex-col justify-between" style="background-image: radial-gradient(circle at 50% 30%, transparent 60%, rgba(138, 57, 25, 0.05) 100%), linear-gradient(175deg, rgba(255, 255, 255, 0.03) 0%, rgba(169, 80, 46, 0.02) 48%, rgba(0, 0, 0, 0.02) 50%, rgba(255, 255, 255, 0.02) 52%, transparent 100%); background-attachment: fixed;">
+<!-- TOP APP BAR (from Shared Components JSON: Product 'Dust and Dazzle', sticky, links, actions) -->
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<!-- Slim, elegant Diya Gold reading progress bar at very top edge -->
+<div class="w-full bg-surface-container-high h-[3px]">
+<div class="h-full bg-tertiary-fixed-dim transition-all duration-150 ease-out" id="readingProgress" style="width: 28%; background-color: #C9922E;"></div>
+</div>
+<!-- Main Navigation Bar Shell -->
+<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center space-x-6">
+<a class="font-headline-md text-headline-md font-normal tracking-tight text-on-surface dark:text-inverse-on-surface italic hover:opacity-85 transition-opacity duration-200 flex items-center gap-2" href="#table-of-contents">
+<span class="">Dust and Dazzle</span>
+</a>
+</div>
+<!-- Center navigation links from JSON -->
+<nav class="hidden md:flex items-center space-x-7">
+<a class="text-primary dark:text-inverse-primary border-b border-primary pb-1 font-semibold font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#">Stories</a>
+
+
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#">Memoir Notes</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#">Author</a>
+</nav>
+<!-- Trailing Action: Reading Lamp / Controls -->
+<div class="flex items-center space-x-3 text-on-surface-variant">
+<button aria-label="Decrease font size" class="p-1.5 rounded hover:bg-surface-container transition-colors text-xs font-semibold px-2 border border-outline-variant text-on-surface-variant" id="fontSizeDown" title="Decrease font size">
+          A−
+        </button>
+<button aria-label="Increase font size" class="p-1.5 rounded hover:bg-surface-container transition-colors text-sm font-semibold px-2 border border-outline-variant text-on-surface-variant" id="fontSizeUp" title="Increase font size">
+          A+
+        </button>
+<span class="hidden sm:inline-block text-outline-variant">|</span>
+<!-- Reading Lamp / Candlelight Toggle -->
+<button class="flex items-center space-x-1.5 px-3 py-1.5 rounded border border-outline-variant bg-surface-container-low hover:bg-surface-container transition-colors duration-200 group text-on-surface-variant" id="candlelightToggle" title="Toggle Candlelight Sanctuary">
+<span class="material-symbols-outlined text-primary group-hover:text-tertiary-container transition-colors" data-icon="wb_twilight" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+<span class="font-label-caption text-label-caption text-on-surface-variant">Reading Lamp</span>
+</button>
+</div>
+</div>
+<!-- Secondary Reading Sub-header (Focused Reader Context) -->
+<div class="bg-surface-container-low/60 border-t border-outline-variant/50 px-6 py-2">
+<div class="max-w-6xl mx-auto flex items-center justify-between font-label-caption text-label-caption text-on-surface-variant">
+<a class="flex items-center gap-1.5 hover:text-primary transition-colors duration-200" href="#table-of-contents">
+<span class="material-symbols-outlined text-sm" data-icon="menu_book">menu_book</span>
+<span class="">Table of Contents</span>
+</a>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="">7 min read • Chapter I</span>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN READING CANVAS -->
+<main class="flex-grow w-full py-12 md:py-16">
+<article class="max-w-[680px] mx-auto px-6 md:px-0">
+<!-- Story Header -->
+<header class="text-center space-y-4 mb-12">
+
+<div class="pt-2">
+<span class="font-headline-sm text-headline-sm text-primary italic font-normal tracking-wider">Chapter I</span>
+<h1 class="font-headline-lg text-headline-lg text-on-background mt-2 tracking-tight">
+            Under the Banyan Tree
+          </h1>
+<p class="font-body-italic text-body-italic text-on-surface-variant mt-2">
+            by Ajeet Kumar Singh
+          </p>
+</div>
+<!-- Thin gold hairline divider with vintage Diya / botanical ornament -->
+<div class="flex items-center justify-center pt-6 pb-2">
+<div class="h-[1px] w-24 bg-outline-variant"></div>
+<div class="px-3 text-tertiary-fixed-dim flex items-center" style="color: #C9922E;">
+<span class="text-xs">◊</span>
+<span class="material-symbols-outlined text-sm mx-1" data-icon="wb_twilight" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+<span class="text-xs">◊</span>
+</div>
+<div class="h-[1px] w-24 bg-outline-variant"></div>
+</div>
+</header>
+<!-- Narrative Body Content -->
+<div class="space-y-7 text-on-surface" id="narrativeColumn">
+<!-- Paragraph 1 with Ornate Drop Cap -->
+<p class="font-body-reading text-body-reading text-justify leading-relaxed">
+<span class="float-left text-6xl leading-[0.8] pr-3 pt-1 font-headline-lg font-normal text-tertiary-container select-none drop-shadow-sm" style="color: #C9922E; font-family: 'Playfair Display', serif;">T</span>he noon sun over Sarai did not merely illuminate; it pressed downward like an iron weight upon the red tiled roofs. Everything human, beast, and bird was driven into the sprawling shelter of the Great Banyan at the eastern ridge of the village pond. Its aerial roots, heavy as ship’s ropes, dangled into the cool, undisturbed dust, weaving a green cathedral whose temperature seemed preserved from a forgotten season.
+        </p>
+<!-- Paragraph 2 -->
+<p class="font-body-reading text-body-reading text-justify leading-relaxed">
+          Beside the thickest root trunk sat Babuji’s battered brass water jug, beaded with cold sweat. A wet muslin rag was swaddled around its neck, and every half-hour, when the dry westerly wind—the searing <em class="italic">loo</em>—swept the surrounding mustard stubble into mini-cyclones of ochre grit, he would tilt the jug and pour an offering of river-water directly down his throat without letting the vessel touch his lip. The water tasted of sweet wet pottery and deep subterranean roots.
+        </p>
+<!-- Paragraph 3 -->
+<p class="font-body-reading text-body-reading text-justify leading-relaxed">
+          At two in the afternoon, the world went completely still save for the distant passenger train from Muzaffarpur. Its iron whistle arrived muted, dragged across miles of baked mango orchards, a shrill and sorrowful note that made young boys dream of telegraph poles and sea water. We lay on hand-woven charpoys beneath the canopy, our bare skin resting against coarse hemp rope, staring up into the labyrinth of green leaves where green pigeons rested like emerald stones.
+        </p>
+<!-- Archival Photograph Insertion Plate -->
+<figure class="my-10 -mx-4 md:-mx-8 p-4 md:p-6 bg-surface-container rounded border border-outline-variant diya-gold-halo relative transition-transform duration-300" style="transform: rotate(-1.2deg);">
+<div class="absolute -top-3 left-10 w-20 h-5 rotate-[-2deg] rounded-sm border border-outline-variant/30 z-10" style="background: rgba(240, 230, 210, 0.65); backdrop-filter: blur(2px); box-shadow: 0 1px 3px rgba(38, 25, 16, 0.08);"></div>
+<div class="p-2.5 bg-surface-container-lowest border-4 md:border-[6px] border-[#FFFDF9] rounded-sm shadow-sm">
+<img class="w-full h-auto object-cover grayscale sepia contrast-[0.9] brightness-[0.98] rounded-sm" data-alt="A vintage archival 1970s sepia toned photograph of an elderly Indian gentleman sitting peacefully on a charpoy beneath the sprawling aerial roots of a massive banyan tree in a dry, sun-drenched rural village landscape. Soft diffused golden hour sunlight filters through the dense leaf canopy, casting intricate lace-like shadows on the packed clay ground and a hand-hammered brass jug resting nearby. The atmosphere is quiet, contemplative, and tactile with paper textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxM_eU62QTGaNBQTFPv8R63E_S-B238S6QIfsaPqb61vhK-enQH1cVl2FUZHU6M_ehuQF3wB87e9GiMxrvPUDdncbvDcnyYJ3F6Q_1og6HCJbrUIy6nEgMhtnb444m3VqMjlhh_VVz3De1zNAULBch5JYe5U_RDxEkKKyXVCBK9bJZeF0iQ7E7rltOCfxRjTjJY4966pXoZoPiHoQyFxgNvjprolBsfBKCFv1Mk56pzxGey_a1jhLU">
+</div>
+<figcaption class="mt-3.5 text-center font-body-italic text-body-italic text-on-surface-variant">
+Babuji resting by the roots before the midday cattle call, June 1978.
+</figcaption>
+</figure>
+<!-- Paragraph 4 -->
+<p class="font-body-reading text-body-reading text-justify leading-relaxed">
+          Nobody spoke of politics or drought beneath that canopy; speech was conserved like well-water. When old Thakur Ramanand cleared his throat, it was only to recount the flood of 1954, when the Gandak River rose high enough to lap against the banyan’s lower boughs, marooning two wild leopards and a calf in an uneasy, terrified truce until the waters receded. We listened with closed eyes, feeling the immense age of the bark pressed against our shoulders.
+        </p>
+<!-- Pull Quote -->
+<blockquote class="my-8 pl-6 border-l-2 border-primary-container bg-surface-container-low/50 py-3 pr-4 rounded-r">
+<p class="font-headline-sm text-headline-sm italic text-on-surface tracking-normal leading-snug">
+            “In Sarai, shade was not merely the absence of sun; it was a physical shelter carved from centuries of slow wood and quiet patience.”
+          </p>
+<cite class="block mt-2 font-label-smallcaps text-label-smallcaps text-secondary uppercase tracking-wider not-italic">
+            — Memoir Notes, p. 44
+          </cite>
+</blockquote>
+<!-- Paragraph 5 -->
+<p class="font-body-reading text-body-reading text-justify leading-relaxed">
+          By four o'clock, the harsh golden glare of the sun had softened into the honeyed hue of mustard oil. The village cattle began their rhythmic trudge home from the dry pastures, their hooves churning the dust into a glowing amber mist that hung suspended in the twilight air. Babuji stood up, shook his white cotton gamchha into the breeze, and whispered his customary evening prayer to the trunk. The tree stood, as it had before our grandfathers drew breath, indifferent to the coming night.
+        </p>
+</div>
+<!-- Diya Flourish Divider -->
+<div class="flex items-center justify-center my-14">
+<div class="h-[1px] w-20 bg-outline-variant"></div>
+<div class="px-4 text-tertiary-fixed-dim" style="color: #C9922E;">
+<span class="material-symbols-outlined text-base" data-icon="wb_twilight" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+</div>
+<div class="h-[1px] w-20 bg-outline-variant"></div>
+</div>
+<!-- Story Navigation Cards (Previous / Next) -->
+<nav aria-label="Story chapter navigation" class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-10 pt-2">
+<a class="p-5 bg-surface-container rounded border border-outline-variant hover:border-primary-container hover:bg-surface-container-high transition-all duration-200 group flex flex-col justify-between" href="#previous-story">
+<span class="font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase tracking-widest flex items-center gap-1 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+            Previous Chapter
+          </span>
+<div class="mt-3">
+<h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+              Preface &amp; Dedication
+            </h2>
+<p class="font-label-caption text-label-caption text-on-surface-variant mt-1">To the soil that remembers our footsteps</p>
+</div>
+</a>
+<a class="p-5 bg-surface-container rounded border border-outline-variant hover:border-primary-container hover:bg-surface-container-high transition-all duration-200 group flex flex-col justify-between text-right" href="#next-story">
+<span class="font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase tracking-widest flex items-center justify-end gap-1 group-hover:text-primary transition-colors">
+            Next Chapter
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</span>
+<div class="mt-3">
+<h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+              The Scent of Wet Clay
+            </h2>
+<p class="font-label-caption text-label-caption text-on-surface-variant mt-1">Chapter II • After the Monsoon Arrival</p>
+</div>
+</a>
+</nav>
+<!-- SECTION: Family & Reader Notes Section -->
+<section aria-labelledby="notes-heading" class="mt-16 pt-10 border-t border-outline-variant">
+<div class="text-center space-y-2 mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-background" id="notes-heading">
+            Notes &amp; Echoes
+          </h2>
+<p class="font-body-italic text-body-italic text-on-surface-variant">
+            Leave a quiet note or memory for Ajeet.
+          </p>
+</div>
+<!-- Interactive Submission Form -->
+<form class="bg-surface-container-low p-6 md:p-8 rounded border border-outline-variant space-y-5" onsubmit="event.preventDefault(); alert('Your quiet note has been pinned to the colophon records.');">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase tracking-wider mb-1" for="reader-name">
+                Your Name
+              </label>
+<input class="w-full bg-surface-container text-on-surface placeholder:text-on-surface-variant/50 border border-outline-variant rounded px-3.5 py-2 font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="reader-name" placeholder="e.g. Meera Sharma" required="" type="text">
+</div>
+<div>
+<label class="block font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase tracking-wider mb-1" for="reader-relation">
+                Relation / Town
+              </label>
+<input class="w-full bg-surface-container text-on-surface placeholder:text-on-surface-variant/50 border border-outline-variant rounded px-3.5 py-2 font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="reader-relation" placeholder="e.g. Niece, Patna" type="text">
+</div>
+</div>
+<div>
+<label class="block font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase tracking-wider mb-1" for="reader-note">
+              Your Thought or Remembrance
+            </label>
+<textarea class="w-full bg-surface-container text-on-surface placeholder:text-on-surface-variant/50 border border-outline-variant rounded px-3.5 py-2 font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="reader-note" placeholder="Share a memory of Sarai, the banyan tree, or an echo from your own childhood..." required="" rows="3"></textarea>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-caption text-label-caption text-on-surface-variant italic">Notes are reviewed before inclusion in the physical print colophon.</span>
+<button class="bg-primary-container text-on-primary-container hover:bg-primary px-6 py-2.5 rounded font-label-smallcaps text-label-smallcaps uppercase tracking-wider transition-all duration-200 shadow-sm hover:shadow" type="submit">
+              Leave Note
+            </button>
+</div>
+</form>
+<!-- Existing Notes Cards -->
+<div class="mt-10 space-y-4">
+<!-- Card 1 -->
+<article class="p-5 bg-surface-container rounded border border-outline-variant space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Pooja Singh</span>
+<span class="font-label-caption text-label-caption text-secondary font-medium">Niece • Delhi</span>
+</div>
+<p class="font-body-reading text-body-md text-on-surface-variant leading-relaxed">
+              “Reading about the brass jug brought back the exact taste of water on those July afternoons. Chacha-ji, you captured Babuji’s posture so vividly—he still sat that way on his wooden stool till the very end.”
+            </p>
+<div class="pt-1 text-right">
+<time class="font-label-caption text-label-caption text-outline">14 October 2023</time>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="p-5 bg-surface-container rounded border border-outline-variant space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Vikramaditya</span>
+<span class="font-label-caption text-label-caption text-secondary font-medium">Brother • Lucknow</span>
+</div>
+<p class="font-body-reading text-body-md text-on-surface-variant leading-relaxed">
+              “Do you remember how we searched for that green pigeon’s nest when the storm knocked the north bough down? Forty-six years seem like yesterday when read through your ink.”
+            </p>
+<div class="pt-1 text-right">
+<time class="font-label-caption text-label-caption text-outline">28 September 2023</time>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="p-5 bg-surface-container rounded border border-outline-variant space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Sunita Auntie</span>
+<span class="font-label-caption text-label-caption text-secondary font-medium">Sarai Resident</span>
+</div>
+<p class="font-body-reading text-body-md text-on-surface-variant leading-relaxed">
+              “The tree is still standing, Ajeet. The road got paved two years ago, but the pond ridge belongs to the birds. Bless your words for keeping the old dust golden.”
+            </p>
+<div class="pt-1 text-right">
+<time class="font-label-caption text-label-caption text-outline">02 September 2023</time>
+</div>
+</article>
+</div>
+</section>
+</article>
+</main>
+<!-- FOOTER (from Shared Components JSON: Colophon, links, copyright) -->
+<footer class="w-full bg-surface-container dark:bg-surface-dim border-t border-outline-variant dark:border-outline mt-16">
+<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center text-center space-y-6">
+<!-- Logo / Title -->
+<span class="font-headline-sm text-headline-sm italic text-on-surface dark:text-inverse-on-surface">
+        Dust and Dazzle
+      </span>
+<!-- Navigation links from JSON -->
+<nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-on-surface-variant dark:text-surface-variant">
+<a class="text-primary dark:text-inverse-primary underline underline-offset-4 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">Table of Contents</a>
+
+
+<a class="hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">Reader Notes</a>
+<a class="hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">Colophon</a>
+<a class="hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">Privacy &amp; Archives</a>
+</nav>
+<!-- Copyright from JSON -->
+<p class="font-label-caption text-label-caption text-on-surface-variant max-w-2xl leading-relaxed">
+        © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+      </p>
+<div class="pt-2">
+<span class="text-xs text-outline-variant">◊ ◊ ◊</span>
+</div>
+</div>
+</footer>
+<!-- Simple Micro-interactions Script -->
+<script>
+    // Reading Progress Indicator
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPos = window.scrollY;
+      const progress = (scrollPos / docHeight) * 100;
+      const progressBar = document.getElementById('readingProgress');
+      if (progressBar) {
+        progressBar.style.width = Math.min(100, Math.max(5, progress)) + '%';
+      }
+    });
+
+    // Font size adjuster
+    const narrativeCol = document.getElementById('narrativeColumn');
+    const btnUp = document.getElementById('fontSizeUp');
+    const btnDown = document.getElementById('fontSizeDown');
+    let currentScale = 1;
+
+    btnUp?.addEventListener('click', () => {
+      if (currentScale < 1.25) {
+        currentScale += 0.08;
+        applyScale();
+      }
+    });
+
+    btnDown?.addEventListener('click', () => {
+      if (currentScale > 0.88) {
+        currentScale -= 0.08;
+        applyScale();
+      }
+    });
+
+    function applyScale() {
+      if (narrativeCol) {
+        narrativeCol.style.fontSize = `${currentScale * 20}px`;
+        narrativeCol.style.lineHeight = `${currentScale * 36}px`;
+      }
+    }
+
+    // Candlelight / Theme Warm Glow toggle
+    const lampBtn = document.getElementById('candlelightToggle');
+    let lampLit = true;
+    lampBtn?.addEventListener('click', () => {
+      lampLit = !lampLit;
+      if (!lampLit) {
+        document.body.classList.add('bg-surface-container-low');
+        document.body.classList.remove('bg-background');
+        lampBtn.classList.add('bg-tertiary-fixed-dim/30');
+      } else {
+        document.body.classList.remove('bg-surface-container-low');
+        document.body.classList.add('bg-background');
+        lampBtn.classList.remove('bg-tertiary-fixed-dim/30');
+      }
+    });
+  </script>
+
+
+</body></html>

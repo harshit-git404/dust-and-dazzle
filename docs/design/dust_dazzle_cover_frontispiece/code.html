@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Dust and Dazzle — Tales from a Village and a City by Ajeet Kumar Singh</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#f8ddcf",
+            "surface-dim": "#efd5c6",
+            "secondary": "#576248",
+            "inverse-on-surface": "#ffede4",
+            "secondary-fixed": "#dae7c6",
+            "tertiary-container": "#8e6100",
+            "primary-fixed": "#ffdbcf",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "tertiary-fixed-dim": "#f9bc55",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#6e4b00",
+            "on-primary": "#ffffff",
+            "outline": "#88726b",
+            "surface": "#fff8f5",
+            "surface-container-low": "#fff1ea",
+            "surface-tint": "#9a4524",
+            "on-tertiary-fixed-variant": "#604100",
+            "surface-bright": "#fff8f5",
+            "on-tertiary-container": "#ffe7c8",
+            "background": "#fff8f5",
+            "primary-fixed-dim": "#ffb59b",
+            "on-tertiary-fixed": "#281900",
+            "on-secondary": "#ffffff",
+            "primary": "#8a3919",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#55433c",
+            "on-secondary-fixed": "#151e0a",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#f8ddcf",
+            "inverse-primary": "#ffb59b",
+            "primary-container": "#a9502e",
+            "tertiary-fixed": "#ffdead",
+            "on-error-container": "#93000a",
+            "on-background": "#261910",
+            "secondary-container": "#dae7c6",
+            "outline-variant": "#dcc1b8",
+            "on-secondary-container": "#5d684e",
+            "secondary-fixed-dim": "#becbac",
+            "surface-container": "#ffeade",
+            "on-primary-container": "#ffe6de",
+            "surface-container-high": "#fee3d4",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#380d00",
+            "on-surface": "#261910",
+            "inverse-surface": "#3d2d23",
+            "error": "#ba1a1a",
+            "on-secondary-fixed-variant": "#3f4a32"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.75rem",
+            "space-xl": "3.5rem",
+            "gutter": "1.5rem",
+            "space-lg": "2rem",
+            "margin": "1.5rem",
+            "margin-desktop": "3rem",
+            "space-xs": "0.375rem",
+            "space-md": "1.25rem"
+          },
+          "fontFamily": {
+            "body-reading": ["Newsreader"],
+            "display-hero-mobile": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "body-italic": ["Newsreader"],
+            "display-hero": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "body-md": ["Newsreader"],
+            "label-caption": ["Newsreader"],
+            "headline-md": ["Playfair Display"],
+            "label-smallcaps": ["Newsreader"],
+            "body-reading-mobile": ["Newsreader"]
+          },
+          "fontSize": {
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      vertical-align: middle;
+    }
+    .diya-halo {
+      box-shadow: 0 0 24px rgba(201, 146, 46, 0.18);
+    }
+    .diya-halo-sm {
+      box-shadow: 0 0 12px rgba(201, 146, 46, 0.22);
+    }
+    .paper-texture {
+      background-color: #fff8f5;
+      background-image: radial-gradient(rgba(138, 57, 25, 0.04) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased selection:bg-surface-variant selection:text-primary paper-texture min-h-screen flex flex-col justify-between">
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Brand Logo / Anchor -->
+<a class="font-headline-md text-headline-md font-normal tracking-tight text-on-surface dark:text-inverse-on-surface italic flex items-center space-x-2" href="#">
+<span class="">Dust and Dazzle</span>
+</a>
+<!-- Desktop Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8">
+<a class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-primary dark:text-inverse-primary border-b border-primary pb-1 font-semibold transition-colors duration-200" href="#stories">Stories</a>
+
+
+<a class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200" href="#memoir-notes">Memoir Notes</a>
+<a class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200" href="#author">Author</a>
+</nav>
+<!-- Trailing Action: Reading Lamp / Diya Candlelight Mode -->
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-2 px-3 py-1.5 rounded-lg border border-outline-variant bg-surface-container hover:bg-surface-container-high transition-colors duration-200 text-on-surface text-label-smallcaps font-label-smallcaps" id="reading-lamp-btn" title="Toggle Reading Lamp" type="button">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="wb_twilight">wb_twilight</span>
+<span class="hidden sm:inline">Reading Lamp</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 p-1" title="Book Contents" type="button">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Hero Cover Page Section -->
+<main class="flex-grow">
+<!-- Hero / Book Cover Plate Frame Container -->
+<section class="max-w-4xl mx-auto px-6 pt-12 pb-16">
+<!-- Handcrafted Hardcover Mat & Double Gold/Terracotta Hairline Border -->
+<div class="relative p-3 md:p-6 bg-surface-container-low border border-outline-variant rounded-xl diya-halo">
+<!-- Inner Gold/Terracotta Inset Border -->
+<div class="relative p-8 md:p-14 border border-outline-variant rounded-lg bg-surface flex flex-col items-center text-center">
+<!-- Decorative Top Diya Flourish & Overline -->
+<div class="flex items-center space-x-3 mb-6">
+<span class="w-12 h-[1px] bg-outline-variant"></span>
+<span class="material-symbols-outlined text-tertiary" data-icon="flare">flare</span>
+<span class="w-12 h-[1px] bg-outline-variant"></span>
+</div>
+<p class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-tertiary mb-3 font-semibold">
+            A Collection of Short Stories
+          </p>
+<!-- Grand Book Title -->
+<h1 class="font-display-hero text-display-hero md:text-display-hero text-display-hero-mobile text-primary tracking-tight mb-2">
+            Dust and Dazzle
+          </h1>
+<!-- Italic Subtitle -->
+<p class="font-headline-md text-headline-md italic text-on-surface-variant mb-4">
+            Tales from a Village and a City
+          </p>
+<!-- Byline -->
+<p class="font-body-md text-body-md text-on-surface font-medium tracking-wide mb-8">
+            by Ajeet Kumar Singh
+          </p>
+<!-- Archival Cover Vignette Plate -->
+<div class="w-full max-w-xl my-4 p-2 bg-surface-container rounded border border-outline-variant diya-halo-sm">
+<div class="relative h-64 md:h-72 w-full overflow-hidden rounded">
+<img class="w-full h-full object-cover sepia-[0.25] contrast-[0.95]" data-alt="An atmospheric fine art sepia and warm ochre illustration depicting an ancient sprawling banyan tree overlooking a dusty rural pathway on the left, softly dissolving into illuminated glowing city lamp posts and quiet misty twilight streets on the right. Warm candlelight ambiance, nostalgic archival paper grain texture, contemplative tone reflecting the balance between rural earth and urban glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDedBZWYnXjtXm_KqmHkK56FrpZT4pvRL4eOKxdtTihvAIkNIb0AiNzasWa2k9pWzO0SeIvDMPEzEdMlK17_S4Qb7KL9hf1czNGrFAXQ2pOnyC2qa7XVXjx9PZBG1O2DXpCoDG8IIEvXVrQI52W_J9FS3M0JBiJiGDwYHf8eTNqe-sPR6cSshmwJnBu64Js441T1dbo96yDYdAmlPAUGRs_-HpQk8d7BBc3Nrmzzet60VPKyh6u3jZX">
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 via-transparent to-transparent pointer-events-none"></div>
+<div class="absolute bottom-3 left-4 text-left">
+<span class="px-2 py-0.5 rounded bg-surface/90 text-on-secondary-fixed-variant font-label-smallcaps text-label-smallcaps text-xs tracking-wider uppercase backdrop-blur-sm border border-outline-variant">
+                  Frontispiece Plate I
+                </span>
+</div>
+</div>
+<p class="font-label-caption text-label-caption italic text-on-surface-variant mt-2 text-center">
+              The crossing of shadows: Where the dirt cartway of Belahara touches the lamp-lit fringe of Old Delhi.
+            </p>
+</div>
+<!-- Book Dedication Passage -->
+<div class="max-w-[540px] mx-auto my-8 pt-4 pb-2 border-t border-b border-outline-variant/60">
+<p class="font-body-italic text-body-italic italic text-on-surface-variant leading-relaxed">
+              “For Ma, who carried the quiet earth of the village in her palms, and Babuji, who gazed at city towers with wonder.”
+            </p>
+</div>
+<!-- Primary Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 mb-2 w-full max-w-md">
+<a class="w-full sm:w-auto px-7 py-3 rounded bg-primary-container hover:bg-primary text-on-primary font-label-smallcaps text-label-smallcaps uppercase tracking-wider flex items-center justify-center space-x-2 border border-tertiary transition-all duration-200 diya-halo-sm hover:diya-halo" href="#prologue">
+<span class="">Begin Reading</span>
+<span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<a class="w-full sm:w-auto px-6 py-3 rounded border border-outline-variant bg-surface hover:bg-surface-container text-on-surface font-label-smallcaps text-label-smallcaps uppercase tracking-wider transition-colors duration-200 text-center" href="#toc">
+              Table of Contents
+            </a>
+</div>
+<!-- Bottom Ornament -->
+<div class="flex items-center space-x-2 mt-8 opacity-70">
+<span class="w-8 h-[1px] bg-outline-variant"></span>
+<span class="text-tertiary text-xs">✻</span>
+<span class="w-8 h-[1px] bg-outline-variant"></span>
+</div>
+</div>
+</div>
+</section>
+<!-- Editorial Column Section: "About This Collection" -->
+<section class="max-w-[680px] mx-auto px-6 py-12">
+<div class="text-center mb-8">
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-widest text-secondary font-semibold">
+          Curator’s Foreword
+        </span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-2 mb-4">
+          About This Collection
+        </h2>
+<div class="w-16 h-[1px] bg-tertiary mx-auto mb-6"></div>
+</div>
+<!-- Warm Parchment Card -->
+<div class="p-8 rounded-lg bg-surface-container border border-outline-variant mb-10">
+<blockquote class="border-l-2 border-primary-container pl-6 my-2">
+<p class="font-body-reading text-body-reading text-on-surface leading-relaxed">
+            Forty years of memory bridging the mud-brick verandas of Purvanchal to the neon thoroughfares of Delhi. This volume gathers intimate chronicles of departure and return—a ledger of sun-baked courtyards, monsoons recorded in clay jugs, and the quiet loneliness of high-rise balconies under amber streetlamps.
+          </p>
+</blockquote>
+</div>
+<div class="space-y-6 font-body-reading text-body-reading text-on-surface">
+<p class="">
+          Written across four decades on loose vellum notebooks and later keyed under the hum of a single incandescent desk lamp in Daryaganj, these tales do not seek to reconcile the rural with the urban. Instead, they let both live in delicate tension. The dust of the village path settles gently on the leather soles of the commuter; the dazzle of the metropolitan skyline dissolves into the amber flame of a mustard-oil diya.
+        </p>
+</div>
+</section>
+<!-- Featured Vignettes & Previews -->
+<section class="max-w-5xl mx-auto px-6 py-12 border-t border-outline-variant">
+<div class="text-center max-w-[680px] mx-auto mb-10">
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-secondary">
+          Selected Excerpts
+        </span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">
+          Glimpses into the Manuscript
+        </h3>
+</div>
+<!-- Bento-style 3 Vignette Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Vignette Card 1: The Village -->
+<article class="p-6 rounded-lg bg-surface-container border border-outline-variant flex flex-col justify-between hover:border-primary transition-all duration-200">
+<div>
+<div class="flex items-center justify-between mb-4">
+
+<span class="font-label-caption text-label-caption italic text-on-surface-variant">
+                1978 • Belahara
+              </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-3">
+              The Well at Sundown
+            </h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-4">
+              “The iron pulley sang a rusted, wheezing lullaby as the wooden bucket plunged into the dark stillness of the earth. We waited for the splash as if waiting for tomorrow.”
+            </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/60 flex items-center justify-between text-tertiary">
+<span class="text-xs font-label-smallcaps uppercase tracking-wider">Passage 04</span>
+<span class="material-symbols-outlined text-sm" data-icon="eco">eco</span>
+</div>
+</article>
+<!-- Vignette Card 2: The Transition -->
+<article class="p-6 rounded-lg bg-surface-container-high border border-outline-variant flex flex-col justify-between hover:border-primary transition-all duration-200 diya-halo-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+
+<span class="font-label-caption text-label-caption italic text-on-surface-variant">
+                1989 • Mughalsarai
+              </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-3">
+              The Midnight Express
+            </h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-4">
+              “The steam train severed the mustard fields from the horizon. Inside the tin compartment, strangers shared roasted gram and told each other the futures they intended to conquer in the capital.”
+            </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/60 flex items-center justify-between text-primary">
+<span class="text-xs font-label-smallcaps uppercase tracking-wider">Passage 12</span>
+<span class="material-symbols-outlined text-sm" data-icon="flare">flare</span>
+</div>
+</article>
+<!-- Vignette Card 3: The City -->
+<article class="p-6 rounded-lg bg-surface-container border border-outline-variant flex flex-col justify-between hover:border-primary transition-all duration-200">
+<div>
+<div class="flex items-center justify-between mb-4">
+
+<span class="font-label-caption text-label-caption italic text-on-surface-variant">
+                2004 • Chandni Chowk
+              </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-3">
+              Neon &amp; Attar
+            </h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-4">
+              “Under the humming mercury vapor lights, the glass vials of rooh-gulab caught the red glare of scooter brake-lights. The old perfumer uncorked sandalwood, and for three breaths the boulevard vanished.”
+            </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/60 flex items-center justify-between text-tertiary">
+<span class="text-xs font-label-smallcaps uppercase tracking-wider">Passage 21</span>
+<span class="material-symbols-outlined text-sm" data-icon="location_city">location_city</span>
+</div>
+</article>
+</div>
+<!-- Quiet Entry Invitation -->
+<div class="mt-12 text-center">
+<a class="font-body-md text-body-md text-primary hover:text-on-primary-fixed-variant underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors" href="#all-stories">
+          Browse all twenty-eight chronicles and handwritten margins →
+        </a>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bg-surface-container dark:bg-surface-dim border-t border-outline-variant dark:border-outline mt-16">
+<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center text-center space-y-6">
+<!-- Brand Logo / Monogram -->
+<div class="font-headline-sm text-headline-sm italic text-on-surface dark:text-inverse-on-surface flex items-center space-x-2">
+<span class="">Dust and Dazzle</span>
+</div>
+<!-- Navigation Links from JSON -->
+<div class="flex flex-wrap justify-center gap-6 text-body-md">
+<a class="text-primary dark:text-inverse-primary underline underline-offset-4 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#toc">Table of Contents</a>
+
+
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#notes">Reader Notes</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#colophon">Colophon</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#privacy">Privacy &amp; Archives</a>
+</div>
+<!-- Archival Colophon & Copyright Note -->
+<p class="font-label-caption text-label-caption text-on-surface-variant max-w-2xl leading-relaxed">
+        © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+      </p>
+<div class="flex items-center space-x-3 text-tertiary-container pt-2">
+<span class="w-6 h-[1px] bg-outline-variant"></span>
+<span class="material-symbols-outlined text-sm" data-icon="auto_stories">auto_stories</span>
+<span class="w-6 h-[1px] bg-outline-variant"></span>
+</div>
+</div>
+</footer>
+<script>
+    // Micro-interaction: Reading Lamp Candlelight Mode Toggle
+    const lampBtn = document.getElementById('reading-lamp-btn');
+    let isCandlelit = false;
+
+    if (lampBtn) {
+      lampBtn.addEventListener('click', () => {
+        isCandlelit = !isCandlelit;
+        if (isCandlelit) {
+          document.body.style.filter = 'sepia(0.18) saturate(1.08) brightness(0.97)';
+          lampBtn.classList.add('ring-2', 'ring-tertiary');
+        } else {
+          document.body.style.filter = 'none';
+          lampBtn.classList.remove('ring-2', 'ring-tertiary');
+        }
+      });
+    }
+  </script>
+
+
+</body></html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Under the Banyan Tree — Dust and Dazzle</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-bright": "#fff8f5",
+          "on-secondary-fixed-variant": "#3f4a32",
+          "primary-container": "#a9502e",
+          "surface": "#fff8f5",
+          "primary": "#8a3919",
+          "on-tertiary-container": "#ffe7c8",
+          "on-error-container": "#93000a",
+          "on-primary-fixed-variant": "#7b2e0e",
+          "background": "#fff8f5",
+          "surface-container-low": "#fff1ea",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-high": "#fee3d4",
+          "inverse-on-surface": "#ffede4",
+          "surface-dim": "#efd5c6",
+          "surface-container-highest": "#f8ddcf",
+          "on-primary-fixed": "#380d00",
+          "secondary-fixed": "#dae7c6",
+          "on-secondary-container": "#5d684e",
+          "on-primary": "#ffffff",
+          "error-container": "#ffdad6",
+          "surface-variant": "#f8ddcf",
+          "on-surface-variant": "#55433c",
+          "tertiary-fixed-dim": "#f9bc55",
+          "secondary": "#576248",
+          "tertiary-container": "#8e6100",
+          "surface-tint": "#9a4524",
+          "on-tertiary": "#ffffff",
+          "secondary-fixed-dim": "#becbac",
+          "error": "#ba1a1a",
+          "on-tertiary-fixed-variant": "#604100",
+          "on-error": "#ffffff",
+          "inverse-surface": "#3d2d23",
+          "primary-fixed-dim": "#ffb59b",
+          "inverse-primary": "#ffb59b",
+          "tertiary-fixed": "#ffdead",
+          "primary-fixed": "#ffdbcf",
+          "on-secondary": "#ffffff",
+          "on-background": "#261910",
+          "outline-variant": "#dcc1b8",
+          "on-tertiary-fixed": "#281900",
+          "surface-container": "#ffeade",
+          "on-surface": "#261910",
+          "on-secondary-fixed": "#151e0a",
+          "tertiary": "#6e4b00",
+          "secondary-container": "#dae7c6",
+          "on-primary-container": "#ffe6de",
+          "outline": "#88726b"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-md": "1.25rem",
+          "space-xl": "3.5rem",
+          "gutter": "1.5rem",
+          "margin-desktop": "3rem",
+          "space-lg": "2rem",
+          "space-sm": "0.75rem",
+          "margin": "1.5rem",
+          "space-xs": "0.375rem"
+        },
+        "fontFamily": {
+          "label-caption": ["Newsreader"],
+          "label-smallcaps": ["Newsreader"],
+          "display-hero": ["Playfair Display"],
+          "headline-lg": ["Playfair Display"],
+          "headline-md": ["Playfair Display"],
+          "body-reading-mobile": ["Newsreader"],
+          "body-md": ["Newsreader"],
+          "body-italic": ["Newsreader"],
+          "headline-lg-mobile": ["Playfair Display"],
+          "headline-sm": ["Playfair Display"],
+          "body-reading": ["Newsreader"],
+          "display-hero-mobile": ["Playfair Display"]
+        },
+        "fontSize": {
+          "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+          "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+          "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+          "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+          "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+          "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+          "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+          "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+          "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+          "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+          "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+          "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .drop-cap::first-letter {
+    float: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 4.2rem;
+    line-height: 0.78;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 2px;
+    color: #a9502e;
+    font-style: normal;
+  }
+  .diya-glow {
+    box-shadow: 0 0 20px -2px rgba(201, 146, 46, 0.22);
+  }
+  .candlelight-mode {
+    background-color: #f7ede0 !important;
+    filter: sepia(0.08) contrast(0.98);
+  }
+</style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen selection:bg-surface-container-high selection:text-primary transition-colors duration-500" id="reader-body" style="background-image: radial-gradient(circle at 50% 15%, rgba(255, 248, 240, 0.6) 0%, rgba(243, 227, 212, 0.45) 75%, rgba(218, 196, 175, 0.28) 100%), linear-gradient(rgba(138, 57, 25, 0.02) 1px, transparent 1px); background-attachment: fixed;">
+<!-- Scroll Progress Indicator Bar -->
+<div class="fixed top-0 left-0 w-full h-[2.5px] bg-outline-variant/30 z-[60]">
+<div class="h-full bg-primary transition-all duration-150 ease-out" id="read-progress" style="width: 28%;"></div>
+</div>
+<!-- Sticky Compact Mobile Reading Bar -->
+<header class="w-full sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant/50 transition-colors duration-300">
+<div class="max-w-xl mx-auto px-4 h-14 flex items-center justify-between">
+<!-- Back Navigation to Table of Contents -->
+<a class="flex items-center gap-1.5 text-on-surface-variant hover:text-primary transition-colors py-1" href="#table-of-contents">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-xs">Contents</span>
+</a>
+<!-- Compact Running Chapter Label -->
+<div class="flex-1 text-center px-2 truncate">
+<span class="font-label-caption text-label-caption italic text-on-surface-variant text-[13px] truncate block">
+          Ch. I • Under the Banyan Tree
+        </span>
+</div>
+<!-- Action Toggles: Typography & Reading Lamp -->
+<div class="flex items-center gap-1">
+<!-- Font Size Adjuster -->
+<button aria-label="Adjust font size" class="p-1.5 rounded text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" id="font-toggle-btn">
+<span class="font-label-smallcaps font-bold text-xs tracking-tighter">A<span class="text-[10px]">+</span></span>
+</button>
+<!-- Reading Lamp / Candlelight Toggle -->
+<button aria-label="Toggle Candlelight Reading Lamp" class="p-1.5 rounded text-tertiary hover:text-primary transition-colors flex items-center justify-center" id="lamp-toggle-btn" title="Reading Lamp">
+<span class="material-symbols-outlined text-[20px]" data-icon="wb_twilight">wb_twilight</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Story Canvas -->
+<main class="max-w-[42.5rem] mx-auto px-5 pt-8 pb-16">
+<!-- Story Header & Metadata -->
+<header class="text-center pt-4 pb-8 space-y-3">
+<!-- Village & Year Badge -->
+
+<!-- Chapter Title -->
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface font-normal tracking-tight pt-1">
+        Under the Banyan Tree
+      </h1>
+<!-- Byline -->
+<p class="font-body-italic text-body-italic italic text-on-surface-variant text-[17px]">
+        by Ajeet Kumar Singh
+      </p>
+<!-- Diya Flourish Ornament -->
+<div class="flex items-center justify-center pt-2 pb-1 text-tertiary opacity-85">
+<span class="h-[1px] w-12 bg-outline-variant inline-block mr-3"></span>
+<span class="text-base select-none font-serif">❦</span>
+<span class="h-[1px] w-12 bg-outline-variant inline-block ml-3"></span>
+</div>
+</header>
+<!-- Narrative Prose Column -->
+<article class="space-y-6 text-on-surface font-body-reading-mobile text-body-reading-mobile leading-[1.85] tracking-[0.01em]" id="story-content">
+<!-- First Paragraph with Illuminated Drop Cap -->
+<p class="drop-cap">
+        The dust of Sarai never truly settled; it hung suspended in the afternoon glare like pulverized amber, catching the sun until the whole lane felt submerged in golden water. Whenever the midday wind rose from the fallow mustard fields, it brought the tang of dry cow-dung briquettes and the low, collective groan of the grove. At the junction where the earthen cart-track forked toward the river ghāt stood the Great Banyan—older than the oldest grandmothers, older than the British surveyor’s granite marker sunk beside the well.
+      </p>
+<p class="">
+        To a nine-year-old boy barefoot upon the baked mud, the tree was not foliage but an entire continent. Its aerial roots had descended over generations, striking root, thickening into gnarled columns that formed labyrinthine chambers of dappled jade and shadow. It was here that Babuji sat each afternoon upon a worn jute charpai, his spectacles perched halfway down his nose, an ink bottle balanced precariously on the cane frame.
+      </p>
+<!-- Archival Photo Plate Card -->
+<figure class="my-8 bg-surface-container border border-outline-variant p-3.5 rounded-lg diya-glow transition-all relative">
+<div class="relative transform rotate-1 transition-transform duration-300 shadow-sm">
+<div class="absolute -top-3 left-6 w-14 h-4 bg-[#f2e6cf]/85 backdrop-blur-[1px] border-t border-b border-[#dfd2b5]/70 rotate-[-4deg] shadow-sm z-10 pointer-events-none"></div>
+<div class="border-4 border-[#fffdfa] p-1 bg-[#fcf8f2] shadow-inner">
+<img class="w-full h-64 object-cover sepia-[0.25] contrast-[0.95] rounded-DEFAULT block" data-alt="A vintage 1970s sepia toned photograph of an elderly Indian scholar sitting on a woven charpai under the sweeping aerial roots of a massive banyan tree in a rural North Indian village. Warm amber light filters through leaves, with soft atmospheric dust and hand-bound ledgers stacked beside him in quiet contemplation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQrE4GV3-cbXQ6XBii_Lt_ZBfqnBeRd7pFlz-rehTmCSddnLL0--SNU0Jg6fBK5aoiwaWvlv1_Q3EtYB_aKbrMVqv3GrSRqJR9PwQwR5htEOXunkBAU2ImrrAN-HSGc-5t3NHQPKmv0uTluJhKhTSoHjPi5jtMJFXnorx5ULeNqal6IctRwofK_0-bWQrLJt4jJcxlk00TmoHcDO_wCfWMpILWrX9xSEMbzshUetk">
+</div>
+</div>
+<figcaption class="mt-3 px-1 space-y-1">
+<div class="flex items-center justify-between text-on-surface-variant font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-[11px]">
+<span class="">Plate IV • Archival Family Ledger</span>
+<span class="">Sarai, May 1978</span>
+</div>
+<p class="font-label-caption text-label-caption italic text-on-surface-variant text-[13px] leading-relaxed">
+Babuji dictating the village land charters under the southern banyan column, minutes before the pre-monsoon storm broke over the canal.
+</p>
+</figcaption>
+</figure>
+<p class="">
+        Under those roots, the frantic heat of May seemed suspended by decree. The village elders would gather as the sun peaked, their lungis tucked high, unspooling memory after memory. They spoke of the famine year of ’43, of the canal survey of ’62, and of the bullock carts that once took three full nights to reach the railhead at Gorakhpur. Babuji seldom interrupted; he simply recorded signatures, verified revenue receipts with a fountain pen that scratched like a cicada, and let the banyan keep counsel.
+      </p>
+<!-- Parchment Pull Quote -->
+<blockquote class="my-8 pl-4 pr-3 py-3.5 bg-surface-container border-l-2 border-primary-container rounded-r">
+<p class="font-body-italic text-body-italic italic text-on-surface text-[19px] leading-relaxed">
+          “In Sarai, shade was not merely the absence of sun; it was a physical shelter carved from centuries of slow wood and quiet patience.”
+        </p>
+</blockquote>
+<p class="">
+        When the evening bells began at the Hanuman shrine by the canal, the shadows would stretch past the mustard storehouses. Babuji would cap his pen with a satisfying brass click, fold his unbleached cotton shawl over one arm, and tap his lathi against the tree trunk twice—a quiet greeting or perhaps an apology for having taken shelter another day. We would walk home along the edge of the canal, our shadows growing impossibly long, leaving the banyan to drink the quiet blue of twilight alone.
+      </p>
+<!-- Closing Diya Fleuron Ornament -->
+<div class="text-center py-6 text-tertiary">
+<span class="font-serif text-lg tracking-widest opacity-80">❦ &nbsp; ❦ &nbsp; ❦</span>
+</div>
+</article>
+<!-- Reader Progress & Chapter Pagination -->
+<section class="mt-12 pt-8 border-t border-outline-variant/60 space-y-4">
+<div class="flex items-center justify-between text-on-surface-variant font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-[11px] mb-2">
+<span class="">Memoir Chronology</span>
+<span class="">Chapters I &amp; II</span>
+</div>
+<!-- Stacked Chapter Cards -->
+<div class="space-y-3">
+<!-- Previous Chapter Card -->
+<a class="block p-4 bg-surface-container-low border border-outline-variant rounded-lg hover:border-primary/60 hover:bg-surface-container transition-all group" href="#preface">
+<div class="flex items-center justify-between">
+<div class="space-y-0.5">
+<span class="font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase text-[10px] tracking-wider block">Previous Chronicle</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors text-base font-medium">Preface &amp; Dedication</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">arrow_back</span>
+</div>
+</a>
+<!-- Next Chapter Card -->
+<a class="block p-4 bg-surface-container border border-outline-variant rounded-lg hover:border-primary hover:bg-surface-container-high transition-all group diya-glow" href="#next-chapter">
+<div class="flex items-center justify-between">
+<div class="space-y-0.5">
+<span class="font-label-smallcaps text-label-smallcaps text-primary uppercase text-[10px] tracking-wider block font-semibold">Next Reading</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors text-lg font-medium">The Scent of Wet Clay</span>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform text-[22px]">arrow_forward</span>
+</div>
+</a>
+</div>
+</section>
+<!-- Notes & Echoes: Reader Remembrance Section -->
+<section class="mt-14 pt-8 border-t border-outline-variant/60 space-y-6">
+<div class="space-y-1">
+<h2 class="font-headline-md text-headline-md text-on-surface font-normal">
+          Notes &amp; Echoes
+        </h2>
+<p class="font-label-caption text-label-caption italic text-on-surface-variant text-[14px]">
+          Remembrances, family marginalia, and recollections from the soil of Sarai.
+        </p>
+</div>
+<!-- Reader Form -->
+<form class="p-4 bg-surface-container border border-outline-variant rounded-lg space-y-3" onsubmit="event.preventDefault();">
+<div>
+<label class="block font-label-smallcaps text-label-smallcaps uppercase text-[11px] text-on-surface-variant mb-1" for="name-field">
+            Your Name
+          </label>
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/40 focus:outline-none transition-all placeholder:text-outline/60" id="name-field" placeholder="e.g. Ananya Sen" type="text">
+</div>
+<div>
+<label class="block font-label-smallcaps text-label-smallcaps uppercase text-[11px] text-on-surface-variant mb-1" for="kinship-field">
+            Relation or Town
+          </label>
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/40 focus:outline-none transition-all placeholder:text-outline/60" id="kinship-field" placeholder="e.g. Granddaughter • Lucknow" type="text">
+</div>
+<div>
+<label class="block font-label-smallcaps text-label-smallcaps uppercase text-[11px] text-on-surface-variant mb-1" for="note-field">
+            Marginal Note
+          </label>
+<textarea class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/40 focus:outline-none transition-all placeholder:text-outline/60" id="note-field" placeholder="Write an echo or family recollection..." rows="3"></textarea>
+</div>
+<button class="w-full bg-primary-container hover:bg-primary text-on-primary py-2.5 px-4 rounded font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-xs transition-colors shadow-none active:scale-[0.99] flex items-center justify-center gap-2" type="submit">
+<span class="">Leave Note</span>
+<span class="material-symbols-outlined text-sm">edit_note</span>
+</button>
+</form>
+<!-- Sample Remembrances List -->
+<div class="space-y-3 pt-2">
+<!-- Remembrance 1 -->
+<article class="p-4 bg-surface-container-low border border-outline-variant/80 rounded-lg space-y-2">
+<div class="flex items-baseline justify-between border-b border-outline-variant/40 pb-1.5">
+<span class="font-headline-sm text-sm font-semibold text-on-surface">Pooja Singh</span>
+<span class="font-label-smallcaps text-label-smallcaps text-on-surface-variant text-[11px] uppercase">Niece • Delhi</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-[14px] leading-relaxed italic">
+            “Babuji’s wooden lathi still stands in the hallway umbrella urn at our ancestral home in Varanasi. Every time the May dust blows in from the balcony, I smell the pond by the canal.”
+          </p>
+</article>
+<!-- Remembrance 2 -->
+<article class="p-4 bg-surface-container-low border border-outline-variant/80 rounded-lg space-y-2">
+<div class="flex items-baseline justify-between border-b border-outline-variant/40 pb-1.5">
+<span class="font-headline-sm text-sm font-semibold text-on-surface">Vikramaditya</span>
+<span class="font-label-smallcaps text-label-smallcaps text-on-surface-variant text-[11px] uppercase">Brother • Gorakhpur</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-[14px] leading-relaxed italic">
+            “You captured the exact rhythm of the fountain pen on the rough vellum. We spent three weeks hunting for the cap of that brass Sheaffer pen in the grass!”
+          </p>
+</article>
+</div>
+</section>
+</main>
+<!-- Archival Mobile Colophon Footer -->
+<footer class="w-full bg-surface-container border-t border-outline-variant">
+<div class="max-w-xl mx-auto px-6 py-10 flex flex-col items-center text-center space-y-4">
+<div class="font-headline-sm text-headline-sm italic text-on-surface tracking-tight">
+        Dust and Dazzle
+      </div>
+<nav class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-label-smallcaps text-label-smallcaps text-[11px] uppercase tracking-wider text-on-surface-variant"><a class="hover:text-primary transition-colors" href="#toc">Table of Contents</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#colophon">Colophon</a></nav>
+<p class="font-label-caption text-label-caption text-on-surface-variant text-xs max-w-sm leading-relaxed pt-2">
+        © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+      </p>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+    // Scroll progress calculator
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+      const bar = document.getElementById('read-progress');
+      if (bar) {
+        bar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+      }
+    });
+
+    // Font size toggler for reading comfort
+    const fontToggle = document.getElementById('font-toggle-btn');
+    const storyContent = document.getElementById('story-content');
+    let isEnlarged = false;
+
+    fontToggle?.addEventListener('click', () => {
+      isEnlarged = !isEnlarged;
+      if (isEnlarged) {
+        storyContent.classList.remove('text-body-reading-mobile');
+        storyContent.classList.add('text-[21px]', 'leading-[2.0]');
+        fontToggle.innerHTML = '<span class="font-label-smallcaps font-bold text-xs tracking-tighter">A<span class="text-[10px]">-</span></span>';
+      } else {
+        storyContent.classList.remove('text-[21px]', 'leading-[2.0]');
+        storyContent.classList.add('text-body-reading-mobile');
+        fontToggle.innerHTML = '<span class="font-label-smallcaps font-bold text-xs tracking-tighter">A<span class="text-[10px]">+</span></span>';
+      }
+    });
+
+    // Candlelight / Reading Lamp toggle
+    const lampToggle = document.getElementById('lamp-toggle-btn');
+    const bodyEl = document.getElementById('reader-body');
+    let isCandlelight = false;
+
+    lampToggle?.addEventListener('click', () => {
+      isCandlelight = !isCandlelight;
+      if (isCandlelight) {
+        bodyEl.classList.add('candlelight-mode');
+        lampToggle.classList.add('text-primary');
+      } else {
+        bodyEl.classList.remove('candlelight-mode');
+        lampToggle.classList.remove('text-primary');
+      }
+    });
+  </script>
+
+
+</body></html>

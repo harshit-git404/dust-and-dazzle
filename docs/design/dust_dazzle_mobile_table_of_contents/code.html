@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dust and Dazzle — Table of Contents</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#8a3919",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "surface-dim": "#efd5c6",
+            "on-background": "#261910",
+            "on-primary-fixed": "#380d00",
+            "secondary-fixed": "#dae7c6",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#fff1ea",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#ffeade",
+            "inverse-surface": "#3d2d23",
+            "secondary-fixed-dim": "#becbac",
+            "error": "#ba1a1a",
+            "on-surface": "#261910",
+            "background": "#fff8f5",
+            "error-container": "#ffdad6",
+            "outline": "#88726b",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "surface-tint": "#9a4524",
+            "surface": "#fff8f5",
+            "secondary": "#576248",
+            "on-tertiary-fixed-variant": "#604100",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffdead",
+            "surface-container-highest": "#f8ddcf",
+            "primary-container": "#a9502e",
+            "surface-container-high": "#fee3d4",
+            "inverse-primary": "#ffb59b",
+            "secondary-container": "#dae7c6",
+            "inverse-on-surface": "#ffede4",
+            "on-tertiary-container": "#ffe7c8",
+            "tertiary-container": "#8e6100",
+            "primary-fixed-dim": "#ffb59b",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "surface-bright": "#fff8f5",
+            "outline-variant": "#dcc1b8",
+            "tertiary-fixed-dim": "#f9bc55",
+            "on-secondary-fixed": "#151e0a",
+            "on-secondary-container": "#5d684e",
+            "on-surface-variant": "#55433c",
+            "surface-variant": "#f8ddcf",
+            "on-primary-container": "#ffe6de",
+            "tertiary": "#6e4b00",
+            "on-secondary-fixed-variant": "#3f4a32",
+            "on-tertiary-fixed": "#281900"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "3.5rem",
+            "margin": "1.5rem",
+            "space-md": "1.25rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.375rem",
+            "space-sm": "0.75rem",
+            "space-lg": "2rem",
+            "margin-desktop": "3rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Playfair Display"],
+            "body-italic": ["Newsreader"],
+            "label-caption": ["Newsreader"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "label-smallcaps": ["Newsreader"],
+            "body-reading-mobile": ["Newsreader"],
+            "headline-sm": ["Playfair Display"],
+            "display-hero-mobile": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "display-hero": ["Playfair Display"],
+            "body-reading": ["Newsreader"],
+            "body-md": ["Newsreader"]
+          },
+          "fontSize": {
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .lamp-glow {
+      box-shadow: 0 0 16px 2px rgba(201, 146, 46, 0.22);
+    }
+    .diya-flourish-line {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .diya-flourish-line::before, .diya-flourish-line::after {
+      content: "";
+      height: 1px;
+      background-color: #dcc1b8;
+      flex-grow: 1;
+    }
+    .story-item:active {
+      background-color: #f8ddcf;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen selection:bg-surface-variant selection:text-primary">
+<!-- Mobile Screen Frame Container -->
+<div class="max-w-md mx-auto min-h-screen flex flex-col bg-surface">
+<!-- Top Navigation Header -->
+<header class="w-full sticky top-0 z-50 bg-surface/95 backdrop-blur-sm px-4 h-16 flex items-center justify-between border-b border-outline-variant">
+<!-- Back to Cover button -->
+<button aria-label="Back to cover" class="flex items-center gap-1.5 text-primary py-2 pr-2 -ml-1 active:opacity-70 transition-opacity" type="button">
+<span class="material-symbols-outlined text-primary text-xl">arrow_back</span>
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-primary">Cover</span>
+</button>
+<!-- Center Title -->
+<div class="flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm italic tracking-tight text-on-surface">Dust and Dazzle</span>
+</div>
+<!-- Trailing Action: Reading Lamp -->
+<button aria-label="Reading Lamp" class="flex items-center justify-center w-9 h-9 rounded-full text-tertiary hover:text-primary active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 px-5 pt-6 pb-8">
+<!-- Subtitle & Context Section -->
+<div class="mb-6 text-center">
+<span class="font-label-smallcaps text-label-smallcaps uppercase text-outline tracking-widest block mb-1">Chronological Index</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-normal">Table of Contents</h1>
+<!-- Diya Flourish Divider -->
+<div class="diya-flourish-line my-3 max-w-[180px] mx-auto">
+<span class="px-2 text-tertiary text-xs font-serif">✦</span>
+</div>
+<p class="font-label-caption text-label-caption text-on-surface-variant italic">Sixteen reflections spanning village earth and city stone (1978–2012)</p>
+</div>
+<!-- Top Search Box Only (Strictly No Category/Filter Chips) -->
+<div class="relative mb-6">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-container border border-outline-variant rounded text-on-surface placeholder:text-on-surface-variant/70 font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="search-input" placeholder="Search stories, memories, places..." type="text"/>
+</div>
+<!-- Stories Count Anchor -->
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-outline-variant/60 text-outline">
+<span class="font-label-smallcaps text-label-smallcaps uppercase text-xs tracking-wider">Passages in Author's Order</span>
+<span class="font-label-caption text-label-caption italic text-xs">16 Chapters</span>
+</div>
+<!-- Chronological List of 16 Stories -->
+<nav aria-label="Stories Directory" class="divide-y divide-outline-variant/40" id="story-list">
+<!-- 01 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-01">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">01</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Under the Banyan Tree</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1978</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">The sacred soil &amp; childhood twilight</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">7 min read</span>
+</div>
+</a>
+<!-- 02 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-02">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">02</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">The Scent of Wet Clay after Monsoon</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1981</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Courtyard petrichor and clay tiles</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">9 min read</span>
+</div>
+</a>
+<!-- 03 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-03">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">03</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Lanterns on the Veranda</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1984</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Kerosene shadows and grandfather's tales</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">6 min read</span>
+</div>
+</a>
+<!-- 04 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-04">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">04</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">The Last Bull-Cart to the Station</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1986</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Creaking wooden axles at dawn</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">12 min read</span>
+</div>
+</a>
+<!-- 05 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-05">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">05</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">First Electric Bulb in the Courtyard</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1988</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">The tungsten hum and gathered neighbors</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">8 min read</span>
+</div>
+</a>
+<!-- 06 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-06">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">06</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Ghats of the Saryu at Twilight</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1989</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Floating lamps and brass prayer bells</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">10 min read</span>
+</div>
+</a>
+<!-- 07 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-07">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">07</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">The Copper Kettle of Panditji</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1990</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Ginger tea, cardamom, and village news</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">5 min read</span>
+</div>
+</a>
+<!-- 08 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-08">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">08</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Dust of the Threshing Floor</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1991</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Golden chaff rising against sunset</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">9 min read</span>
+</div>
+</a>
+<!-- 09 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-09">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">09</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Train Ticket to Old Delhi</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1991</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">A cardboard trunk and unreserved seats</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">11 min read</span>
+</div>
+</a>
+<!-- 10 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-10">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">10</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Room 14 on Daryaganj Lane</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1992</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Waking to the clatter of printing presses</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">10 min read</span>
+</div>
+</a>
+<!-- 11 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-11">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">11</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Tea at the Corner Kiosk</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1995</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Glass tumblers and secondhand paperbacks</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">5 min read</span>
+</div>
+</a>
+<!-- 12 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-12">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">12</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">The Neon Sign that Stayed Awake</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">1998</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">City nights that forgot the constellation</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">7 min read</span>
+</div>
+</a>
+<!-- 13 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-13">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">13</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Letters Across Four Hundred Miles</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">2002</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Blue inland aerogrammes and fading script</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">14 min read</span>
+</div>
+</a>
+<!-- 14 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-14">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">14</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Rain on Asbestos Roofing</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">2006</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">The sound of monsoons imprisoned in concrete</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">8 min read</span>
+</div>
+</a>
+<!-- 15 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-15">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">15</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">The Evening Bus to Kashmiri Gate</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">2009</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Commuters, exhaust fumes, and river mist</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">11 min read</span>
+</div>
+</a>
+<!-- 16 -->
+<a class="story-item group block py-3.5 px-2 -mx-2 rounded transition-colors duration-150" href="#story-16">
+<div class="flex items-baseline justify-between gap-2 mb-1">
+<div class="flex items-baseline gap-2.5 min-w-0">
+<span class="font-label-smallcaps text-label-smallcaps text-primary font-bold tracking-normal shrink-0">16</span>
+<span class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors truncate">Colophon &amp; The Two Horizons</span>
+</div>
+<span class="font-label-caption text-label-caption text-outline shrink-0 tabular-nums">2012</span>
+</div>
+<div class="flex items-center justify-between pl-6 text-on-surface-variant">
+<span class="font-label-caption text-label-caption italic">Where the village road and asphalt converge</span>
+<span class="font-label-caption text-xs text-outline tracking-tight">6 min read</span>
+</div>
+</a>
+</nav>
+<!-- Epigraph Card -->
+<section class="mt-8 p-5 bg-surface-container rounded border border-outline-variant/80 relative">
+<span class="font-label-smallcaps text-label-smallcaps uppercase text-primary tracking-widest block mb-2 text-xs">Author's Epigraph</span>
+<blockquote class="border-l-2 border-primary-container pl-3.5 my-2">
+<p class="font-body-italic text-body-italic text-on-surface italic leading-relaxed text-sm">
+            “The dust clings to the soles long after the journey ends; yet the dazzle of distant minarets is what draws us into the open road.”
+          </p>
+</blockquote>
+<div class="text-right mt-3">
+<cite class="font-label-caption text-label-caption text-on-surface-variant not-italic text-xs block">— Ajeet Kumar Singh</cite>
+<span class="font-label-caption text-[11px] text-outline italic">From the Notebooks at Daryaganj, 2012</span>
+</div>
+</section>
+</main>
+<!-- Footer Component (Shared Component Implementation) -->
+<footer class="w-full bg-surface-container border-t border-outline-variant mt-auto">
+<div class="max-w-6xl mx-auto px-6 py-8 flex flex-col items-center text-center space-y-4">
+<!-- Brand Logo in Footer -->
+<div class="font-headline-sm text-headline-sm italic text-on-surface">
+          Dust and Dazzle
+        </div>
+<!-- Book Colophon Meta -->
+<p class="font-label-caption text-label-caption text-on-surface-variant max-w-xs leading-relaxed text-xs">
+          © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+        </p>
+<!-- Subtle Footer Links -->
+<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 pt-1 font-label-smallcaps text-xs text-on-surface-variant">
+<a class="text-primary underline underline-offset-4" href="#">Table of Contents</a>
+<span>·</span>
+<a class="hover:text-primary transition-colors duration-200" href="#">Village Chronicles</a>
+<span>·</span>
+<a class="hover:text-primary transition-colors duration-200" href="#">Urban Reveries</a>
+<span>·</span>
+<a class="hover:text-primary transition-colors duration-200" href="#">Colophon</a>
+</div>
+<!-- Ambient Diya Glyph -->
+<div class="pt-2 text-tertiary">
+<span class="material-symbols-outlined text-sm opacity-80" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+</div>
+</div>
+</footer>
+</div>
+<!-- Micro-interaction Script for Real-time Search Filtering -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('search-input');
+      const storyItems = document.querySelectorAll('.story-item');
+
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        storyItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(query)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body></html>

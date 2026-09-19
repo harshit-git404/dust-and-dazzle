@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Dust and Dazzle — Story Editor</title>
+<!-- Google Fonts: Newsreader & Playfair Display -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#fff8f5",
+            "on-secondary-fixed-variant": "#3f4a32",
+            "primary-container": "#a9502e",
+            "surface": "#fff8f5",
+            "primary": "#8a3919",
+            "on-tertiary-container": "#ffe7c8",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "background": "#fff8f5",
+            "surface-container-low": "#fff1ea",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#fee3d4",
+            "inverse-on-surface": "#ffede4",
+            "surface-dim": "#efd5c6",
+            "surface-container-highest": "#f8ddcf",
+            "on-primary-fixed": "#380d00",
+            "secondary-fixed": "#dae7c6",
+            "on-secondary-container": "#5d684e",
+            "on-primary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-variant": "#f8ddcf",
+            "on-surface-variant": "#55433c",
+            "tertiary-fixed-dim": "#f9bc55",
+            "secondary": "#576248",
+            "tertiary-container": "#8e6100",
+            "surface-tint": "#9a4524",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed-dim": "#becbac",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#604100",
+            "on-error": "#ffffff",
+            "inverse-surface": "#3d2d23",
+            "primary-fixed-dim": "#ffb59b",
+            "inverse-primary": "#ffb59b",
+            "tertiary-fixed": "#ffdead",
+            "primary-fixed": "#ffdbcf",
+            "on-secondary": "#ffffff",
+            "on-background": "#261910",
+            "outline-variant": "#dcc1b8",
+            "on-tertiary-fixed": "#281900",
+            "surface-container": "#ffeade",
+            "on-surface": "#261910",
+            "on-secondary-fixed": "#151e0a",
+            "tertiary": "#6e4b00",
+            "secondary-container": "#dae7c6",
+            "on-primary-container": "#ffe6de",
+            "outline": "#88726b"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-md": "1.25rem",
+            "space-xl": "3.5rem",
+            "gutter": "1.5rem",
+            "margin-desktop": "3rem",
+            "space-lg": "2rem",
+            "space-sm": "0.75rem",
+            "margin": "1.5rem",
+            "space-xs": "0.375rem"
+          },
+          "fontFamily": {
+            "label-caption": ["Newsreader"],
+            "label-smallcaps": ["Newsreader"],
+            "display-hero": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "body-reading-mobile": ["Newsreader"],
+            "body-md": ["Newsreader"],
+            "body-italic": ["Newsreader"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "body-reading": ["Newsreader"],
+            "display-hero-mobile": ["Playfair Display"]
+          },
+          "fontSize": {
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Vellum subtle grain effect */
+    .archival-grain {
+      background-color: #F5EBDA;
+      background-image: radial-gradient(#dcc1b8 0.55px, transparent 0.55px), radial-gradient(#dcc1b8 0.55px, #F5EBDA 0.55px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+    }
+
+    /* Diya candle glow focus */
+    .diya-focus-halo:focus-within {
+      box-shadow: 0 0 0 1px #dcc1b8, 0 0 16px 2px rgba(201, 146, 46, 0.22);
+    }
+
+    /* Illuminated Drop Cap */
+    .dropcap-ornament {
+      float: left;
+      font-family: 'Playfair Display', serif;
+      font-size: 3.85rem;
+      line-height: 0.78;
+      padding-top: 6px;
+      padding-right: 12px;
+      padding-bottom: 2px;
+      color: #8a3919;
+      font-style: italic;
+      font-weight: 500;
+      text-shadow: 1px 1px 0px rgba(138, 57, 25, 0.15);
+    }
+
+    /* Notebook smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Hide scrollbars for toolbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="archival-grain text-on-surface font-body-reading-mobile min-h-screen flex flex-col justify-between selection:bg-surface-variant selection:text-primary pb-28">
+<!-- ========================================================================= -->
+<!-- TOP WRITER BAR (Mobile Sticky Header)                                      -->
+<!-- ========================================================================= -->
+<header class="sticky top-0 z-40 bg-surface-bright/95 backdrop-blur-md px-4 py-2.5 transition-all">
+<div class="max-w-md mx-auto flex items-center justify-between gap-2">
+<!-- Back Navigation & Document breadcrumb -->
+<div class="flex items-center gap-1.5 min-w-0">
+<a class="inline-flex items-center text-primary hover:text-on-primary-fixed-variant transition-colors p-1 -ml-1.5 rounded" href="#stories" title="Return to Stories">
+<span class="material-symbols-outlined text-[20px]">arrow_back_ios_new</span>
+<span class="font-label-smallcaps text-label-smallcaps text-primary tracking-wider ml-0.5">Stories</span>
+</a>
+<span class="text-outline-variant font-serif select-none px-0.5">/</span>
+<div class="flex flex-col truncate">
+<span class="font-headline-sm text-[13px] leading-tight text-on-surface font-medium truncate italic">
+            Dust &amp; Dazzle
+          </span>
+<div class="flex items-center gap-1">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-caption text-[11px] leading-none text-secondary">Autosaved</span>
+</div>
+</div>
+</div>
+<!-- Action Cluster: Preview & Publish -->
+<div class="flex items-center gap-1.5 shrink-0">
+<!-- Draft / Final status chip -->
+<span class="hidden xs:inline-block px-2 py-0.5 rounded text-[11px] font-label-smallcaps uppercase bg-surface-container text-on-surface-variant tracking-wider">
+          Draft IV
+        </span>
+<!-- Preview Button (Secondary Ghost) -->
+<button class="px-2.5 py-1 text-[13px] font-label-smallcaps text-on-surface hover:bg-surface-container rounded transition-colors" title="Reading Lamp Preview" type="button">
+<span class="material-symbols-outlined text-[17px] align-middle">menu_book</span>
+</button>
+<!-- Publish / Save Action (Terracotta Solid) -->
+<button class="bg-primary hover:bg-on-primary-fixed-variant text-on-primary px-3 py-1.5 rounded font-label-smallcaps text-label-smallcaps tracking-wider transition-colors" type="button">
+          Publish
+        </button>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- NOTEBOOK BODY CANVAS (Max 680px for Reading Spine)                         -->
+<!-- ========================================================================= -->
+<main class="w-full max-w-[680px] mx-auto px-5 pt-5 pb-8 flex-grow">
+<!-- Manuscript Metadata Bar -->
+<div class="flex flex-wrap items-center justify-between gap-2 mb-6 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="bg-secondary-container/60 text-on-secondary-fixed-variant font-label-smallcaps text-[11px] px-2 py-0.5 rounded tracking-widest uppercase">
+          Sarai Village • Chapter IV
+        </span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-caption text-label-caption italic text-outline">Awadh Chronicles, 1974</span>
+</div>
+<!-- Diya Reading Ambiance Indicator -->
+<div class="flex items-center gap-1 text-tertiary font-label-caption text-[12px]" title="Ambient lighting: Evening Mustard Vellum">
+<span class="material-symbols-outlined text-[15px]">wb_twilight</span>
+<span>Dusk Rag</span>
+</div>
+</div>
+<!-- Title Entry (Tactile Editable Input) -->
+<div class="mb-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-normal text-on-surface outline-none empty:before:content-['Title_of_the_Memoir...'] empty:before:text-outline-variant diya-focus-halo px-1 py-0.5 rounded transition-all" contenteditable="true" spellcheck="false">The Smell of Old Kerosene</h1>
+</div>
+<!-- Epigraph / Subtitle quote -->
+<div class="mb-6 pl-3.5 border-l border-primary/40">
+<div class="font-body-italic text-body-italic text-on-surface-variant italic outline-none empty:before:content-['Enter_chapter_epigraph_or_rural_adage...'] empty:before:text-outline-variant diya-focus-halo rounded py-0.5" contenteditable="true" spellcheck="false">
+        “Before electricity arrived in Belahara, twilight was measured not in minutes, but in the slow, ceremonial trimming of brass wicks.”
+      </div>
+</div>
+<!-- Diya Gold Hairline Break -->
+<div class="relative flex items-center justify-center my-7 select-none">
+<div class="w-full border-t border-outline-variant/60"></div>
+<div class="absolute px-3 bg-[#F5EBDA] text-tertiary flex items-center gap-1.5">
+<span class="inline-block w-1.5 h-1.5 rotate-45 bg-tertiary"></span>
+<span class="material-symbols-outlined text-[13px] text-tertiary">flare</span>
+<span class="inline-block w-1.5 h-1.5 rotate-45 bg-tertiary"></span>
+</div>
+</div>
+<!-- Manuscript Editable Body Canvas -->
+<article class="relative space-y-5 text-on-surface font-body-reading-mobile text-body-reading-mobile leading-relaxed">
+<!-- Paragraph 1 with Drop Cap -->
+<p class="outline-none diya-focus-halo rounded px-1 py-0.5" contenteditable="true">
+<span class="dropcap-ornament" contenteditable="false">T</span>he red earth courtyard smelled of damp clay and sun-baked cow dung cakes piled beneath the neem shade. By four in the afternoon, the village crows ceased their frantic chatter over the tamarind branches, retreating to the eaves of the grain silos. My grandmother, Ammaji, would emerge from the low threshold with the green gallon tin—its tin spout crusted with black soot, breathing an oil aroma so dense it could have fueled our winter dreams.
+      </p>
+<!-- Paragraph 2 -->
+<p class="outline-none diya-focus-halo rounded px-1 py-0.5" contenteditable="true">
+        She never poured directly into the glass bellied lamps. First came the funnel rolled tightly from an old page of the <span class="italic font-newsreader">Kalyan</span> magazine, its edges stained with sesame seed oil from the previous Diwali. There was an unspoken geometry to the hour: wick trimmed at a forty-five-degree slant for the prayer alcove, straight across for the ledger room where Uncle Ram compiled sugar cane yields.
+      </p>
+<!-- Embedded Photo Plate Component (Deckled Archival Print) -->
+<figure class="my-7 p-3 bg-surface-container-low rounded border border-outline-variant/70 diya-focus-halo">
+<div class="relative overflow-hidden rounded bg-surface-variant">
+<img class="w-full h-56 object-cover filter contrast-[0.95] sepia-[0.22] hover:sepia-0 transition-all duration-300" data-alt="A sepia toned archival black and white photograph depicting ancient brass hurricane lanterns hanging along an aged wooden veranda of a traditional rural brick estate in rural India. Dust motes dance in the late afternoon shafts of golden sunlight filtering through wooden arches, with lush tropical neem leaves visible in the soft background. The composition exudes quiet nostalgic memory, quiet dignity, tactile paper grain texture, and deep literary warmth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ1bPEhlrouoefhZM_8FhZeBd_fTaeUlPIYugTb6fv44Q2z3oGau19WwmINIjLpYWeZ2ukIj7pb403zkAYf0K2M0yArL2tl4wsAIQiGfZQZ6iL5CLiWAf3jlJUfz8lDAfUuL5KH3BMrguC9SOapWyZbYVlIkx8QDAZtE3IS2AFMgYXFXlnvuON9qzJH5pW8xAAgjAoeCic5G81FItJwlT6tPF0IlaqQ3Wb9LwGJ_E"/>
+<div class="absolute top-2 right-2 bg-inverse-surface/80 text-inverse-on-surface px-2 py-0.5 rounded text-[11px] font-label-smallcaps uppercase tracking-wider backdrop-blur-sm">
+            Plate 14 • Archive
+          </div>
+</div>
+<figcaption class="mt-2.5 px-1 flex items-start justify-between gap-3">
+<span class="font-label-caption text-label-caption text-on-surface-variant italic outline-none flex-grow" contenteditable="true">
+            Veranda lanterns of Belahara house, with Uncle Ram’s tobacco pouch resting on the sill. Winter, 1979.
+          </span>
+<button class="shrink-0 text-outline hover:text-primary transition-colors p-1" title="Adjust Plate Layout" type="button">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</figcaption>
+</figure>
+<!-- Paragraph 3 -->
+<p class="outline-none diya-focus-halo rounded px-1 py-0.5" contenteditable="true">
+        "Listen to the glass," she would murmur, testing the globe’s temperature with the knuckle of her forefinger. "A cold chimney cracks the instant a match touches the pith. Patience is the only wick that costs nothing." Forty years later in Delhi, amid neon signboards humming like electric wasps, that quiet sentence still smelled of smoked glass and cold winter dusk.
+      </p>
+<!-- Pull Quote Block within Writer -->
+<div class="my-6 pl-4 border-l-2 border-primary bg-surface-container-low/40 py-2 pr-3 rounded-r">
+<blockquote class="font-headline-sm text-headline-sm text-on-surface italic font-normal outline-none" contenteditable="true">
+          “Patience is the only wick that costs nothing.”
+        </blockquote>
+<span class="block mt-1 font-label-smallcaps text-[11px] uppercase tracking-wider text-outline">— Ammaji's Ledger, 1974</span>
+</div>
+<!-- Additional writing placeholder block -->
+<p class="outline-none text-on-surface-variant diya-focus-halo rounded px-1 py-0.5 min-h-[3rem]" contenteditable="true">
+        The bullock carts would rattle past the railway siding just before six...
+      </p>
+</article>
+<!-- ======================================================================= -->
+<!-- MARGIN NOTE DRAWER (Collapsible Ledger Note)                             -->
+<!-- ======================================================================= -->
+<section class="mt-10 pt-4 border-t border-outline-variant/60">
+<div class="bg-surface-container p-4 rounded border border-outline-variant">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">edit_note</span>
+<h3 class="font-headline-sm text-[15px] text-on-surface font-semibold tracking-tight">Author’s Margin Ledger</h3>
+</div>
+<span class="font-label-smallcaps text-[11px] text-on-surface-variant uppercase tracking-wider">Folio #84</span>
+</div>
+<p class="font-label-caption text-label-caption text-on-surface-variant leading-normal">
+<span class="font-semibold text-primary">Note for Chapter End:</span> Compare this chimney glass metaphor to the high-pressure sodium street lamps installed along Connaught Place in 1989. Connect the village wick with urban glare.
+        </p>
+<div class="mt-3 flex items-center justify-between text-[12px] font-label-smallcaps text-outline">
+<span>Tagged: <span class="text-on-surface">Kerosene, Lighting, Migration</span></span>
+<button class="text-primary hover:underline underline-offset-4">+ Add Ledger Note</button>
+</div>
+</div>
+</section>
+</main>
+<!-- ========================================================================= -->
+<!-- FLOATING BOTTOM DOCK: METRICS BADGE & WRITING TOOLBAR                      -->
+<!-- ========================================================================= -->
+<div class="fixed bottom-0 inset-x-0 z-50 pointer-events-none">
+<div class="max-w-md mx-auto px-3 pb-3 pointer-events-auto">
+<!-- Floating Progress Chip (Subtle Ambient Tone) -->
+<div class="mb-2 flex items-center justify-between bg-surface-bright/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-outline-variant text-[12px] font-label-smallcaps text-on-surface-variant">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[14px] text-tertiary">history_edu</span>
+<span class="font-semibold text-on-surface">2,140</span> words
+          <span class="text-outline-variant">•</span>
+<span>~9 min read</span>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="text-primary font-semibold">71%</span> of chapter
+          <div class="w-12 h-1.5 bg-surface-dim rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 71%;"></div>
+</div>
+</div>
+</div>
+<!-- Mobile Writing Action Ribbon (Tactile Handheld Keyboard Bar) -->
+<div class="bg-inverse-surface text-inverse-on-surface rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1 overflow-x-auto no-scrollbar border border-outline/30">
+<!-- Bold -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-on-surface" title="Bold Text" type="button">
+<span class="material-symbols-outlined text-[20px]">format_bold</span>
+</button>
+<!-- Italic -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-on-surface" title="Italicize" type="button">
+<span class="material-symbols-outlined text-[20px]">format_italic</span>
+</button>
+<!-- Chapter Heading -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-on-surface" title="Heading" type="button">
+<span class="material-symbols-outlined text-[20px]">format_h1</span>
+</button>
+<!-- Pull Quote -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-on-surface" title="Pull Quote" type="button">
+<span class="material-symbols-outlined text-[20px]">format_quote</span>
+</button>
+<!-- Drop Cap Toggle -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-primary" title="Toggle Illuminated Drop Cap" type="button">
+<span class="material-symbols-outlined text-[20px]">match_word</span>
+</button>
+<!-- Separator -->
+<div class="h-5 w-px bg-outline/40 mx-0.5"></div>
+<!-- Add Photo Plate -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-on-surface" title="Insert Archival Photo Plate" type="button">
+<span class="material-symbols-outlined text-[20px]">photo_library</span>
+</button>
+<!-- Margin Ledger Note -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-inverse-on-surface relative" title="Attach Margin Ledger" type="button">
+<span class="material-symbols-outlined text-[20px]">rate_review</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-primary-fixed-dim rounded-full"></span>
+</button>
+<!-- Reading Lamp / Zen Mode Toggle -->
+<button class="p-2 rounded hover:bg-white/10 active:bg-white/20 transition-colors text-tertiary-fixed" title="Toggle Reading Lamp Dimmer" type="button">
+<span class="material-symbols-outlined text-[20px]">wb_twilight</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive script for quick tactile micro-interactions -->
+<script>
+    // Simple inline touch handler for toolbar actions
+    document.querySelectorAll('[data-role="toolbar-btn"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.add('scale-95');
+        setTimeout(() => btn.classList.remove('scale-95'), 120);
+      });
+    });
+
+    // Subtle autosave pulse animation
+    let lastTyped = Date.now();
+    document.addEventListener('input', () => {
+      lastTyped = Date.now();
+    });
+  </script>
+</body></html>

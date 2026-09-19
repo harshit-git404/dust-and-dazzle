@@ -1,0 +1,520 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Table of Contents — Dust and Dazzle</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#f8ddcf",
+            "surface-dim": "#efd5c6",
+            "secondary": "#576248",
+            "inverse-on-surface": "#ffede4",
+            "secondary-fixed": "#dae7c6",
+            "tertiary-container": "#8e6100",
+            "primary-fixed": "#ffdbcf",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "tertiary-fixed-dim": "#f9bc55",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#6e4b00",
+            "on-primary": "#ffffff",
+            "outline": "#88726b",
+            "surface": "#fff8f5",
+            "surface-container-low": "#fff1ea",
+            "surface-tint": "#9a4524",
+            "on-tertiary-fixed-variant": "#604100",
+            "surface-bright": "#fff8f5",
+            "on-tertiary-container": "#ffe7c8",
+            "background": "#fff8f5",
+            "primary-fixed-dim": "#ffb59b",
+            "on-tertiary-fixed": "#281900",
+            "on-secondary": "#ffffff",
+            "primary": "#8a3919",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#55433c",
+            "on-secondary-fixed": "#151e0a",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#f8ddcf",
+            "inverse-primary": "#ffb59b",
+            "primary-container": "#a9502e",
+            "tertiary-fixed": "#ffdead",
+            "on-error-container": "#93000a",
+            "on-background": "#261910",
+            "secondary-container": "#dae7c6",
+            "outline-variant": "#dcc1b8",
+            "on-secondary-container": "#5d684e",
+            "secondary-fixed-dim": "#becbac",
+            "surface-container": "#ffeade",
+            "on-primary-container": "#ffe6de",
+            "surface-container-high": "#fee3d4",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#380d00",
+            "on-surface": "#261910",
+            "inverse-surface": "#3d2d23",
+            "error": "#ba1a1a",
+            "on-secondary-fixed-variant": "#3f4a32"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.75rem",
+            "space-xl": "3.5rem",
+            "gutter": "1.5rem",
+            "space-lg": "2rem",
+            "margin": "1.5rem",
+            "margin-desktop": "3rem",
+            "space-xs": "0.375rem",
+            "space-md": "1.25rem"
+          },
+          "fontFamily": {
+            "body-reading": ["Newsreader"],
+            "display-hero-mobile": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "body-italic": ["Newsreader"],
+            "display-hero": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "body-md": ["Newsreader"],
+            "label-caption": ["Newsreader"],
+            "headline-md": ["Playfair Display"],
+            "label-smallcaps": ["Newsreader"],
+            "body-reading-mobile": ["Newsreader"]
+          },
+          "fontSize": {
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .diya-glow {
+      box-shadow: 0 0 16px 0 rgba(201, 146, 46, 0.18);
+    }
+    .diya-glow-hover:hover {
+      box-shadow: 0 0 20px 2px rgba(201, 146, 46, 0.25);
+    }
+    .leader-line {
+      background-image: radial-gradient(circle closest-side, #88726b 28%, transparent 32%);
+      background-position: bottom;
+      background-size: 8px 3px;
+      background-repeat: repeat-x;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-reading selection:bg-surface-variant selection:text-on-surface">
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline transition-colors duration-200">
+<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<a class="font-headline-md text-headline-md font-normal tracking-tight text-on-surface dark:text-inverse-on-surface italic" href="#">
+          Dust and Dazzle
+        </a>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8 font-label-smallcaps text-label-smallcaps uppercase tracking-wider">
+<!-- Exact match intent for Table of Contents / Stories -->
+<a class="text-primary dark:text-inverse-primary border-b border-primary pb-1 font-semibold transition-colors duration-200" href="#">
+          Stories
+        </a>
+
+
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200" href="#">
+          Memoir Notes
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200" href="#">
+          Author
+        </a>
+</nav>
+<!-- Trailing Action -->
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-outline-variant text-on-surface-variant hover:text-primary hover:border-primary transition-colors duration-200 group text-sm" type="button">
+<span class="material-symbols-outlined text-primary text-base" data-icon="wb_twilight">wb_twilight</span>
+<span class="font-label-caption text-label-caption hidden sm:inline">Reading Lamp</span>
+</button>
+<button aria-label="Book Archive" class="p-1.5 text-on-surface-variant hover:text-primary transition-colors duration-200" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="menu_book">menu_book</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas: Centered Archival Reading Column (~780px) -->
+<main class="flex-grow w-full max-w-[780px] mx-auto px-6 py-12 md:py-16">
+<!-- Title and Editorial Epigraph -->
+<section class="text-center mb-10">
+<div class="inline-flex items-center justify-center space-x-3 mb-3">
+<span class="w-12 h-px bg-outline-variant"></span>
+<span class="font-label-smallcaps text-label-smallcaps text-tertiary uppercase tracking-widest">Compendium of Chapters</span>
+<span class="w-12 h-px bg-outline-variant"></span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-2">
+        Table of Contents
+      </h1>
+<p class="font-body-italic text-body-italic text-on-surface-variant italic">
+        Sixteen recollections across time and geography.
+      </p>
+<!-- Diya Flourish -->
+<div class="flex items-center justify-center space-x-3 mt-6">
+<div class="w-16 h-px bg-outline-variant"></div>
+<span class="text-tertiary-container text-xs">✦</span>
+<div class="w-16 h-px bg-outline-variant"></div>
+</div>
+</section>
+<!-- Top Controls: Search Bar & Filter Chips -->
+<section class="mb-10 space-y-5">
+<!-- Search Bar -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg" data-icon="search">search</span>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg pl-11 pr-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-outline placeholder:italic focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all diya-glow" placeholder="Search stories, memories, places..." type="text">
+</div>
+<!-- Filter Chips & Fast Actions Bar -->
+
+</section>
+<!-- Visual Divider -->
+<div class="w-full h-px bg-outline-variant/60 mb-8"></div>
+<!-- Story Catalog: 16 Archival Entries with Dotted Leaders -->
+<section class="space-y-1">
+<!-- Village Section Subhead -->
+
+<!-- Item 1 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">01.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Under the Banyan Tree</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1978</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">7 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 2 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">02.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">The Scent of Wet Clay after Monsoon</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1981</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">9 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 3 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">03.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Lanterns on the Veranda</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1984</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">6 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 4 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">04.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">The Last Bull-Cart to the Station</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1986</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">12 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 5 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">05.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">First Electric Bulb in the Courtyard</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1988</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">8 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 6 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">06.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Ghats of the Saryu at Twilight</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1989</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">10 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 7 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">07.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">The Copper Kettle of Panditji</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1990</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">5 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 8 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">08.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Dust of the Threshing Floor</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1991</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">9 min read</span>
+</div>
+</div>
+</a>
+<!-- City Section Subhead -->
+
+<!-- Item 9 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">09.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Train Ticket to Old Delhi</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1991</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">11 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 10 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">10.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Room 14 on Daryaganj Lane</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1992</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">10 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 11 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">11.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Tea at the Corner Kiosk</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1995</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">5 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 12 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">12.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">The Neon Sign that Stayed Awake</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">1998</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">7 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 13 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">13.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Letters Across Four Hundred Miles</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">2002</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">14 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 14 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">14.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Rain on Asbestos Roofing</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">2006</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">8 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 15 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">15.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">The Evening Bus to Kashmiri Gate</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">2009</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">11 min read</span>
+</div>
+</div>
+</a>
+<!-- Item 16 -->
+<a class="group block py-2.5 px-2 -mx-2 rounded hover:bg-surface-container-low transition-colors duration-150" href="#">
+<div class="flex items-baseline justify-between gap-3">
+<div class="flex items-baseline space-x-3 shrink-0">
+<span class="font-label-smallcaps text-label-smallcaps text-outline w-6">16.</span>
+<span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors duration-150">Colophon &amp; The Two Horizons</span>
+
+</div>
+<div class="grow h-[1px] leader-line opacity-40 group-hover:opacity-80 transition-opacity mb-1.5"></div>
+<div class="shrink-0 text-right font-label-caption text-label-caption text-on-surface-variant group-hover:text-on-surface">
+<span class="">2012</span>
+<span class="mx-1.5 text-outline-variant">•</span>
+<span class="">6 min read</span>
+</div>
+</div>
+</a>
+</section>
+<!-- Archival Tipped-in Marginalia Note -->
+<div class="mt-14 p-6 bg-surface-container border border-outline-variant rounded-lg relative">
+<div class="flex items-start space-x-4">
+<span class="material-symbols-outlined text-primary text-2xl shrink-0 mt-0.5" data-icon="format_quote">format_quote</span>
+<div>
+<p class="font-body-italic text-body-italic text-on-surface italic">
+            "A village is built of earth that remembers every footprint; a city is carved of stone that wipes away the morning before nightfall."
+          </p>
+<p class="mt-2 font-label-smallcaps text-label-smallcaps text-tertiary uppercase tracking-wider">
+            — Ajeet Kumar Singh, <span class="normal-case italic">Notebook VII, Daryaganj</span>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bg-surface-container dark:bg-surface-dim border-t border-outline-variant dark:border-outline transition-colors duration-200">
+<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center text-center space-y-6">
+<!-- Brand Logo in Footer -->
+<a class="font-headline-sm text-headline-sm italic text-on-surface dark:text-inverse-on-surface" href="#">
+        Dust and Dazzle
+      </a>
+<!-- Footer Navigation Links -->
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-2 font-label-smallcaps text-label-smallcaps">
+<a class="text-primary dark:text-inverse-primary underline underline-offset-4 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">
+          Table of Contents
+        </a>
+
+
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">
+          Reader Notes
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">
+          Colophon
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#">
+          Privacy &amp; Archives
+        </a>
+</div>
+<!-- Diya Divider -->
+<div class="flex items-center justify-center space-x-2 w-32">
+<div class="w-full h-px bg-outline-variant"></div>
+<span class="text-tertiary text-xs">❦</span>
+<div class="w-full h-px bg-outline-variant"></div>
+</div>
+<!-- Archival Copyright String -->
+<p class="font-label-caption text-label-caption text-on-surface-variant max-w-xl">
+        © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+      </p>
+</div>
+</footer>
+
+
+</body></html>

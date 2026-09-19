@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Under the Banyan Tree - Dust and Dazzle</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Newsreader and Playfair Display -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#8a3919",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "surface-dim": "#efd5c6",
+            "on-background": "#261910",
+            "on-primary-fixed": "#380d00",
+            "secondary-fixed": "#dae7c6",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#fff1ea",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#ffeade",
+            "inverse-surface": "#3d2d23",
+            "secondary-fixed-dim": "#becbac",
+            "error": "#ba1a1a",
+            "on-surface": "#261910",
+            "background": "#fff8f5",
+            "error-container": "#ffdad6",
+            "outline": "#88726b",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "surface-tint": "#9a4524",
+            "surface": "#fff8f5",
+            "secondary": "#576248",
+            "on-tertiary-fixed-variant": "#604100",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffdead",
+            "surface-container-highest": "#f8ddcf",
+            "primary-container": "#a9502e",
+            "surface-container-high": "#fee3d4",
+            "inverse-primary": "#ffb59b",
+            "secondary-container": "#dae7c6",
+            "inverse-on-surface": "#ffede4",
+            "on-tertiary-container": "#ffe7c8",
+            "tertiary-container": "#8e6100",
+            "primary-fixed-dim": "#ffb59b",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "surface-bright": "#fff8f5",
+            "outline-variant": "#dcc1b8",
+            "tertiary-fixed-dim": "#f9bc55",
+            "on-secondary-fixed": "#151e0a",
+            "on-secondary-container": "#5d684e",
+            "on-surface-variant": "#55433c",
+            "surface-variant": "#f8ddcf",
+            "on-primary-container": "#ffe6de",
+            "tertiary": "#6e4b00",
+            "on-secondary-fixed-variant": "#3f4a32",
+            "on-tertiary-fixed": "#281900"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "3.5rem",
+            "margin": "1.5rem",
+            "space-md": "1.25rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.375rem",
+            "space-sm": "0.75rem",
+            "space-lg": "2rem",
+            "margin-desktop": "3rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Playfair Display"],
+            "body-italic": ["Newsreader"],
+            "label-caption": ["Newsreader"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "label-smallcaps": ["Newsreader"],
+            "body-reading-mobile": ["Newsreader"],
+            "headline-sm": ["Playfair Display"],
+            "display-hero-mobile": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "display-hero": ["Playfair Display"],
+            "body-reading": ["Newsreader"],
+            "body-md": ["Newsreader"]
+          },
+          "fontSize": {
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Material Symbols base styling */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle Paper Texture Vignette Simulation */
+    body {
+      background-color: #F5EBDA;
+      box-shadow: inset 0 0 70px rgba(184, 159, 131, 0.18);
+      color: #261910;
+      min-height: 100vh;
+    }
+
+    /* Diya Gold Drop Cap */
+    .dropcap::first-letter {
+      float: left;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      line-height: 0.85;
+      padding-top: 4px;
+      padding-right: 12px;
+      padding-bottom: 2px;
+      color: #C9922E;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Masking tape simulated corner */
+    .masking-tape {
+      background: rgba(235, 221, 196, 0.75);
+      box-shadow: 0 1px 2px rgba(43, 29, 20, 0.08);
+      backdrop-filter: blur(1px);
+    }
+  </style>
+</head>
+<body class="font-body-reading-mobile text-body-reading-mobile selection:bg-tertiary-fixed selection:text-on-tertiary-fixed transition-colors duration-300">
+<!-- Hairline Reading Progress Bar -->
+<div class="fixed top-0 left-0 right-0 z-50 h-[2px] bg-transparent">
+<div class="h-full bg-tertiary-fixed-dim transition-all duration-150 w-[14%]" id="progressBar"></div>
+</div>
+<!-- Sticky Top Reading Shell (Suppressed bottom navigation to prioritize solitary reading canvas) -->
+<header class="sticky top-0 z-40 bg-[#F5EBDA]/95 backdrop-blur-md border-b border-outline-variant/50 px-4 py-2.5 transition-all">
+<div class="max-w-[680px] mx-auto flex items-center justify-between">
+<!-- Back Link -->
+<a class="flex items-center text-primary font-label-smallcaps text-label-smallcaps tracking-wider hover:opacity-80 transition-opacity" href="#toc">
+<span class="material-symbols-outlined mr-0.5 text-base" data-icon="chevron_left">chevron_left</span>
+<span>Table of Contents</span>
+</a>
+<!-- Running Head Title (Ellipsis for mobile) -->
+<span class="font-headline-sm text-sm tracking-tight text-on-surface/80 italic truncate max-w-[140px] px-2 text-center">
+        Under the Banyan Tree
+      </span>
+<!-- Reading Controls Cluster -->
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<!-- Font Size Controls -->
+<div class="flex items-center bg-surface-container-low border border-outline-variant/60 rounded px-1.5 py-0.5 space-x-1">
+<button aria-label="Decrease Font Size" class="text-xs font-label-smallcaps px-1 hover:text-primary active:scale-95 transition-transform" id="fontDec">A-</button>
+<span class="text-outline-variant text-[10px]">|</span>
+<button aria-label="Increase Font Size" class="text-xs font-label-smallcaps px-1 hover:text-primary active:scale-95 transition-transform" id="fontInc">A+</button>
+</div>
+<!-- Reading Lamp Toggle -->
+<button aria-label="Toggle Reading Lamp" class="p-1 text-on-surface-variant hover:text-primary transition-colors flex items-center" id="lampBtn">
+<span class="material-symbols-outlined" data-icon="wb_twilight">wb_twilight</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Narrative Flow (Strict 680px Reading Column) -->
+<main class="max-w-[680px] mx-auto px-6 pt-10 pb-16">
+<!-- Chapter Metadata / Header -->
+<header class="text-center mb-12">
+<div class="font-label-smallcaps text-label-smallcaps tracking-[0.2em] text-primary mb-3">
+        TALES FROM A VILLAGE AND A CITY
+      </div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-normal mb-3">
+        Chapter I: Under the Banyan Tree
+      </h1>
+<div class="font-body-italic text-body-italic text-on-surface-variant italic">
+        by Ajeet Kumar Singh
+      </div>
+<!-- Diya Flourish Divider -->
+<div class="flex items-center justify-center my-8 space-x-3 text-outline-variant">
+<div class="w-16 h-[1px] bg-outline-variant"></div>
+<span class="text-tertiary-fixed-dim text-xs select-none">✦</span>
+<div class="w-16 h-[1px] bg-outline-variant"></div>
+</div>
+</header>
+<!-- Narrative Body Section -->
+<article class="space-y-6 text-[#261910] leading-[1.85]" id="storyContent">
+<!-- Opening Paragraph with Diya Gold Drop Cap -->
+<p class="dropcap">
+        The noon sun over Sarai was not merely warm; it was an ancient weight that settled into the dry ruts of the bullock road, pressing the entire world into an unhurried, breathless stillness. In those long summers of 1974, before asphalt roads sliced through the mango orchards, the village lived by the cool, sprawling shadow of the Great Banyan. Its aerial roots hung like braided ropes of time itself, anchoring memories that neither the rain nor the monsoon storms could wash away.
+      </p>
+<p>
+        Babuji would walk to the edge of the pond just past eleven in the morning, barefoot, his cotton dhoti tucked neatly at the waist. In his breast pocket rested the little nickel pocket watch his father had brought back from Kanpur in 1942. It rarely ran on time, but time in Sarai had no use for mechanical ticks. We measured the passing hour by the angle of the shade slanting across the whitewashed well and the low moaning of the water buffaloes submerged in the duckweed.
+      </p>
+<!-- Archival Photo Plate with Vintage Tilt & Masking Tape Corner -->
+<figure class="my-10 max-w-sm mx-auto">
+<div class="relative p-2 bg-[#FFFDF9] border border-[#D8C7AA] shadow-[0_2px_8px_rgba(43,29,20,0.06)] transform rotate-[1.2deg] transition-transform duration-300 hover:rotate-0">
+<!-- Translucent Masking Tape Corner -->
+<div class="masking-tape absolute -top-2.5 -right-2.5 w-12 h-5 -rotate-12 border-t border-b border-white/50 pointer-events-none z-10"></div>
+<!-- Archival Sepia Image -->
+<div class="overflow-hidden border border-[#D8C7AA]/40">
+<img alt="Vintage sepia photograph of an Indian grandfather sitting peacefully beneath a banyan tree near a village pond in 1970s Awadh, faded warm tones, delicate sepia patina, archival family album quality" class="w-full h-auto object-cover grayscale-[20%] contrast-[95%] sepia-[35%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-JvgyG8YfEnvgG_2FdesfoWPIn8jZKqy2SWqWW3FUmNl8isf5EJWQWJntgrbiV4-cbBc5XqRTe6nIW0VP-BwlpVOSxhP0cHDNr6Ac5UXwqy-yE6y1NhOD_KSBadEuATCe3TPRIIF4od1fgwppgGZOHdSOIrLhv3ESvUa4jKNHx6xQKa-pYFv_zHaqFQ5k55ew3WxDUSOO3D8PpLSgTNs4BauKRBNL7R-Jyp_wCQolupilwPNlKI18"/>
+</div>
+<!-- Hand-typeset Caption -->
+<figcaption class="pt-3 pb-1 px-1 text-center font-label-caption text-label-caption text-on-surface-variant italic leading-relaxed">
+            Babuji resting by the roots before the midday cattle call, June 1978.
+          </figcaption>
+</div>
+</figure>
+<p>
+        "Listen to the roots, Ajeet," he would tell me, tapping his wooden walking stick lightly against the damp, subterranean earth. "A tree that has drunk the groundwater of a hundred monsoons remembers every flood, every famine, and every boy who climbed its branches only to leave for the capital."
+      </p>
+<!-- Pull Quote -->
+<blockquote class="my-10 pl-5 pr-2 py-3 border-l-2 border-primary-container bg-[#EBDDC4]/40 italic font-body-italic text-body-italic text-on-surface leading-relaxed">
+        “We measure the distance of our departure not in railway miles, but in how softly we remember the creak of the village well at twilight.”
+      </blockquote>
+<p>
+        Behind us, the pond shimmered like beaten brass under the zenith. Women from the northern hamlet came down with brass pitchers balanced atop coiled cloths upon their heads, their voices muffled by the rustle of dry neem foliage. A kingfisher darted from the low bamboo culm, piercing the green water like a sapphire needle, then returned empty-beaked to shake the crystal drops from its breast.
+      </p>
+<p>
+        Later that afternoon, when the wind finally turned from the east carrying the damp breath of distant rains, Babuji drew his spectacles from his tunic and uncapped his black fountain pen. On the blank margins of an old railway timetable, he began noting the birthweights of the calves and the price of jaggery at the weekly haat. There was no urgency in his strokes, only the steady devotion of a man recording a world that was already quietly slipping into legend.
+      </p>
+<p>
+        By nightfall, the fireflies would rise from the wet reeds beneath the banyan, flickering in quiet communion with the oil lamps lit along the village verandas. We sat together in the courtyard until the embers of the dried cow-dung hearth turned to soft lilac ash, listening to the elders recount stories that had neither beginning nor end.
+      </p>
+</article>
+<!-- Diya Flourish Divider -->
+<div class="flex items-center justify-center my-14 space-x-3 text-outline-variant">
+<div class="w-20 h-[1px] bg-outline-variant"></div>
+<span class="text-tertiary-fixed-dim text-sm select-none">❦</span>
+<div class="w-20 h-[1px] bg-outline-variant"></div>
+</div>
+<!-- Chapter Continuity Navigation Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
+<!-- Previous -->
+<a class="group p-4 bg-[#EBDDC4] border border-[#D8C7AA] rounded transition-all hover:bg-surface-container-high/80 block" href="#preface">
+<div class="flex items-center text-primary font-label-smallcaps text-[11px] tracking-wider mb-1">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="arrow_back">arrow_back</span>
+<span>PREVIOUS</span>
+</div>
+<div class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors">
+          Preface &amp; Dedication
+        </div>
+<div class="font-label-caption text-xs text-on-surface-variant italic mt-1">
+          On dust, memory, and the Awadh plains
+        </div>
+</a>
+<!-- Next -->
+<a class="group p-4 bg-[#EBDDC4] border border-[#D8C7AA] rounded transition-all hover:bg-surface-container-high/80 block text-right" href="#chapter-2">
+<div class="flex items-center justify-end text-primary font-label-smallcaps text-[11px] tracking-wider mb-1">
+<span>NEXT</span>
+<span class="material-symbols-outlined text-sm ml-1" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<div class="font-headline-sm text-base text-on-surface group-hover:text-primary transition-colors">
+          Chapter II: The Scent of Wet Clay
+        </div>
+<div class="font-label-caption text-xs text-on-surface-variant italic mt-1">
+          Monsoon arrivals and the earthen kilns
+        </div>
+</a>
+</section>
+<!-- Notes & Echoes Section: Reader Guestbook -->
+<section class="bg-[#EBDDC4]/60 border border-[#D8C7AA] rounded-lg p-6 sm:p-8 mb-12">
+<div class="text-center mb-8">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-1">Notes &amp; Echoes</h2>
+<p class="font-label-caption text-label-caption text-on-surface-variant italic">
+          Remembrances and quiet words from family &amp; travelers
+        </p>
+</div>
+<!-- Guestbook Submission Form -->
+<form class="space-y-4 mb-10 pb-8 border-b border-outline-variant/60" id="noteForm">
+<div>
+<label class="block font-label-smallcaps text-xs text-on-surface mb-1.5 uppercase tracking-wider" for="readerName">
+            Your Name
+          </label>
+<input class="w-full bg-[#EBDDC4] border border-[#D8C7AA] text-on-surface placeholder:text-on-surface-variant/50 px-3.5 py-2 text-sm focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container rounded" id="readerName" placeholder="e.g. Anand Vardhan Singh" required="" type="text"/>
+</div>
+<div>
+<label class="block font-label-smallcaps text-xs text-on-surface mb-1.5 uppercase tracking-wider" for="readerRelation">
+            Relation or Hometown
+          </label>
+<input class="w-full bg-[#EBDDC4] border border-[#D8C7AA] text-on-surface placeholder:text-on-surface-variant/50 px-3.5 py-2 text-sm focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container rounded" id="readerRelation" placeholder="e.g. Nephew, Lucknow / Sarai" required="" type="text"/>
+</div>
+<div>
+<label class="block font-label-smallcaps text-xs text-on-surface mb-1.5 uppercase tracking-wider" for="readerNote">
+            Remembrance Note
+          </label>
+<textarea class="w-full bg-[#EBDDC4] border border-[#D8C7AA] text-on-surface placeholder:text-on-surface-variant/50 px-3.5 py-2 text-sm focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container rounded resize-none" id="readerNote" placeholder="Leave a thought, a shared memory of Babuji, or a reflection on this passage..." required="" rows="3"></textarea>
+</div>
+<button class="w-full sm:w-auto bg-primary-container text-[#F5EBDA] px-6 py-2.5 rounded font-label-smallcaps text-xs tracking-widest uppercase hover:bg-primary active:scale-[0.99] transition-all shadow-sm flex items-center justify-center space-x-2" type="submit">
+<span>Leave Note</span>
+<span class="material-symbols-outlined text-base" data-icon="edit_note">edit_note</span>
+</button>
+</form>
+<!-- Existing Notes List -->
+<div class="space-y-6" id="notesContainer">
+<!-- Note 1 -->
+<article class="border-l-2 border-tertiary-fixed-dim pl-4 py-1 space-y-1">
+<div class="flex items-baseline justify-between">
+<h3 class="font-headline-sm text-sm font-semibold text-on-surface">Pooja Singh</h3>
+<span class="font-label-caption text-xs text-on-surface-variant italic">Granddaughter, New Delhi</span>
+</div>
+<p class="font-body-md text-sm text-on-surface leading-relaxed">
+            “Reading this brought tears to my eyes. I can still vividly recall Babuji’s old pocket watch ticking irregularly against his wooden nightstand in the veranda room.”
+          </p>
+</article>
+<!-- Note 2 -->
+<article class="border-l-2 border-tertiary-fixed-dim pl-4 py-1 space-y-1">
+<div class="flex items-baseline justify-between">
+<h3 class="font-headline-sm text-sm font-semibold text-on-surface">Sunita Auntie</h3>
+<span class="font-label-caption text-xs text-on-surface-variant italic">Varanasi</span>
+</div>
+<p class="font-body-md text-sm text-on-surface leading-relaxed">
+            “The description of the noon heat over Sarai is precisely how it felt in the seventies before the tubewells arrived. Such quiet dignity captured in words.”
+          </p>
+</article>
+<!-- Note 3 -->
+<article class="border-l-2 border-tertiary-fixed-dim pl-4 py-1 space-y-1">
+<div class="flex items-baseline justify-between">
+<h3 class="font-headline-sm text-sm font-semibold text-on-surface">Rameshwar Prasad</h3>
+<span class="font-label-caption text-xs text-on-surface-variant italic">Old Sarai Village Elder</span>
+</div>
+<p class="font-body-md text-sm text-on-surface leading-relaxed">
+            “That banyan tree still stands, though the old pond has dried considerably. Ajeet has preserved Babuji’s voice for generations to come.”
+          </p>
+</article>
+</div>
+</section>
+</main>
+<!-- Colophon Footer (Conforms to Design Hierarchy & Tokens) -->
+<footer class="w-full bg-surface-container border-t border-outline-variant">
+<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center text-center space-y-6">
+<!-- Brand Crest -->
+<div class="font-headline-sm text-headline-sm italic text-on-surface">
+        Dust and Dazzle
+      </div>
+<!-- Navigation links matching Shared Component specification -->
+<nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-label-smallcaps text-label-smallcaps">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#toc">Table of Contents</a>
+<a class="text-primary underline underline-offset-4" href="#chronicles">Village Chronicles</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#reveries">Urban Reveries</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#notes">Reader Notes</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#colophon">Colophon</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#archives">Privacy &amp; Archives</a>
+</nav>
+<!-- Archival Copyright Statement -->
+<p class="font-label-caption text-label-caption text-on-surface-variant/80 max-w-xl leading-relaxed">
+        © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+      </p>
+<!-- Diya Flourish Emblem -->
+<div class="text-tertiary-fixed-dim text-xs select-none">
+        ✦   🪔   ✦
+      </div>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+    // 1. Scroll Progress Bar Calculation
+    window.addEventListener('scroll', () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      const bar = document.getElementById('progressBar');
+      if (bar) {
+        bar.style.width = Math.min(100, Math.max(2, progress)) + '%';
+      }
+    });
+
+    // 2. Font Size Adjustment Toggle
+    const storyContent = document.getElementById('storyContent');
+    const fontInc = document.getElementById('fontInc');
+    const fontDec = document.getElementById('fontDec');
+    let currentFontSize = 18;
+
+    fontInc?.addEventListener('click', () => {
+      if (currentFontSize < 24) {
+        currentFontSize += 1.5;
+        storyContent.style.fontSize = currentFontSize + 'px';
+        storyContent.style.lineHeight = '1.9';
+      }
+    });
+
+    fontDec?.addEventListener('click', () => {
+      if (currentFontSize > 15) {
+        currentFontSize -= 1.5;
+        storyContent.style.fontSize = currentFontSize + 'px';
+        storyContent.style.lineHeight = '1.8';
+      }
+    });
+
+    // 3. Reading Lamp Mood Light Toggle
+    const lampBtn = document.getElementById('lampBtn');
+    let lampActive = false;
+    lampBtn?.addEventListener('click', () => {
+      lampActive = !lampActive;
+      if (lampActive) {
+        document.body.style.backgroundColor = '#faedd9';
+        document.body.style.boxShadow = 'inset 0 0 120px rgba(201, 146, 46, 0.22)';
+        lampBtn.classList.add('text-primary');
+      } else {
+        document.body.style.backgroundColor = '#F5EBDA';
+        document.body.style.boxShadow = 'inset 0 0 70px rgba(184, 159, 131, 0.18)';
+        lampBtn.classList.remove('text-primary');
+      }
+    });
+
+    // 4. Client-side Reader Note submission simulation
+    const noteForm = document.getElementById('noteForm');
+    const notesContainer = document.getElementById('notesContainer');
+
+    noteForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('readerName').value;
+      const relation = document.getElementById('readerRelation').value;
+      const noteText = document.getElementById('readerNote').value;
+
+      if (!name || !noteText) return;
+
+      const newArticle = document.createElement('article');
+      newArticle.className = 'border-l-2 border-primary-container pl-4 py-1 space-y-1 animate-fade-in';
+      newArticle.innerHTML = `
+        <div class="flex items-baseline justify-between">
+          <h3 class="font-headline-sm text-sm font-semibold text-on-surface">${escapeHtml(name)}</h3>
+          <span class="font-label-caption text-xs text-on-surface-variant italic">${escapeHtml(relation || 'Reader')}</span>
+        </div>
+        <p class="font-body-md text-sm text-on-surface leading-relaxed">
+          “${escapeHtml(noteText)}”
+        </p>
+      `;
+
+      notesContainer.prepend(newArticle);
+      noteForm.reset();
+    });
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+  </script>
+</body></html>

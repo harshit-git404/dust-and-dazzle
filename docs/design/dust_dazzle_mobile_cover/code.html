@@ -1,0 +1,374 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Dust and Dazzle — Tales from a Village and a City by Ajeet Kumar Singh</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=Playfair+Display:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#fff8f5",
+            "on-secondary-fixed-variant": "#3f4a32",
+            "primary-container": "#a9502e",
+            "surface": "#fff8f5",
+            "primary": "#8a3919",
+            "on-tertiary-container": "#ffe7c8",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#7b2e0e",
+            "background": "#fff8f5",
+            "surface-container-low": "#fff1ea",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#fee3d4",
+            "inverse-on-surface": "#ffede4",
+            "surface-dim": "#efd5c6",
+            "surface-container-highest": "#f8ddcf",
+            "on-primary-fixed": "#380d00",
+            "secondary-fixed": "#dae7c6",
+            "on-secondary-container": "#5d684e",
+            "on-primary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-variant": "#f8ddcf",
+            "on-surface-variant": "#55433c",
+            "tertiary-fixed-dim": "#f9bc55",
+            "secondary": "#576248",
+            "tertiary-container": "#8e6100",
+            "surface-tint": "#9a4524",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed-dim": "#becbac",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#604100",
+            "on-error": "#ffffff",
+            "inverse-surface": "#3d2d23",
+            "primary-fixed-dim": "#ffb59b",
+            "inverse-primary": "#ffb59b",
+            "tertiary-fixed": "#ffdead",
+            "primary-fixed": "#ffdbcf",
+            "on-secondary": "#ffffff",
+            "on-background": "#261910",
+            "outline-variant": "#dcc1b8",
+            "on-tertiary-fixed": "#281900",
+            "surface-container": "#ffeade",
+            "on-surface": "#261910",
+            "on-secondary-fixed": "#151e0a",
+            "tertiary": "#6e4b00",
+            "secondary-container": "#dae7c6",
+            "on-primary-container": "#ffe6de",
+            "outline": "#88726b"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-md": "1.25rem",
+            "space-xl": "3.5rem",
+            "gutter": "1.5rem",
+            "margin-desktop": "3rem",
+            "space-lg": "2rem",
+            "space-sm": "0.75rem",
+            "margin": "1.5rem",
+            "space-xs": "0.375rem"
+          },
+          "fontFamily": {
+            "label-caption": ["Newsreader", "serif"],
+            "label-smallcaps": ["Newsreader", "serif"],
+            "display-hero": ["Playfair Display", "serif"],
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "body-reading-mobile": ["Newsreader", "serif"],
+            "body-md": ["Newsreader", "serif"],
+            "body-italic": ["Newsreader", "serif"],
+            "headline-lg-mobile": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "body-reading": ["Newsreader", "serif"],
+            "display-hero-mobile": ["Playfair Display", "serif"]
+          },
+          "fontSize": {
+            "label-caption": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "label-smallcaps": ["13px", { "lineHeight": "18px", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "headline-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-md": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-reading-mobile": ["18px", { "lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "body-italic": ["19px", { "lineHeight": "34px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+            "headline-sm": ["21px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "body-reading": ["20px", { "lineHeight": "36px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-hero-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+    /* Subtle warm ambient lamp glow */
+    .lamp-active {
+      filter: sepia(0.12) brightness(0.98);
+      transition: filter 0.4s ease;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased selection:bg-surface-container selection:text-primary min-h-screen flex flex-col justify-between" id="book-body">
+<!-- Top Navigation Bar (Mobile Destination Shell) -->
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline transition-colors duration-200">
+<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Brand Title Anchor -->
+<a class="font-headline-md text-headline-md font-normal tracking-tight text-on-surface dark:text-inverse-on-surface italic hover:text-primary transition-colors duration-200" href="#">
+        Dust and Dazzle
+      </a>
+<!-- Desktop Links (Kept compliant with Shared JSON, hidden on mobile) -->
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-primary dark:text-inverse-primary border-b border-primary pb-1 font-semibold font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#stories">Stories</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#village">The Village</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#city">The City</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#memoir">Memoir Notes</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#author">Author</a>
+</nav>
+<!-- Trailing Icon Actions -->
+<div class="flex items-center space-x-2">
+<!-- Table of Contents icon -->
+<button aria-label="Table of Contents" class="w-10 h-10 flex items-center justify-center rounded text-on-surface-variant hover:text-primary transition-colors duration-200" type="button">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</button>
+<!-- Reading Lamp Toggle -->
+<button aria-label="Reading Lamp" class="w-10 h-10 flex items-center justify-center rounded text-on-surface-variant hover:text-primary transition-colors duration-200" id="reading-lamp-btn" title="Reading Lamp" type="button">
+<span class="material-symbols-outlined" data-icon="wb_twilight">wb_twilight</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas: Mobile Focus Reading Spine -->
+<main class="w-full max-w-[42.5rem] mx-auto px-6 pt-6 pb-12 flex-grow flex flex-col space-y-12">
+<!-- Book Cover Hero Card (Pocketbook Jacket Edition) -->
+<section class="relative bg-surface-container-low rounded-lg p-6 sm:p-8 border border-outline-variant shadow-none">
+<!-- Inner delicate double-line framing -->
+<div class="border border-outline-variant p-5 sm:p-7 flex flex-col items-center text-center relative overflow-hidden">
+<!-- Header Tag -->
+<div class="inline-block mb-4 px-3 py-1 bg-secondary-container/40 rounded">
+<span class="font-label-smallcaps text-label-smallcaps text-on-secondary-fixed-variant tracking-widest uppercase">
+            A COLLECTION OF SHORT STORIES
+          </span>
+</div>
+<!-- Book Title -->
+<h1 class="font-display-hero-mobile text-display-hero-mobile text-on-surface italic font-normal tracking-tight mt-1 mb-2">
+          Dust and Dazzle
+        </h1>
+<!-- Subtitle & Attribution -->
+<p class="font-headline-sm text-headline-sm text-primary font-normal mb-1">
+          Tales from a Village and a City
+        </p>
+<p class="font-label-smallcaps text-label-smallcaps text-on-surface-variant uppercase tracking-widest mb-6">
+          by Ajeet Kumar Singh
+        </p>
+<!-- Diya Flourish Divider -->
+<div class="w-full flex items-center justify-center space-x-3 my-2 opacity-80">
+<div class="h-px bg-outline-variant flex-1 max-w-[48px]"></div>
+<span class="text-tertiary-container text-xs">✦</span>
+<div class="h-px bg-outline-variant flex-1 max-w-[48px]"></div>
+</div>
+<!-- Vignette Illustration / Deckled Plate -->
+<div class="w-full my-6 p-2 bg-surface-container border border-outline-variant rounded">
+<div class="relative overflow-hidden rounded border border-outline-variant/60 aspect-[4/3] w-full">
+<img alt="Archival vignette: village banyan tree transitioning into distant city lights" class="w-full h-full object-cover" data-alt="A tranquil, painterly archival vignette capturing an ancient banyan tree with hanging aerial roots on a dusty country path in rural Purvanchal at twilight. In the soft distant horizon, the warm luminous golden haze of a city skyline begins to twinkle. Rendered in a warm aesthetic with clay terracotta, paper cream tones, and deep earthen browns evoking nostalgic literary bookmaking craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZzTvYUznqTpN3X6zKdYh4EBFG4Ol1KCVltzdsvzR0HNE-wu90Jx4fWZA7wXNPkmNvyQwojaR2EjAmggoO20Gltu5hKckmSwdjsgFwJ8TvoYxe_aSWlovPRd8S7j40iWXHuX00ITe9YfTzVAsRQVWYrzkc4JQWMeHi2OGSMMGldPOnXhR0818ETx6qIcHaDC9BDZkYDLANFVivWwtC5ZkHHpjUn5qtsVuo-vlXfpk">
+</div>
+<p class="font-label-caption text-label-caption italic text-on-surface-variant mt-2 text-center">
+            Plate I: The threshold between the mud lane of Belha and the glowing streetlights of the capital.
+          </p>
+</div>
+<!-- Italic Dedication Note -->
+<blockquote class="font-body-italic text-body-italic text-on-surface-variant max-w-md my-4 px-3 border-l-2 border-primary-container text-left italic">
+          “For Ma, who carried the quiet earth of the village in her palms, and Babuji, who gazed at city towers with wonder.”
+        </blockquote>
+<!-- Action Cluster -->
+<div class="w-full mt-6 flex flex-col sm:flex-row gap-3 pt-2">
+<a class="w-full flex-1 inline-flex items-center justify-center px-6 py-3.5 bg-primary-container hover:bg-primary text-on-primary rounded transition-all duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#first-chapter">
+<span class="">Begin Reading</span>
+<span class="material-symbols-outlined ml-2 text-sm" data-icon="menu_book">menu_book</span>
+</a>
+<a class="w-full flex-1 inline-flex items-center justify-center px-6 py-3.5 bg-transparent border border-outline hover:bg-surface-container text-on-surface rounded transition-all duration-200 font-label-smallcaps text-label-smallcaps uppercase tracking-wider" href="#toc">
+<span class="">Table of Contents</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Narrative Section: "About this Collection" -->
+<section class="space-y-4">
+<div class="flex items-center space-x-2">
+<span class="font-label-smallcaps text-label-smallcaps text-tertiary uppercase tracking-widest">The Colophon &amp; Context</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-normal">
+        About this Collection
+      </h2>
+<p class="font-body-reading-mobile text-body-reading-mobile text-on-surface-variant">
+        Spanning four turbulent yet tender decades, <em class="italic text-on-surface">Dust and Dazzle</em> brings together thirteen intimate short memoirs tracing the trajectory from the clay threshing floors of eastern Uttar Pradesh to the crowded bookstalls of Daryaganj. 
+      </p>
+<p class="font-body-reading-mobile text-body-reading-mobile text-on-surface-variant">
+        Each tale acts as an unhurried window into an India undergoing seismic transformation—marked by the scent of monsoon earth, creaking well pulleys, and the sharp hiss of evening steam engines at Old Delhi junction.
+      </p>
+<!-- Thematic Badges -->
+<div class="flex flex-wrap gap-2 pt-2"><span class="px-3 py-1 bg-secondary-container/40 text-on-secondary-fixed-variant font-label-smallcaps text-label-smallcaps rounded">Memoir &amp; Oral History</span></div>
+</section>
+<!-- Diya Flourish Break -->
+<div class="w-full flex items-center justify-center space-x-4 opacity-75">
+<div class="h-px bg-outline-variant flex-1"></div>
+<span class="text-tertiary font-serif text-sm">❧</span>
+<div class="h-px bg-outline-variant flex-1"></div>
+</div>
+<!-- Featured Stories Section -->
+<section class="space-y-5" id="stories">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-smallcaps text-label-smallcaps text-primary uppercase tracking-widest block">Opening Folios</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-normal">
+            Featured Stories
+          </h2>
+</div>
+<span class="font-label-caption text-label-caption text-on-surface-variant italic">Swipe or tap</span>
+</div>
+<!-- Story Vignette 1 -->
+<article class="bg-surface-container-low border border-outline-variant rounded p-5 space-y-3 transition-colors duration-200 hover:border-outline">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-secondary">Chapter I</span>
+<span class="font-label-caption text-label-caption flex items-center">
+<span class="material-symbols-outlined mr-1 text-sm text-tertiary" data-icon="wb_twilight">wb_twilight</span>
+            18 min read
+          </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-normal">
+<a class="hover:text-primary transition-colors duration-150" href="#">Under the Banyan Tree</a>
+</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Afternoons when the well dried up, elders gathered to discuss the harvest, radio broadcasts from Patna, and the sudden quietude that preceded summer dust storms.
+        </p>
+<div class="pt-1">
+<a class="inline-flex items-center font-label-smallcaps text-label-smallcaps text-primary underline underline-offset-4 hover:text-on-primary-fixed-variant" href="#">
+            Read chapter
+          </a>
+</div>
+</article>
+<!-- Story Vignette 2 -->
+<article class="bg-surface-container-low border border-outline-variant rounded p-5 space-y-3 transition-colors duration-200 hover:border-outline">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-secondary">Chapter II</span>
+<span class="font-label-caption text-label-caption flex items-center">
+<span class="material-symbols-outlined mr-1 text-sm text-tertiary" data-icon="wb_twilight">wb_twilight</span>
+            14 min read
+          </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-normal">
+<a class="hover:text-primary transition-colors duration-150" href="#">The Scent of Wet Clay</a>
+</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          The annual ritual of repairing mud roofs before Ashadha arrived. An ode to hands coated in silt, straw, and ancestral patience.
+        </p>
+<div class="pt-1">
+<a class="inline-flex items-center font-label-smallcaps text-label-smallcaps text-primary underline underline-offset-4 hover:text-on-primary-fixed-variant" href="#">
+            Read chapter
+          </a>
+</div>
+</article>
+<!-- Story Vignette 3 -->
+<article class="bg-surface-container-low border border-outline-variant rounded p-5 space-y-3 transition-colors duration-200 hover:border-outline">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-smallcaps text-label-smallcaps uppercase tracking-wider text-secondary">Chapter III</span>
+<span class="font-label-caption text-label-caption flex items-center">
+<span class="material-symbols-outlined mr-1 text-sm text-tertiary" data-icon="wb_twilight">wb_twilight</span>
+            22 min read
+          </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-normal">
+<a class="hover:text-primary transition-colors duration-150" href="#">Train Ticket to Old Delhi</a>
+</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          A cardboard ticket stamped with purple ink, a tin trunk tied with coir rope, and the unforgettable moment the train slipped through the Yamuna Bridge at sunrise.
+        </p>
+<div class="pt-1">
+<a class="inline-flex items-center font-label-smallcaps text-label-smallcaps text-primary underline underline-offset-4 hover:text-on-primary-fixed-variant" href="#">
+            Read chapter
+          </a>
+</div>
+</article>
+</section>
+<!-- Reading Quote Pull -->
+<section class="py-4 border-l-2 border-primary pl-5 my-6">
+<blockquote class="font-body-italic text-body-italic text-on-surface">
+        “We left the village with dust between our toes, only to discover that the city paved over everything except our memories.”
+      </blockquote>
+<cite class="font-label-caption text-label-caption text-on-surface-variant not-italic mt-2 block">
+        — From Chapter VII: <span class="italic">The Electric Tram at Chandni Chowk</span>
+</cite>
+</section>
+</main>
+<!-- Shared Footer Component -->
+<footer class="w-full bg-surface-container dark:bg-surface-dim border-t border-outline-variant dark:border-outline">
+<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center text-center space-y-6">
+<!-- Brand Logo -->
+<div class="font-headline-sm text-headline-sm italic text-on-surface dark:text-inverse-on-surface">
+        Dust and Dazzle
+      </div>
+<!-- Footer Navigation Links -->
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-3 font-body-md text-body-md">
+<a class="text-primary dark:text-inverse-primary underline underline-offset-4 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#toc">Table of Contents</a>
+
+
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#notes">Reader Notes</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#colophon">Colophon</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-200" href="#privacy">Privacy &amp; Archives</a>
+</div>
+<!-- Copyright Details -->
+<p class="font-label-caption text-label-caption text-on-surface-variant max-w-lg">
+        © 1974–2024 Dust and Dazzle: Tales from a Village and a City by Ajeet Kumar Singh. Set in Newsreader and Playfair Display on archival vellum.
+      </p>
+<!-- Small Diya Icon Emblem -->
+<div class="text-tertiary-container pt-2">
+<span class="material-symbols-outlined" data-icon="wb_twilight">wb_twilight</span>
+</div>
+</div>
+</footer>
+<!-- Micro-interaction for Reading Lamp -->
+<script>
+    const lampBtn = document.getElementById('reading-lamp-btn');
+    const body = document.getElementById('book-body');
+    let lampOn = false;
+
+    if (lampBtn && body) {
+      lampBtn.addEventListener('click', () => {
+        lampOn = !lampOn;
+        if (lampOn) {
+          body.classList.add('lamp-active');
+          lampBtn.classList.add('text-tertiary-container');
+        } else {
+          body.classList.remove('lamp-active');
+          lampBtn.classList.remove('text-tertiary-container');
+        }
+      });
+    }
+  </script>
+
+
+</body></html>
