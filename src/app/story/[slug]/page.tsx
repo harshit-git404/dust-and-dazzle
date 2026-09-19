@@ -28,9 +28,39 @@ export async function generateMetadata({ params }: StoryPageProps): Promise<Meta
   const story = await getStoryBySlug(slug);
   if (!story) return { title: 'Story Not Found — Dust and Dazzle' };
   
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const cleanTitle = story.title.replace(/^\[Placeholder\]\s*/, '');
+  const url = `${siteUrl}/story/${story.slug}`;
+
+  // Extract first image from story photos if available
+  const firstPhoto = story.photos && story.photos.length > 0 ? story.photos[0].url : undefined;
+
   return {
-    title: `${story.title.replace(/^\[Placeholder\]\s*/, '')} — Dust and Dazzle`,
-    description: story.excerpt,
+    title: cleanTitle,
+    description: story.excerpt || `Read "${cleanTitle}", a story from Dust and Dazzle by Ajeet Kumar Singh.`,
+    authors: [{ name: 'Ajeet Kumar Singh' }],
+    openGraph: {
+      type: 'article',
+      url,
+      title: `${cleanTitle} — Dust and Dazzle`,
+      description: story.excerpt || `Read "${cleanTitle}" by Ajeet Kumar Singh.`,
+      siteName: 'Dust and Dazzle',
+      authors: ['Ajeet Kumar Singh'],
+      images: firstPhoto
+        ? [
+            {
+              url: firstPhoto,
+              alt: story.photos?.[0]?.alt_text || cleanTitle,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${cleanTitle} — Dust and Dazzle`,
+      description: story.excerpt || `Read "${cleanTitle}" by Ajeet Kumar Singh.`,
+      images: firstPhoto ? [firstPhoto] : undefined,
+    },
   };
 }
 
