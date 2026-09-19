@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { logoutAction } from '@/app/actions/auth';
-import { Feather, BookOpen, LogOut, FileEdit, Settings, Sparkles } from 'lucide-react';
+import { getPendingCommentsCountAction } from '@/app/actions/comments';
+import { Feather, BookOpen, LogOut, FileText, Settings, Image as ImageIcon, MessageSquare, Key } from 'lucide-react';
 
 export default async function AdminLayout({
   children,
@@ -36,12 +37,14 @@ export default async function AdminLayout({
     }
   }
 
+  const pendingCommentsCount = await getPendingCommentsCountAction();
+
   return (
     <div className="min-h-screen bg-[var(--bg-canvas)] py-8 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         
         {/* Admin Header Bar */}
-        <header className="mb-8 p-4 sm:p-6 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+        <header className="mb-6 p-4 sm:p-6 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-[var(--color-terracotta)]/15 text-[var(--color-terracotta)] flex items-center justify-center">
               <Feather className="w-5 h-5" />
@@ -82,6 +85,54 @@ export default async function AdminLayout({
             </form>
           </div>
         </header>
+
+        {/* Studio Navigation Bar */}
+        <nav className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 border-b border-[var(--border-subtle)] font-serif text-xs">
+          <Link
+            href="/admin"
+            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
+          >
+            <FileText className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
+            <span>Stories &amp; Chapters</span>
+          </Link>
+
+          <Link
+            href="/admin/comments"
+            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
+          >
+            <MessageSquare className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
+            <span>Reflections &amp; Moderation</span>
+            {pendingCommentsCount > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-amber-500 text-white text-[10px] font-mono font-bold">
+                {pendingCommentsCount}
+              </span>
+            )}
+          </Link>
+
+          <Link
+            href="/admin/media"
+            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
+          >
+            <ImageIcon className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
+            <span>Archival Photos</span>
+          </Link>
+
+          <Link
+            href="/admin/settings"
+            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
+          >
+            <Settings className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
+            <span>About Collection</span>
+          </Link>
+
+          <Link
+            href="/admin/change-password"
+            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
+          >
+            <Key className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
+            <span>Security</span>
+          </Link>
+        </nav>
 
         {/* Content Area */}
         <main>{children}</main>

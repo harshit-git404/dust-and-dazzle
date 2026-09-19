@@ -16,6 +16,7 @@ export interface SaveStoryInput {
   content_html: string;
   content_json?: Record<string, unknown> | null;
   visibility: StoryVisibility;
+  allow_comments?: boolean;
   lastKnownUpdatedAt?: string | null;
 }
 
@@ -141,6 +142,7 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
       content_html: sanitizedHtml,
       content_json: input.content_json || null,
       visibility: input.visibility,
+      allow_comments: input.allow_comments !== undefined ? input.allow_comments : true,
     };
 
     let resultStory: Story;

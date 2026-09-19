@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight, ListFilter, Clock, Calendar, MessageSquare, Feat
 import type { Metadata } from 'next';
 
 import { getApprovedComments } from '@/lib/comments';
+import { CommentForm } from '@/components/CommentForm';
 
 interface StoryPageProps {
   params: Promise<{
@@ -189,8 +190,9 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
             Reader comments are quietly reviewed and moderated by the author before appearing on the page.
           </p>
 
+          {/* List of Approved Comments */}
           {approvedComments.length > 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-4 mb-8">
               {approvedComments.map((comment) => (
                 <div
                   key={comment.id}
@@ -207,10 +209,24 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
               ))}
             </div>
           ) : (
-            <div className="p-4 bg-[var(--bg-canvas)]/50 border border-[var(--border-subtle)]/50 rounded-sm text-center">
+            <div className="p-4 bg-[var(--bg-canvas)]/50 border border-[var(--border-subtle)]/50 rounded-sm text-center mb-8">
               <p className="text-xs font-serif italic text-[var(--text-muted)]">
-                No reflections shared for this chapter yet.
+                No reflections shared for this chapter yet. Be the first to share your thoughts below.
               </p>
+            </div>
+          )}
+
+          {/* Comment Submission Form */}
+          {story.allow_comments !== false ? (
+            <div className="pt-6 border-t border-[var(--border-subtle)]">
+              <h4 className="text-xs font-serif uppercase tracking-wider text-[var(--text-muted)] mb-3">
+                Leave a Reflection
+              </h4>
+              <CommentForm storyId={story.id} />
+            </div>
+          ) : (
+            <div className="pt-4 border-t border-[var(--border-subtle)] text-center text-xs text-[var(--text-muted)] italic font-serif">
+              Reflections are closed for this chapter.
             </div>
           )}
         </section>
