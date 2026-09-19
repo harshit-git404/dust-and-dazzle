@@ -9,12 +9,17 @@
     --border-strong: #88726B;
     --text-primary: #261910;
     --text-secondary: #55433C;
-    --text-muted: #88726B;
+    --text-muted: #715B54;
     --color-terracotta: #A9502E;
     --color-terracotta-hover: #8E3E21;
     --color-banyan: #3F4A32;
     --color-diya: #C9922E;
     --color-diya-glow: rgba(201, 146, 46, 0.25);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 2px;
   }
 
   .candlelight {
