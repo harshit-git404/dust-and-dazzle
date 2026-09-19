@@ -1,13 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { DiyaDivider } from '@/components/DiyaDivider';
-import { Feather, Lock, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Feather, Lock, ArrowLeft, AlertCircle, Loader2 } from 'lucide-react';
+import { loginAction } from '@/app/actions/auth';
 
 export default function AuthorLoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const res = await loginAction(formData);
+      if (res?.error) {
+        setError(res.error);
+      }
+    });
+  };
 
   return (
     <div className="py-16 sm:py-24 px-4 sm:px-6">
@@ -38,50 +52,68 @@ export default function AuthorLoginPage() {
 
           <DiyaDivider variant="flourish" className="my-6" />
 
-          <div className="mb-4 p-3 bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-sm text-xs font-serif text-[var(--text-secondary)] flex items-start gap-2">
-            <ShieldCheck className="w-4 h-4 text-[var(--color-terracotta)] shrink-0 mt-0.5" />
-            <span>
-              Author credentials and Supabase database authentication will be activated in <strong>Phase 2</strong>.
-            </span>
-          </div>
+          {error && (
+            <div className="mb-4 p-3 bg-red-950/10 border border-red-500/30 rounded-sm text-xs font-serif text-red-700 dark:text-red-300 flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
 
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-4 font-serif">
+          <form onSubmit={handleSubmit} className="space-y-4 font-serif">
             <div>
-              <label className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">
+              <label htmlFor="email" className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">
                 Author Email
               </label>
               <input
+                id="email"
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
                 placeholder="author@dustanddazzle.com"
-                disabled
-                className="w-full px-3.5 py-2.5 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)] disabled:opacity-60 cursor-not-allowed"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)] transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">
+              <label htmlFor="password" className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">
                 Password
               </label>
               <input
+                id="password"
+                name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
                 placeholder="••••••••••••"
-                disabled
-                className="w-full px-3.5 py-2.5 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)] disabled:opacity-60 cursor-not-allowed"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)] transition-colors"
               />
             </div>
 
             <button
               type="submit"
-              disabled
-              className="w-full mt-2 py-3 rounded-sm bg-[var(--color-terracotta)] text-[#FFF8F5] font-serif text-sm font-medium opacity-60 cursor-not-allowed"
+              disabled={isPending}
+              className="w-full mt-2 py-3 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif text-sm font-medium transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              Sign In to Studio (Phase 2)
+              {isPending ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Verifying Credentials...</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-4 h-4" />
+                  <span>Sign In to Studio</span>
+                </>
+              )}
             </button>
           </form>
+
+          <div className="mt-6 pt-4 border-t border-[var(--border-subtle)]/60 text-center">
+            <p className="text-[11px] text-[var(--text-muted)] font-serif italic">
+              Public registration is disabled. Only the designated author account is granted entry.
+            </p>
+          </div>
 
         </div>
 

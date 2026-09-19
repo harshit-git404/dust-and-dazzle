@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { sampleStories } from '@/data/sampleStories';
+import { getPublishedStories } from '@/lib/stories';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { BookOpen, Clock, Calendar, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
   description: 'Continuous index of short stories in Dust and Dazzle by Ajeet Kumar Singh.',
 };
 
-export default function TableOfContentsPage() {
+export default async function TableOfContentsPage() {
+  const publishedStories = await getPublishedStories();
+
   return (
     <div className="py-12 sm:py-16 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
@@ -31,7 +33,7 @@ export default function TableOfContentsPage() {
 
         {/* Continuous Story List (No tags, categories, or filters) */}
         <div className="space-y-4 sm:space-y-5">
-          {sampleStories.map((story, index) => (
+          {publishedStories.map((story, index) => (
             <Link
               key={story.id}
               href={`/story/${story.slug}`}
@@ -85,7 +87,7 @@ export default function TableOfContentsPage() {
         {/* Bottom Navigation */}
         <div className="mt-12 text-center">
           <Link
-            href={`/story/${sampleStories[0].slug}`}
+            href={`/story/${publishedStories[0]?.slug || 'chapter-1-the-ancestral-soil'}`}
             className="inline-flex items-center gap-2 px-8 py-3 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif rounded-sm shadow-sm transition-all"
           >
             <BookOpen className="w-4 h-4" />

@@ -2,11 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
-import { sampleStories } from '@/data/sampleStories';
+import { getPublishedStories } from '@/lib/stories';
 import { BookOpen, ArrowRight, Sparkles, Feather } from 'lucide-react';
 
-export default function HomePage() {
-  const firstStory = sampleStories[0];
+export default async function HomePage() {
+  const publishedStories = await getPublishedStories();
+  const firstStory = publishedStories[0] || { slug: 'chapter-1-the-ancestral-soil' };
 
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-6">
@@ -94,7 +95,7 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-4">
-            {sampleStories.slice(0, 4).map((story) => (
+            {publishedStories.slice(0, 4).map((story) => (
               <Link
                 key={story.id}
                 href={`/story/${story.slug}`}

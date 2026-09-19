@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { getPublishedStories, getStoryBySlug } from '@/lib/stories';
 import { sampleStories } from '@/data/sampleStories';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
@@ -14,14 +15,15 @@ interface StoryPageProps {
 }
 
 export async function generateStaticParams() {
-  return sampleStories.map((story) => ({
+  const stories = await getPublishedStories();
+  return stories.map((story) => ({
     slug: story.slug,
   }));
 }
 
 export async function generateMetadata({ params }: StoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const story = sampleStories.find((s) => s.slug === slug);
+  const story = await getStoryBySlug(slug);
   if (!story) return { title: 'Story Not Found — Dust and Dazzle' };
   
   return {
@@ -32,15 +34,17 @@ export async function generateMetadata({ params }: StoryPageProps): Promise<Meta
 
 export default async function StoryReadingPage({ params }: StoryPageProps) {
   const { slug } = await params;
-  const currentIndex = sampleStories.findIndex((s) => s.slug === slug);
+  const story = await getStoryBySlug(slug);
 
-  if (currentIndex === -1) {
+  if (!story) {
     notFound();
   }
 
-  const story = sampleStories[currentIndex];
-  const prevStory = currentIndex > 0 ? sampleStories[currentIndex - 1] : null;
-  const nextStory = currentIndex < sampleStories.length - 1 ? sampleStories[currentIndex + 1] : null;
+  const allPublished = await getPublishedStories();
+  const currentIndex = allPublished.findIndex((s) => s.slug === slug);
+  const prevStory = currentIndex > 0 ? allPublished[currentIndex - 1] : null;
+  const nextStory = currentIndex >= 0 && currentIndex < allPublished.length - 1 ? allPublished[currentIndex + 1] : null;
+
 
   return (
     <article className="py-12 sm:py-20 px-4 sm:px-6">
