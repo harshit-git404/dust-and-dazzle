@@ -1,6 +1,6 @@
 # Dust & Dazzle: Tales from a Village and a City
 
-A literary short story collection website for author **Ajeet Kumar Singh**.
+A literary short story collection web application for author **Ajeet Kumar Singh**.
 
 Designed with the quiet elegance of a hand-bound memoir—aged rag paper textures, Playfair Display & Newsreader typography, Diya gold accents, washi tape photo plates, and a continuous flow of 16 chapters.
 
@@ -24,7 +24,7 @@ npm install
 
 ### 3. Configure Environment Variables (`.env.local`)
 
-Create a `.env.local` file in the root directory (or copy from `.env.example`):
+Copy `.env.example` to `.env.local`:
 
 ```bash
 cp .env.example .env.local
@@ -33,21 +33,26 @@ cp .env.example .env.local
 Fill in your Supabase project credentials in `.env.local`:
 
 ```env
-# Supabase Public API URL (Project Settings > API in Supabase dashboard)
+# Supabase Public API URL
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 
-# Supabase Anonymous Public Key (Safe for browser queries)
+# Supabase Anonymous Public Key
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key-here
-
-# Supabase Service Role Key (CONFIDENTIAL: Server-side only, NEVER commit)
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 
 # Site URL
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
 
-> [!IMPORTANT]
-> Never commit `.env` or `.env.local` to Git. `.gitignore` is pre-configured to keep your credentials confidential.
+# Search Engine Indexing Toggle (default: false)
+SITE_INDEXABLE=false
+
+# Secret Salt for Reader Comment IP Rate Limiting
+IP_HASH_SALT=your-random-secret-salt-here
+
+# ------------------------------------------------------------------------------
+# LOCAL OFFLINE CLI SCRIPTS ONLY (NEVER SET IN VERCEL)
+# ------------------------------------------------------------------------------
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+```
 
 ### 4. Running the Development Server
 
@@ -55,15 +60,12 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### 5. Building for Production
 
 ```bash
-# Generate production bundle
 npm run build
-
-# Start production server locally
 npm run start
 ```
 
@@ -73,32 +75,54 @@ npm run start
 
 - `/` — **Book Cover & Frontispiece**: Title, subtitle, author byline, dedication, frontispiece archival photo plate, and direct reading entrance.
 - `/toc` — **Table of Contents**: Continuous chronological index of all 16 story chapters.
-- `/story/[slug]` — **Story Reading Experience**: Distraction-free 680px reading column, candlelight reading mode toggle, drop caps, and sequential next/previous navigation.
-- `/login` — **Author Studio**: Private author access.
+- `/story/[slug]` — **Story Reading Experience**: Distraction-free 680px reading column, candlelight reading mode toggle, drop caps, reader reflections, and sequential next/previous navigation.
+- `/login` — **Author Studio**: Private author authentication.
+- `/admin` — **Author Dashboard**: Manuscript management, reordering, visibility toggling, backups, and live word counts.
+- `/admin/story/[id]` — **Tiptap Story Editor**: Rich text editor with autosave, crash recovery, Word paste cleanup, photo uploads, and live preview.
+- `/admin/comments` — **Comment Moderation**: Author approval queue for reader reflections.
+- `/admin/media` — **Media Library**: Archival photograph plate storage manager.
+- `/admin/settings` — **Site Settings**: Dedication, author biography, and frontispiece portrait editor.
 
 ---
 
-## 🎨 Design System & Aesthetics
+## 💾 Backups and Disaster Recovery
 
-- **Paper Canvas**: `#FFF8F5` (Daylight Parchment) / `#1A120B` (Candlelight Nocturne)
-- **Primary Accent**: `#A9502E` (Terracotta baked soil)
-- **Secondary Botanical**: `#3F4A32` (Banyan canopy green)
-- **Tertiary Accent**: `#C9922E` (Diya flame gold)
-- **Ink Primary**: `#261910` (Archival sepia ink)
-- **Typography**: `Playfair Display` (Headlines & Hero) + `Newsreader` (Prose, italics & smallcaps)
+### 1. Downloading a Complete Backup
+1. Sign in to the **Author Studio** at `/login`.
+2. On the dashboard (`/admin`), click **"Download Backup"**.
+3. You can choose:
+   - **JSON Backup (`.json`)**: Full database export containing all stories (published, drafts, private), JSON Tiptap ASTs, HTML content, reading times, and photo attachments.
+   - **Markdown Archive (`.zip`)**: A zip file of clean Markdown files with YAML frontmatter for offline preservation.
+
+### 2. Restoring from a JSON Backup
+To restore the manuscript from a previously exported JSON backup file, run:
+
+```bash
+npx tsx scripts/restore-from-backup.ts /path/to/dust-and-dazzle-backup-2026-09-20.json
+```
+
+The script will read the backup, validate the schema, and upsert each story into your Supabase database using conflict-safe slug matching.
+
+---
+
+## 🚢 Deployment Guide
+
+For complete step-by-step instructions on deploying to **Vercel** and configuring **Supabase**, refer to:
+
+👉 **[DEPLOY.md](file:///c:/Users/harsh/Desktop/Web%20Dev/dust-and-dazzle/DEPLOY.md)**
 
 ---
 
 ## 📜 Development Roadmap
 
 - [x] **Phase 1**: Project Setup, Design System, Public Pages & Sample Chapters
-- [ ] **Phase 2**: Supabase Database Setup & Author Login
-- [ ] **Phase 3**: Author Studio Dashboard & Tiptap Editor with Autosave
-- [ ] **Phase 4**: Photo Uploads & Reader Comment Moderation
-- [ ] **Phase 5**: Mobile Performance Polish, Accessibility & Vercel Deployment
+- [x] **Phase 2**: Supabase Database Setup & Author Login
+- [x] **Phase 3**: Author Studio Dashboard & Tiptap Editor with Autosave
+- [x] **Phase 4**: Photo Uploads & Reader Comment Moderation
+- [x] **Phase 5**: Polish, Security Hardening, A11y & Deployment Prep
 
 ---
 
 ## 📄 License & Literary Copyright
 
-&copy; {new Date().getFullYear()} Ajeet Kumar Singh. All literary rights reserved.
+&copy; 2026 Ajeet Kumar Singh. All literary rights reserved.
