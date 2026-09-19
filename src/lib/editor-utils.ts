@@ -30,6 +30,34 @@ export function calculateReadingTime(text: string): { wordCount: number; reading
   };
 }
 
+export function truncateAtWord(text: string, maxLen = 140): string {
+  if (!text) return '';
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLen) return clean;
+  const cut = clean.substring(0, maxLen);
+  const lastSpace = cut.lastIndexOf(' ');
+  if (lastSpace > maxLen * 0.6) {
+    return cut.substring(0, lastSpace).replace(/[,\s.;:!?—-]+$/, '') + '…';
+  }
+  return cut.replace(/[,\s.;:!?—-]+$/, '') + '…';
+}
+
+export function toRomanNumeral(num: number): string {
+  const lookup: [number, string][] = [
+    [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+    [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+    [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+  ];
+  let roman = '';
+  for (const [val, symbol] of lookup) {
+    while (num >= val) {
+      roman += symbol;
+      num -= val;
+    }
+  }
+  return roman || String(num);
+}
+
 export function generateExcerpt(textOrHtml: string, maxLen = 220): string {
   if (!textOrHtml) return '';
 
@@ -43,7 +71,7 @@ export function generateExcerpt(textOrHtml: string, maxLen = 220): string {
   const sentences = plainText.match(/[^.!?]+[.!?]+/g) || [plainText];
   const excerpt = sentences.slice(0, 2).join(' ').trim();
 
-  return excerpt.length > maxLen ? excerpt.substring(0, maxLen - 3) + '...' : excerpt;
+  return truncateAtWord(excerpt, maxLen);
 }
 
 /**

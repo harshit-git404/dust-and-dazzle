@@ -52,22 +52,39 @@
 
 /* Drop Cap Typography */
 .drop-cap-paragraph::first-letter,
+.story-prose > p:first-of-type::first-letter,
 .drop-cap {
   float: left;
-  font-family: var(--font-playfair), serif;
-  font-size: 3.75rem;
-  line-height: 0.8;
-  padding-top: 4px;
-  padding-right: 12px;
-  padding-bottom: 2px;
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  font-size: 3.8rem;
+  line-height: 0.82;
+  margin-top: 0.2rem;
+  margin-right: 0.75rem;
+  margin-bottom: -0.1rem;
+  padding: 0.15rem 0.2rem 0 0;
   color: var(--color-terracotta);
   font-weight: 500;
 }
 
 .candlelight .drop-cap-paragraph::first-letter,
+.candlelight .story-prose > p:first-of-type::first-letter,
 .candlelight .drop-cap {
   color: var(--color-diya);
   text-shadow: 0 0 12px var(--color-diya-glow);
+}
+
+.story-prose p {
+  margin-bottom: 1.5rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.story-prose blockquote {
+  border-left: 3px solid var(--color-terracotta);
+  padding-left: 1.25rem;
+  margin: 1.75rem 0;
+  font-style: italic;
+  color: var(--text-secondary);
 }
 
 /* Washi Tape Photo Mount Effect */

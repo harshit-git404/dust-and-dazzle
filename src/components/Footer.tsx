@@ -5,8 +5,8 @@ import { DiyaDivider } from './DiyaDivider';
 export function Footer() {
   return (
     <footer className="mt-20 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] py-12 px-4 transition-colors duration-300">
-      <div className="max-w-3xl mx-auto text-center font-serif">
-        <DiyaDivider variant="flourish" className="my-6" />
+      <div className="max-w-[1400px] mx-auto text-center font-serif">
+        <DiyaDivider variant="flourish" className="my-6 max-w-md mx-auto" />
 
         <h3 className="text-xl font-normal tracking-wide text-[var(--text-primary)]">
           Dust and Dazzle
@@ -21,15 +21,15 @@ export function Footer() {
 
         <div className="flex items-center justify-center gap-6 mt-6 text-sm text-[var(--text-secondary)]">
           <Link href="/" className="hover:text-[var(--color-terracotta)] transition-colors">
-            Cover
+            Frontispiece
           </Link>
           <span className="text-[var(--border-subtle)]">✦</span>
           <Link href="/toc" className="hover:text-[var(--color-terracotta)] transition-colors">
-            Table of Contents
+            Contents
           </Link>
           <span className="text-[var(--border-subtle)]">✦</span>
-          <Link href="/story/chapter-1-the-ancestral-soil" className="hover:text-[var(--color-terracotta)] transition-colors">
-            First Chapter
+          <Link href="/story/the-forgotten-pillar" className="hover:text-[var(--color-terracotta)] transition-colors">
+            Chapter I
           </Link>
         </div>
 

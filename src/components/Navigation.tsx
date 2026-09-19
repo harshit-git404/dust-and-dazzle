@@ -12,7 +12,7 @@ export function Navigation() {
 
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-[var(--bg-canvas)]/90 border-b border-[var(--border-subtle)]/70 transition-colors duration-300">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 h-16 flex items-center justify-between">
         
         {/* Brand / Book Title */}
         <Link 
@@ -24,7 +24,7 @@ export function Navigation() {
           </div>
           <div className="flex flex-col">
             <span className="font-serif font-medium text-base sm:text-lg tracking-tight text-[var(--text-primary)]">
-              Dust &amp; Dazzle
+              Dust and Dazzle
             </span>
             <span className="hidden sm:inline font-serif text-[11px] uppercase tracking-widest text-[var(--text-muted)]">
               Ajeet Kumar Singh
@@ -32,24 +32,24 @@ export function Navigation() {
           </div>
         </Link>
 
-        {/* Center & Right Navigation Actions */}
+        {/* Center & Right Navigation Actions (Only existing pages) */}
         <div className="flex items-center gap-2 sm:gap-4">
           <Link
             href="/toc"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-serif text-sm transition-all ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm font-serif text-sm transition-all ${
               pathname === '/toc'
                 ? 'bg-[var(--bg-surface-elevated)] text-[var(--color-terracotta)] font-semibold border border-[var(--border-subtle)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)]'
             }`}
           >
             <ListFilter className="w-4 h-4" />
-            <span>Table of Contents</span>
+            <span>Contents</span>
           </Link>
 
           {/* Reading Mode Toggle (Daylight / Candlelight) */}
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-serif text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)] border border-transparent hover:border-[var(--border-subtle)] transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm font-serif text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)] border border-transparent hover:border-[var(--border-subtle)] transition-all"
             title={theme === 'daylight' ? 'Switch to Candlelight reading mode' : 'Switch to Daylight reading mode'}
             aria-label="Toggle Reading Mode"
           >
@@ -66,14 +66,14 @@ export function Navigation() {
             )}
           </button>
 
-          {/* Author Studio Link (Stub for Phase 2/3) */}
+          {/* Author Studio Login */}
           <Link
             href="/login"
-            className="hidden sm:flex items-center gap-1 px-2.5 py-1 text-xs font-serif uppercase tracking-wider text-[var(--text-muted)] hover:text-[var(--color-terracotta)] hover:bg-[var(--bg-surface)] rounded-sm transition-all"
+            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-serif uppercase tracking-wider text-[var(--text-muted)] hover:text-[var(--color-terracotta)] hover:bg-[var(--bg-surface)] rounded-sm transition-all"
             title="Author Studio"
           >
             <Feather className="w-3.5 h-3.5" />
-            <span>Author</span>
+            <span className="hidden md:inline">Author</span>
           </Link>
         </div>
 

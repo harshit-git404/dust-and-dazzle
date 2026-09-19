@@ -1,4 +1,4 @@
-# Dust & Dazzle: Tales from a Village and a City
+# Dust and Dazzle: Tales from a Village and a City
 
 A literary short story collection web application for author **Ajeet Kumar Singh**.
 
