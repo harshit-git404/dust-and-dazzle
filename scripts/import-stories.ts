@@ -4,7 +4,14 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 
+// Load .env.local
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
+
+// 1. Guard against running during build, CI, or production deployments
+if (process.env.NEXT_PHASE || process.env.VERCEL || process.env.CI) {
+  console.error('⛔ FATAL: Import script is strictly disabled during builds and production deployment.');
+  process.exit(1);
+}
 
 function slugify(text: string): string {
   return text
@@ -247,7 +254,25 @@ async function run() {
         auth: { autoRefreshToken: false, persistSession: false },
       });
 
-      console.log('Attempting insert into Supabase stories table...');
+      // 2. Check if database already has curated / published content
+      const { data: existingStories } = await supabase
+        .from('stories')
+        .select('id, title, visibility, updated_at, created_at');
+
+      const isForce = process.argv.includes('--force');
+      if (existingStories && existingStories.length > 0 && !isForce) {
+        const hasPublished = existingStories.some((s) => s.visibility === 'published');
+        const hasEdits = existingStories.some((s) => s.updated_at !== s.created_at);
+
+        if (hasPublished || hasEdits) {
+          console.warn('⚠️  WARNING: Database contains existing curated or published stories!');
+          console.warn('    To prevent overwriting live edits, re-importing requires the --force flag:');
+          console.warn('    npx tsx scripts/import-stories.ts --force\n');
+          process.exit(0);
+        }
+      }
+
+      console.log('Syncing stories into Supabase stories table...');
       const { data, error } = await supabase
         .from('stories')
         .upsert(
@@ -270,11 +295,10 @@ async function run() {
         .select('order_index, title, slug, visibility');
 
       if (!error && data) {
-        console.log(`\n✅ Database Insert Success: ${data.length} stories synced in Supabase!`);
+        console.log(`\n✅ Database Sync Success: ${data.length} stories synced in Supabase!`);
         data.forEach((r) => console.log(`  [${r.order_index}] ${r.title} (${r.visibility})`));
       } else if (error) {
         console.log(`\nℹ️ Database Insert Note: ${error.message}`);
-        console.log('   (Run supabase/migrations/20260919000000_initial_schema.sql in your Supabase SQL Editor to initialize tables, then re-run this script).');
       }
     } catch (e: any) {
       console.log(`\nℹ️ DB connection note: ${e.message}`);

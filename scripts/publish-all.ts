@@ -4,6 +4,12 @@ import { createClient } from '@supabase/supabase-js';
 
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
 
+// Guard against running during build, CI, or production deployments
+if (process.env.NEXT_PHASE || process.env.VERCEL || process.env.CI) {
+  console.error('⛔ FATAL: Script execution is strictly disabled during builds and production deployment.');
+  process.exit(1);
+}
+
 async function publishAll() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
