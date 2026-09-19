@@ -5,7 +5,28 @@
 -- 1. Enable UUID Extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- 2. Create Stories Table
+-- 2. Create Authors Table (Stores authorized author user IDs)
+CREATE TABLE IF NOT EXISTS public.authors (
+    user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.authors ENABLE ROW LEVEL SECURITY;
+
+-- 3. Security Definer Function to verify if the requesting user is an authorized author
+CREATE OR REPLACE FUNCTION public.is_author()
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+STABLE
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.authors WHERE user_id = auth.uid()
+  );
+$$;
+
+-- 4. Create Stories Table
 CREATE TABLE IF NOT EXISTS public.stories (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug TEXT UNIQUE NOT NULL,
@@ -30,12 +51,12 @@ CREATE INDEX IF NOT EXISTS idx_stories_order ON public.stories(order_index ASC);
 CREATE INDEX IF NOT EXISTS idx_stories_slug ON public.stories(slug);
 CREATE INDEX IF NOT EXISTS idx_stories_visibility ON public.stories(visibility);
 
--- 3. Create Comments Table
+-- 5. Create Comments Table
 CREATE TABLE IF NOT EXISTS public.comments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     story_id UUID NOT NULL REFERENCES public.stories(id) ON DELETE CASCADE,
     author_name TEXT NOT NULL,
-    author_email TEXT, -- Optional, never exposed to public queries
+    author_email TEXT, -- Stored privately for moderation, NEVER exposed to public
     content TEXT NOT NULL,
     is_approved BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
@@ -44,15 +65,46 @@ CREATE TABLE IF NOT EXISTS public.comments (
 CREATE INDEX IF NOT EXISTS idx_comments_story ON public.comments(story_id);
 CREATE INDEX IF NOT EXISTS idx_comments_approved ON public.comments(is_approved);
 
--- 4. Enable Row Level Security (RLS) on all tables
+-- 6. Public Safe View for Approved Comments (Excludes author_email completely)
+CREATE OR REPLACE VIEW public.approved_comments
+WITH (security_invoker = true)
+AS
+  SELECT
+    id,
+    story_id,
+    author_name,
+    content,
+    created_at
+  FROM public.comments
+  WHERE is_approved = true;
+
+-- Grant SELECT on public view to anon and authenticated
+GRANT SELECT ON public.approved_comments TO anon, authenticated;
+
+-- Revoke direct access to author_email on comments table from anon and public
+REVOKE SELECT (author_email) ON public.comments FROM anon;
+REVOKE SELECT (author_email) ON public.comments FROM authenticated;
+GRANT SELECT (id, story_id, author_name, content, is_approved, created_at) ON public.comments TO authenticated;
+
+-- 7. Enable Row Level Security (RLS) on all tables
 ALTER TABLE public.stories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
+
+-- ==============================================================================
+-- RLS Policies: AUTHORS
+-- ==============================================================================
+
+DROP POLICY IF EXISTS "Author can view own author record" ON public.authors;
+CREATE POLICY "Author can view own author record"
+    ON public.authors
+    FOR SELECT
+    TO authenticated
+    USING (user_id = auth.uid());
 
 -- ==============================================================================
 -- RLS Policies: STORIES
 -- ==============================================================================
 
--- Drop existing policies if re-running
 DROP POLICY IF EXISTS "Public visitors can only view published stories" ON public.stories;
 DROP POLICY IF EXISTS "Authenticated author can perform all actions on stories" ON public.stories;
 
@@ -63,17 +115,13 @@ CREATE POLICY "Public visitors can only view published stories"
     TO public
     USING (visibility = 'published');
 
--- Policy 2: Strictly restrict write access to the authenticated author (verified via JWT email & auth.uid)
+-- Policy 2: Authenticated author (verified via public.is_author()) has full access
 CREATE POLICY "Authenticated author can perform all actions on stories"
     ON public.stories
     FOR ALL
     TO authenticated
-    USING (
-        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
-    )
-    WITH CHECK (
-        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
-    );
+    USING (public.is_author())
+    WITH CHECK (public.is_author());
 
 -- ==============================================================================
 -- RLS Policies: COMMENTS
@@ -90,24 +138,16 @@ CREATE POLICY "Public visitors can only view approved comments"
     TO public
     USING (is_approved = true);
 
--- Policy 2: Public visitors can submit comments (always forced to is_approved = false)
-CREATE POLICY "Public visitors can submit comments"
-    ON public.comments
-    FOR INSERT
-    TO public
-    WITH CHECK (is_approved = false);
+-- Note: Public direct INSERT policy is REMOVED. Public comment submission goes
+-- exclusively through secure server action with honeypot & rate limiting.
 
--- Policy 3: Authenticated Author can manage all comments (approve, delete, edit)
+-- Policy 2: Authenticated author (verified via public.is_author()) can manage all comments
 CREATE POLICY "Authenticated author can manage all comments"
     ON public.comments
     FOR ALL
     TO authenticated
-    USING (
-        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
-    )
-    WITH CHECK (
-        (auth.jwt() ->> 'email') = 'kumar.ajeet@gmail.com'
-    );
+    USING (public.is_author())
+    WITH CHECK (public.is_author());
 
 -- ==============================================================================
 -- Trigger for automatic updated_at timestamps
