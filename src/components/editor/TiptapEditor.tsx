@@ -9,6 +9,7 @@ import ImageExtension from '@tiptap/extension-image';
 import { Story, StoryVisibility } from '@/types/story';
 import { saveStoryAction } from '@/app/actions/stories';
 import { uploadPhotoAction } from '@/app/actions/media';
+import { preparePhotoForUpload } from '@/lib/client-image-resizer';
 import { cleanPastedText, calculateReadingTime, generateExcerpt } from '@/lib/editor-utils';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
@@ -225,10 +226,12 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
     setUploadingPhoto(true);
     setPhotoUploadError(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // Downscale and compress image in browser before uploading
+      const processed = await preparePhotoForUpload(file);
+      const formData = new FormData();
+      formData.append('file', processed.file);
+
       const res = await uploadPhotoAction(formData);
       if (res.success && res.url && editor) {
         editor
@@ -253,8 +256,8 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
   // Photo modal submit handler
   const handlePhotoModalUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get('file') as File | null;
+    const rawFormData = new FormData(e.currentTarget);
+    const file = rawFormData.get('file') as File | null;
     if (!file || !file.size) {
       setPhotoUploadError('Please select a photo file.');
       return;
@@ -264,6 +267,11 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
     setPhotoUploadError(null);
 
     try {
+      // Downscale and compress image in browser before uploading
+      const processed = await preparePhotoForUpload(file);
+      const formData = new FormData();
+      formData.append('file', processed.file);
+
       const res = await uploadPhotoAction(formData);
       if (res.success && res.url && editor) {
         editor

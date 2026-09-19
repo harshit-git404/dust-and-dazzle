@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MediaItem } from '@/types/story';
 import { listMediaAction, uploadPhotoAction, deletePhotoAction } from '@/app/actions/media';
+import { preparePhotoForUpload } from '@/lib/client-image-resizer';
 import {
   Upload,
   Trash2,
@@ -31,8 +32,8 @@ export function MediaLibrary() {
       if (res.success && res.media) {
         setMediaList(res.media);
       }
-    } catch (err) {
-      console.error('Failed to load media', err);
+    } catch {
+      // ignore
     } finally {
       setLoading(false);
     }
@@ -49,10 +50,12 @@ export function MediaLibrary() {
     setUploading(true);
     setUploadError(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // Downscale and compress in browser to protect Vercel payload limits
+      const processed = await preparePhotoForUpload(file);
+      const formData = new FormData();
+      formData.append('file', processed.file);
+
       const res = await uploadPhotoAction(formData);
       if (res.success) {
         fetchMedia();

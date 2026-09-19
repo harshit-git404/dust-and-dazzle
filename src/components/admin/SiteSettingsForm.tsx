@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { SiteSettings } from '@/types/story';
 import { updateSiteSettingsAction } from '@/app/actions/settings';
 import { uploadPhotoAction } from '@/app/actions/media';
+import { preparePhotoForUpload } from '@/lib/client-image-resizer';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import {
   Save,
@@ -39,10 +40,12 @@ export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
     setUploadingPortrait(true);
     setError(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // Downscale and compress portrait in browser
+      const processed = await preparePhotoForUpload(file);
+      const formData = new FormData();
+      formData.append('file', processed.file);
+
       const res = await uploadPhotoAction(formData);
       if (res.success && res.url) {
         setPortraitUrl(res.url);
