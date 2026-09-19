@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS public.stories (
     reading_time TEXT NOT NULL DEFAULT '5 min read',
     excerpt TEXT NOT NULL,
     content_html TEXT NOT NULL,
+    content_json JSONB,
     cover_image_url TEXT,
     image_caption TEXT,
     published_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
