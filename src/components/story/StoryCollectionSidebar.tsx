@@ -1,8 +1,10 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Story } from '@/types/story';
 import { toRomanNumeral } from '@/lib/editor-utils';
-import { BookOpen, ListFilter, ArrowLeft } from 'lucide-react';
+import { ListFilter } from 'lucide-react';
 
 interface StoryCollectionSidebarProps {
   stories: Story[];
@@ -13,6 +15,14 @@ export function StoryCollectionSidebar({
   stories,
   currentSlug,
 }: StoryCollectionSidebarProps) {
+  const activeRef = useRef<HTMLAnchorElement | null>(null);
+
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [currentSlug]);
+
   return (
     <aside className="hidden xl:block w-[260px] shrink-0">
       <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-3 space-y-4">
@@ -38,6 +48,7 @@ export function StoryCollectionSidebar({
             return (
               <Link
                 key={story.id}
+                ref={isActive ? activeRef : null}
                 href={`/story/${story.slug}`}
                 className={`group flex items-start gap-2.5 px-3 py-2 rounded-sm text-xs transition-all ${
                   isActive

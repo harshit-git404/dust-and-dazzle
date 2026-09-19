@@ -81,6 +81,21 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
   const nextStory = currentIndex >= 0 && currentIndex < allPublished.length - 1 ? allPublished[currentIndex + 1] : null;
   const approvedComments = await getApprovedComments(story.id);
 
+  const storyPhotos =
+    story.photos && story.photos.length > 0
+      ? story.photos
+      : story.cover_image_url
+      ? [
+          {
+            url: story.cover_image_url,
+            caption: story.image_caption || undefined,
+            alt_text: story.title.replace(/^\[Placeholder\]\s*/, ''),
+            frame_style: 'tape-top',
+            rotation_deg: 0,
+          },
+        ]
+      : [];
+
   return (
     <div className="py-8 sm:py-14 lg:py-18 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto flex justify-center gap-8 xl:gap-12">
@@ -139,10 +154,10 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
             <DiyaDivider variant="flourish" className="my-6 sm:my-8" />
           </header>
 
-          {/* Inline Photo Display for Screens Under 1100px (or single cover photo) */}
-          {story.photos && story.photos.length > 0 && (
+          {/* Inline Photo Display for Screens Under 1280px (or single cover photo) */}
+          {storyPhotos.length > 0 && (
             <div className="xl:hidden my-8 space-y-6">
-              {story.photos.map((photo, idx) => (
+              {storyPhotos.map((photo, idx) => (
                 <PhotoPlate
                   key={photo.url || idx}
                   src={photo.url}

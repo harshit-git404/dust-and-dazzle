@@ -32,12 +32,12 @@ const EFFECTS: ('tape-top' | 'tape-corners' | 'corner-pins' | 'simple-frame')[] 
 ];
 
 const ROTATIONS = [
-  'rotate-[-0.75deg]',
-  'rotate-[0.8deg]',
-  'rotate-[-1.2deg]',
-  'rotate-[0.5deg]',
-  'rotate-[-0.4deg]',
-  'rotate-[1.1deg]',
+  'sm:rotate-[-0.75deg]',
+  'sm:rotate-[0.8deg]',
+  'sm:rotate-[-1.2deg]',
+  'sm:rotate-[0.5deg]',
+  'sm:rotate-[-0.4deg]',
+  'sm:rotate-[1.1deg]',
 ];
 
 export function PhotoPlate({
@@ -56,7 +56,7 @@ export function PhotoPlate({
 
   return (
     <figure
-      className={`relative my-10 mx-auto max-w-2xl group transition-transform duration-300 sm:${chosenRotation} ${className}`}
+      className={`relative my-10 mx-auto max-w-2xl group transition-transform duration-300 ${chosenRotation} ${className}`}
     >
       {/* Tape & Pin decorations */}
       {chosenEffect === 'tape-top' && <div className="washi-tape-top" aria-hidden="true" />}

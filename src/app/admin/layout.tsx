@@ -4,7 +4,8 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { logoutAction } from '@/app/actions/auth';
 import { getPendingCommentsCountAction } from '@/app/actions/comments';
-import { Feather, BookOpen, LogOut, FileText, Settings, Image as ImageIcon, MessageSquare, Key } from 'lucide-react';
+import { AdminNav } from '@/components/admin/AdminNav';
+import { Feather, BookOpen, LogOut } from 'lucide-react';
 
 export default async function AdminLayout({
   children,
@@ -87,52 +88,7 @@ export default async function AdminLayout({
         </header>
 
         {/* Studio Navigation Bar */}
-        <nav className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 border-b border-[var(--border-subtle)] font-serif text-xs">
-          <Link
-            href="/admin"
-            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
-          >
-            <FileText className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-            <span>Stories &amp; Chapters</span>
-          </Link>
-
-          <Link
-            href="/admin/comments"
-            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
-          >
-            <MessageSquare className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-            <span>Reflections &amp; Moderation</span>
-            {pendingCommentsCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-amber-500 text-white text-[10px] font-mono font-bold">
-                {pendingCommentsCount}
-              </span>
-            )}
-          </Link>
-
-          <Link
-            href="/admin/media"
-            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
-          >
-            <ImageIcon className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-            <span>Archival Photos</span>
-          </Link>
-
-          <Link
-            href="/admin/settings"
-            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
-          >
-            <Settings className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-            <span>About Collection</span>
-          </Link>
-
-          <Link
-            href="/admin/change-password"
-            className="px-3 py-1.5 rounded-sm hover:bg-[var(--bg-surface)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-subtle)] flex items-center gap-1.5 shrink-0"
-          >
-            <Key className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-            <span>Security</span>
-          </Link>
-        </nav>
+        <AdminNav pendingCommentsCount={pendingCommentsCount} />
 
         {/* Content Area */}
         <main>{children}</main>

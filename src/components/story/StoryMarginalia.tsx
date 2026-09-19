@@ -28,7 +28,20 @@ export function StoryMarginalia({ story }: StoryMarginaliaProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const photos = story.photos && story.photos.length > 0 ? story.photos : [];
+  const photos =
+    story.photos && story.photos.length > 0
+      ? story.photos
+      : story.cover_image_url
+      ? [
+          {
+            url: story.cover_image_url,
+            caption: story.image_caption || undefined,
+            alt_text: story.title.replace(/^\[Placeholder\]\s*/, ''),
+            frame_style: 'tape-corners',
+            rotation_deg: 0,
+          },
+        ]
+      : [];
 
   return (
     <aside className="hidden xl:block w-[280px] shrink-0">

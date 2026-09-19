@@ -19,7 +19,7 @@ export function Footer() {
           By Ajeet Kumar Singh
         </p>
 
-        <div className="flex items-center justify-center gap-6 mt-6 text-sm text-[var(--text-secondary)]">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-6 text-xs sm:text-sm text-[var(--text-secondary)]">
           <Link href="/" className="hover:text-[var(--color-terracotta)] transition-colors">
             Frontispiece
           </Link>
