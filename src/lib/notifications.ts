@@ -70,15 +70,14 @@ export async function sendCommentNotification(
     const adminUrl = `${siteUrl}/admin/comments`;
 
     const subject = `New comment on "${cleanTitle}" is waiting for approval`;
-    const body = `A new reader reflection has been submitted and is awaiting approval.
+    const body = `Congratulations! A reader has just shared a new reflection on your story "${cleanTitle}".
 
-Story: ${cleanTitle}
-Commenter: ${cleanAuthor}
+Reader: ${cleanAuthor}
 
-Reflection (first 300 chars):
-${commentSnippet}
+Reflection preview:
+"${commentSnippet}"
 
-Moderate reflections in the author studio:
+To review and publish this reflection to the collection, visit the Author Studio:
 ${adminUrl}
 `;
 
@@ -91,12 +90,13 @@ ${adminUrl}
         user,
         pass,
       },
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 5000,
+      family: 4, // Force IPv4 to prevent 3-second IPv6 DNS delays
+      connectionTimeout: 6000,
+      greetingTimeout: 6000,
+      socketTimeout: 6000,
     });
 
-    // 5. Send with strict 5-second timeout
+    // 5. Send with safety timeout
     const sendPromise = transporter.sendMail({
       from: `"Dust & Dazzle" <${user}>`,
       to: recipients,
@@ -105,7 +105,7 @@ ${adminUrl}
     });
 
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('SMTP send timed out after 5 seconds')), 5000)
+      setTimeout(() => reject(new Error('SMTP send timed out')), 6000)
     );
 
     await Promise.race([sendPromise, timeoutPromise]);

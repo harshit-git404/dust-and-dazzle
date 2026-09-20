@@ -69,9 +69,10 @@ ${siteUrl}/admin/comments
         user,
         pass,
       },
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 5000,
+      family: 4,
+      connectionTimeout: 6000,
+      greetingTimeout: 6000,
+      socketTimeout: 6000,
     });
 
     console.log('\nSending test email...');
