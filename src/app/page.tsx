@@ -13,55 +13,55 @@ export default async function HomePage() {
   const firstStory = publishedStories[0] || { slug: 'the-forgotten-pillar' };
 
   return (
-    <div className="py-10 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-12">
+    <div className="pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-8 lg:px-12">
       <div className="max-w-[1400px] mx-auto">
         
         {/* Above the Fold: Two-Page Spread on Wide Screens */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
           
           {/* Left Spread: Book Title Page */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start justify-center">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start justify-start pt-1 lg:pt-2">
             
             {/* Overline Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 mb-6 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] text-[var(--color-banyan)] text-xs uppercase tracking-[0.2em]">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 mb-4 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] text-[var(--color-banyan)] text-xs uppercase tracking-[0.2em]">
               <Feather className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
               <span>A Short Story Collection</span>
             </div>
 
             {/* Main Book Title */}
-            <h1 className="font-serif text-4xl sm:text-6xl xl:text-7xl font-normal tracking-tight text-[var(--text-primary)] leading-[1.12]">
+            <h1 className="font-serif text-4xl sm:text-5xl xl:text-6xl font-normal tracking-tight text-[var(--text-primary)] leading-[1.12]">
               Dust and Dazzle
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-4 font-serif italic text-xl sm:text-2xl text-[var(--text-secondary)] tracking-wide">
+            <p className="mt-2.5 font-serif italic text-lg sm:text-xl xl:text-2xl text-[var(--text-secondary)] tracking-wide">
               Tales from a Village and a City
             </p>
 
             {/* Author Byline */}
-            <p className="mt-3 font-serif text-xs sm:text-sm uppercase tracking-[0.25em] text-[var(--text-muted)]">
+            <p className="mt-2 font-serif text-xs sm:text-sm uppercase tracking-[0.25em] text-[var(--text-muted)]">
               By Ajeet Kumar Singh
             </p>
 
-            <DiyaDivider variant="flourish" className="my-6 sm:my-8 w-full max-w-md" />
+            <DiyaDivider variant="flourish" className="my-4 sm:my-5 w-full max-w-md" />
 
             {/* Dedication Card (Only if present in settings) */}
             {settings.dedication && (
-              <div className="my-2 p-5 sm:p-6 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm max-w-lg shadow-[0_2px_8px_rgba(43,29,20,0.04)] text-center lg:text-left">
+              <div className="my-1.5 p-4 sm:p-5 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm max-w-lg shadow-[0_2px_8px_rgba(43,29,20,0.04)] text-center lg:text-left">
                 <p className="font-serif italic text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
                   &ldquo;{settings.dedication}&rdquo;
                 </p>
-                <div className="mt-3 text-[11px] uppercase tracking-widest text-[var(--color-terracotta)] font-semibold">
+                <div className="mt-2.5 text-[11px] uppercase tracking-widest text-[var(--color-terracotta)] font-semibold">
                   — Dedication
                 </div>
               </div>
             )}
 
             {/* Primary Navigation Actions */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 mt-8 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-3.5 mt-5 sm:mt-6 w-full sm:w-auto">
               <Link
                 href={`/story/${firstStory.slug}`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif text-sm sm:text-base font-medium shadow-md transition-all hover:shadow-lg active:scale-[0.99]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif text-sm sm:text-base font-medium shadow-md transition-all hover:shadow-lg active:scale-[0.99]"
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Begin Reading</span>
@@ -70,7 +70,7 @@ export default async function HomePage() {
 
               <Link
                 href="/toc"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-sm border border-[var(--border-strong)] bg-transparent hover:bg-[var(--bg-surface)] text-[var(--text-primary)] font-serif text-sm sm:text-base transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-sm border border-[var(--border-strong)] bg-transparent hover:bg-[var(--bg-surface)] text-[var(--text-primary)] font-serif text-sm sm:text-base transition-all"
               >
                 <span>Table of Contents</span>
               </Link>
@@ -88,12 +88,13 @@ export default async function HomePage() {
                 effect="tape-corners"
                 width={800}
                 height={550}
+                className="!my-0"
               />
             </div>
 
             {/* Author Bio (if configured in settings) */}
             {settings.author_bio && (
-              <div className="mt-6 p-4 bg-[var(--bg-surface)]/60 border border-[var(--border-subtle)]/60 rounded-sm max-w-md text-center">
+              <div className="mt-4 p-4 bg-[var(--bg-surface)]/60 border border-[var(--border-subtle)]/60 rounded-sm max-w-md text-center">
                 <p className="font-serif italic text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
                   {settings.author_bio}
                 </p>

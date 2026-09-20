@@ -60,7 +60,7 @@ export function PhotoPlate({
   return (
     <figure
       style={customRotationStyle}
-      className={`relative my-10 mx-auto max-w-2xl group transition-transform duration-300 ${chosenRotation} ${className}`}
+      className={`relative my-6 sm:my-8 mx-auto max-w-2xl group transition-transform duration-300 ${chosenRotation} ${className}`}
     >
       {/* Tape & Pin decorations */}
       {chosenEffect === 'tape-top' && <div className="washi-tape-top" aria-hidden="true" />}
