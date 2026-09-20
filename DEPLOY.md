@@ -53,20 +53,42 @@ Expand the **Environment Variables** section in Vercel and add the following key
 | `NEXT_PUBLIC_SITE_URL` | Production web application URL | Your Vercel domain (e.g., `https://dust-and-dazzle.vercel.app`) |
 | `SITE_INDEXABLE` | Search engine indexing toggle | Set to `false` during preview/staging; set to `true` when ready for public search indexing |
 | `IP_HASH_SALT` | Secret salt for rate-limiting IP hashing | Any random 32-character secret string (e.g. generated via `openssl rand -hex 16`) |
+| `SMTP_HOST` | SMTP server host | e.g. `smtp.resend.com`, `smtp.gmail.com`, or your SMTP provider |
+| `SMTP_PORT` | SMTP port (e.g. 587 or 465) | `587` for TLS / STARTTLS, `465` for SSL |
+| `SMTP_USER` | SMTP authentication username | Your SMTP service account user / login |
+| `SMTP_PASS` | SMTP authentication password | Your SMTP app password or API secret key |
+| `NOTIFY_TO` | Reader comment alert recipient(s) | Comma-separated email addresses (e.g. `author@example.com`) |
+| `SITE_URL` | Base site URL for admin links in emails | Production URL (e.g. `https://dust-and-dazzle.vercel.app`) |
 
 > ⚠️ **CRITICAL SECURITY NOTE**:
 > **DO NOT** add `SUPABASE_SERVICE_ROLE_KEY` to Vercel environment variables. The service role key is strictly for offline local administrative CLI scripts and must never exist in the production runtime.
 
 ---
 
-## 5. Deploying the Project
+## 5. Notifications Setup (Reader Comment Alerts)
+To receive email alerts whenever readers submit new reflections for moderation:
+
+1. Obtain SMTP credentials from your email provider (e.g., Resend, SendGrid, Amazon SES, Brevo, or Gmail App Password).
+2. Configure the SMTP environment variables (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `NOTIFY_TO`, `SITE_URL`) in Vercel (**Settings** -> **Environment Variables**).
+3. Test your SMTP configuration locally:
+   ```bash
+   npx tsx scripts/test-notification.ts
+   ```
+4. **Resilience & Flood Protection**:
+   - Notifications run asynchronously in the background via Next.js `after()` (or a 5-second fire-and-forget fallback) so readers experience zero latency.
+   - If SMTP is unconfigured or unavailable, comment submissions succeed normally without displaying any error to readers.
+   - Anti-flood protection limits email notifications to 5 per hour while continuing to record all comments in the author dashboard.
+
+---
+
+## 6. Deploying the Project
 1. Click the **"Deploy"** button.
 2. Vercel will build the application, optimize assets, generate OpenGraph images, and deploy serverless routes globally.
 3. Once the build finishes, you will receive your production URL.
 
 ---
 
-## 6. Post-Deployment Verification Checklist
+## 7. Post-Deployment Verification Checklist
 
 - [ ] **Frontispiece Page**: Visit `/` and ensure the book cover, typography, and dedication render cleanly.
 - [ ] **Table of Contents**: Visit `/toc` and confirm all published chapters appear in correct sequence.
@@ -86,5 +108,5 @@ Expand the **Environment Variables** section in Vercel and add the following key
 
 ---
 
-## 7. Backups and Disaster Recovery
+## 8. Backups and Disaster Recovery
 See [README.md](file:///c:/Users/harsh/Desktop/Web%20Dev/dust-and-dazzle/README.md) for instructions on creating one-click JSON/Markdown backups from the Author Studio and restoring them to the database.

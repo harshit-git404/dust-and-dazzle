@@ -2,8 +2,10 @@
 
 import crypto from 'crypto';
 import { headers } from 'next/headers';
+import { after } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { sendCommentNotification } from '@/lib/notifications';
 
 export interface SubmitCommentInput {
   storyId: string;
@@ -130,6 +132,18 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
       if (rpcData.success === false) {
         return { success: false, error: rpcData.error || 'Submission failed.' };
       }
+
+      // Anti-flood throttle: send email only if 5 or fewer comments in the last hour
+      const hourlyCount =
+        typeof rpcData.recent_hourly_count === 'number' ? rpcData.recent_hourly_count : 1;
+      if (hourlyCount <= 5) {
+        scheduleCommentNotification(input.storyId, name, content);
+      } else {
+        console.log(
+          `[notifications] Throttled email notification: ${hourlyCount} comments created in the last hour (max 5 for email notifications).`
+        );
+      }
+
       return { success: true };
     }
 
@@ -176,10 +190,55 @@ export async function submitCommentAction(input: SubmitCommentInput): Promise<{
       throw insertErr;
     }
 
+    scheduleCommentNotification(input.storyId, name, content);
+
     return { success: true };
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Submission failed';
     return { success: false, error: message };
+  }
+}
+
+/**
+ * Dispatches notification in background via Next.js after() or fire-and-forget fallback.
+ * Must NEVER throw or delay the reader.
+ */
+function scheduleCommentNotification(storyId: string, authorName: string, content: string) {
+  const runNotification = async () => {
+    try {
+      const supabase = await createClient();
+      const { data: story } = await supabase
+        .from('stories')
+        .select('title')
+        .eq('id', storyId)
+        .maybeSingle();
+
+      const storyTitle = story?.title || 'Dust & Dazzle Chapter';
+      await sendCommentNotification({
+        storyTitle,
+        authorName,
+        commentContent: content,
+      });
+    } catch (err) {
+      console.error('[notifications] Background notification handler error:', err);
+    }
+  };
+
+  try {
+    if (typeof after === 'function') {
+      after(async () => {
+        await runNotification();
+      });
+    } else {
+      runNotification().catch((err) =>
+        console.error('[notifications] Fire-and-forget background error:', err)
+      );
+    }
+  } catch {
+    // If after() throws when invoked outside a valid request context, fallback to fire-and-forget
+    runNotification().catch((err) =>
+      console.error('[notifications] Fallback notification error:', err)
+    );
   }
 }
 
