@@ -14,6 +14,7 @@ import { cleanPastedText, calculateReadingTime, generateExcerpt } from '@/lib/ed
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
 import { StoryAudioRecorder } from '@/components/editor/StoryAudioRecorder';
+import { WritingPromptPopover } from '@/components/editor/WritingPromptPopover';
 import { useRouter } from 'next/navigation';
 import {
   Bold,
@@ -496,6 +497,9 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
               </>
             )}
           </div>
+
+          {/* Writing Spark Prompts */}
+          <WritingPromptPopover />
 
           {/* Preview Toggle */}
           <button
