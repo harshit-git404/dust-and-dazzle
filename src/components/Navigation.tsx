@@ -4,11 +4,13 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
-import { BookOpen, ListFilter, Moon, Sun, Feather } from 'lucide-react';
+import { isFeatureEnabled } from '@/lib/features';
+import { BookOpen, ListFilter, Moon, Sun, Feather, Search } from 'lucide-react';
 
 export function Navigation() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const searchEnabled = isFeatureEnabled('SEARCH');
 
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-[var(--bg-canvas)]/90 border-b border-[var(--border-subtle)]/70 transition-colors duration-300">
@@ -32,8 +34,24 @@ export function Navigation() {
           </div>
         </Link>
 
-        {/* Center & Right Navigation Actions (Only existing pages) */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        {/* Center & Right Navigation Actions */}
+        <div className="flex items-center gap-2 sm:gap-3.5">
+          {searchEnabled && (
+            <Link
+              href="/search"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-serif text-sm transition-all ${
+                pathname === '/search'
+                  ? 'bg-[var(--bg-surface-elevated)] text-[var(--color-terracotta)] font-semibold border border-[var(--border-subtle)]'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)]'
+              }`}
+              title="Search the collection"
+              aria-label="Search"
+            >
+              <Search className="w-4 h-4" />
+              <span className="hidden sm:inline">Search</span>
+            </Link>
+          )}
+
           <Link
             href="/toc"
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm font-serif text-sm transition-all ${
