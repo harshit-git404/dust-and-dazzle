@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FileText, MessageSquare, ImageIcon, Settings, Key } from 'lucide-react';
+import { FileText, MessageSquare, ImageIcon, Settings, Key, BookOpen } from 'lucide-react';
 
 interface AdminNavProps {
   pendingCommentsCount: number;
@@ -29,6 +29,11 @@ export function AdminNav({ pendingCommentsCount }: AdminNavProps) {
       href: '/admin/media',
       label: 'Archival Photos',
       icon: ImageIcon,
+    },
+    {
+      href: '/admin/book',
+      label: 'Print Book',
+      icon: BookOpen,
     },
     {
       href: '/admin/settings',
