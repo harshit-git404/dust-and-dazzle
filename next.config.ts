@@ -6,6 +6,7 @@ const cspHeader = `
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com data:;
   img-src 'self' blob: data: https://*.supabase.co https://images.unsplash.com;
+  media-src 'self' blob: data: https://*.supabase.co;
   connect-src 'self' https://*.supabase.co wss://*.supabase.co;
   frame-ancestors 'none';
   object-src 'none';
@@ -45,7 +46,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), browsing-topics=()',
+            value: 'camera=(), microphone=(self), geolocation=(), browsing-topics=()',
           },
           {
             key: 'Strict-Transport-Security',

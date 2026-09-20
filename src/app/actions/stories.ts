@@ -18,6 +18,9 @@ export interface SaveStoryInput {
   visibility: StoryVisibility;
   allow_comments?: boolean;
   author_note?: string | null;
+  audio_url?: string | null;
+  audio_duration_seconds?: number | null;
+  audio_mime?: string | null;
   lastKnownUpdatedAt?: string | null;
 }
 
@@ -147,6 +150,9 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
       visibility: input.visibility,
       allow_comments: input.allow_comments !== undefined ? input.allow_comments : true,
       author_note: trimmedAuthorNote,
+      audio_url: input.audio_url || null,
+      audio_duration_seconds: input.audio_duration_seconds || null,
+      audio_mime: input.audio_mime || null,
     };
 
     let resultStory: Story;
@@ -160,10 +166,13 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
         .single();
 
       if (error) {
-        // Fail-soft: if author_note column does not exist yet, retry without author_note
-        if (error.message && (error.message.includes('author_note') || error.code === '42703')) {
+        // Fail-soft: if new columns (author_note, audio_*) do not exist yet on DB, strip them and retry
+        if (error.code === '42703' || (error.message && (error.message.includes('author_note') || error.message.includes('audio_')))) {
           const fallbackPayload = { ...payload };
           delete fallbackPayload.author_note;
+          delete fallbackPayload.audio_url;
+          delete fallbackPayload.audio_duration_seconds;
+          delete fallbackPayload.audio_mime;
           const { data: fbData, error: fbError } = await supabase
             .from('stories')
             .update(fallbackPayload)
@@ -186,10 +195,13 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
         .single();
 
       if (error) {
-        // Fail-soft: if author_note column does not exist yet, retry without author_note
-        if (error.message && (error.message.includes('author_note') || error.code === '42703')) {
+        // Fail-soft: if new columns do not exist yet on DB, strip them and retry
+        if (error.code === '42703' || (error.message && (error.message.includes('author_note') || error.message.includes('audio_')))) {
           const fallbackPayload = { ...payload };
           delete fallbackPayload.author_note;
+          delete fallbackPayload.audio_url;
+          delete fallbackPayload.audio_duration_seconds;
+          delete fallbackPayload.audio_mime;
           const { data: fbData, error: fbError } = await supabase
             .from('stories')
             .insert(fallbackPayload)

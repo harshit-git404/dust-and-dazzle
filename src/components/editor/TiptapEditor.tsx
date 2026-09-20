@@ -13,6 +13,7 @@ import { preparePhotoForUpload } from '@/lib/client-image-resizer';
 import { cleanPastedText, calculateReadingTime, generateExcerpt } from '@/lib/editor-utils';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
+import { StoryAudioRecorder } from '@/components/editor/StoryAudioRecorder';
 import { useRouter } from 'next/navigation';
 import {
   Bold,
@@ -58,6 +59,9 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
     story?.allow_comments !== undefined ? story.allow_comments : true
   );
   const [authorNote, setAuthorNote] = useState<string>(story?.author_note || '');
+  const [audioUrl, setAudioUrl] = useState<string | null>(story?.audio_url || null);
+  const [audioDurationSeconds, setAudioDurationSeconds] = useState<number | null>(story?.audio_duration_seconds || null);
+  const [audioMime, setAudioMime] = useState<string | null>(story?.audio_mime || null);
 
   // Optimistic concurrency tracking
   const [lastKnownUpdatedAt, setLastKnownUpdatedAt] = useState<string | null>(
@@ -348,6 +352,9 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           visibility,
           allow_comments: allowComments,
           author_note: authorNote.trim() || null,
+          audio_url: audioUrl,
+          audio_duration_seconds: audioDurationSeconds,
+          audio_mime: audioMime,
           lastKnownUpdatedAt,
         });
 
@@ -386,6 +393,9 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
       visibility,
       allowComments,
       authorNote,
+      audioUrl,
+      audioDurationSeconds,
+      audioMime,
       lastKnownUpdatedAt,
     ]
   );
@@ -804,6 +814,26 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
                 }}
                 placeholder="Personal reflections, memory context, or a private thought to close the chapter..."
                 className="w-full px-3.5 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs font-serif text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
+              />
+            </div>
+
+            {/* Narration "In His Own Voice" */}
+            <div className="pt-2">
+              <div className="text-xs uppercase tracking-wider text-[var(--color-terracotta)] font-semibold mb-2">
+                Voice Narration (Optional)
+              </div>
+              <StoryAudioRecorder
+                audioUrl={audioUrl}
+                audioDurationSeconds={audioDurationSeconds}
+                audioMime={audioMime}
+                onChange={(audioData) => {
+                  setAudioUrl(audioData.audio_url);
+                  setAudioDurationSeconds(audioData.audio_duration_seconds);
+                  setAudioMime(audioData.audio_mime);
+                  isDirtyRef.current = true;
+                  setSaveStatus('unsaved');
+                  triggerDebouncedAutosave();
+                }}
               />
             </div>
           </div>

@@ -27,6 +27,9 @@ export interface Story {
   photos?: StoryPhoto[];
   allow_comments?: boolean;
   author_note?: string | null;
+  audio_url?: string | null;
+  audio_duration_seconds?: number | null;
+  audio_mime?: string | null;
   published_at?: string | null;
   created_at?: string;
   updated_at?: string;
