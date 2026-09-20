@@ -59,9 +59,15 @@ Expand the **Environment Variables** section in Vercel and add the following key
 | `SMTP_PASS` | SMTP authentication password | Your SMTP app password or API secret key |
 | `NOTIFY_TO` | Reader comment alert recipient(s) | Comma-separated email addresses (e.g. `author@example.com`) |
 | `SITE_URL` | Base site URL for admin links in emails | Production URL (e.g. `https://dust-and-dazzle.vercel.app`) |
+| `NEXT_PUBLIC_FEATURE_READER_TOOLS` | Public share, continue reading, reading marks, keyboard navigation | Set to `true` to enable; defaults to `false` |
+| `NEXT_PUBLIC_FEATURE_SEARCH` | Full-text indexed story search | Set to `true` to enable; defaults to `false` |
+| `NEXT_PUBLIC_FEATURE_AUDIO` | In-browser narration player and audio recordings | Set to `true` to enable; defaults to `false` |
+| `NEXT_PUBLIC_FEATURE_INSTALL` | PWA web app manifest & home screen installation | Set to `true` to enable; defaults to `false` |
+| `NEXT_PUBLIC_FEATURE_READ_COUNTS` | Privacy-preserving aggregate read counts | Set to `true` to enable; defaults to `false` |
+| `NEXT_PUBLIC_FEATURE_TIMELINE` | Chronological decade timeline page | Set to `true` to enable; defaults to `false` |
 
 > ⚠️ **CRITICAL SECURITY NOTE**:
-> **DO NOT** add `SUPABASE_SERVICE_ROLE_KEY` to Vercel environment variables. The service role key is strictly for offline local administrative CLI scripts and must never exist in the production runtime.
+> **DO NOT** add `SUPABASE_SERVICE_ROLE_KEY` to Vercel environment variables. The service role key is strictly for offline local administrative CLI scripts and GitHub Actions secrets, and must never exist in the production web runtime.
 
 ---
 
@@ -81,14 +87,46 @@ To receive email alerts whenever readers submit new reflections for moderation:
 
 ---
 
-## 6. Deploying the Project
+## 6. Automated Weekly Backup (GitHub Actions)
+
+The repository includes a strictly read-only automated weekly backup workflow (`.github/workflows/backup.yml`) that runs every Sunday at 03:00 UTC and can also be triggered manually.
+
+### A. Configuring Repository Secrets in GitHub
+1. Navigate to your GitHub Repository -> **Settings** -> **Secrets and variables** -> **Actions**.
+2. Click **"New repository secret"** and add:
+   - `SUPABASE_URL`: Your project URL (`https://your-project-ref.supabase.co`).
+   - `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase Service Role Secret Key (from Supabase Dashboard -> **Project Settings** -> **API** -> **service_role secret**).
+
+> 🔒 **PRIVACY & SECURITY WARNING**:
+> Automated backup zip artifacts contain complete exports of all stories (including drafts and private stories), site settings, referenced media, and reader comments with emails. **The GitHub repository must remain PRIVATE at all times.**
+
+### B. Downloading Backups
+1. Go to the **Actions** tab in your GitHub repository.
+2. Select the **"Automated Weekly Backup"** workflow.
+3. Click on the latest workflow run.
+4. Under **Artifacts**, download `backup-YYYY-MM-DD.zip` (retained for 90 days).
+
+### C. Validating and Restoring a Backup
+You can validate any backup zip without making database modifications using the dry-run flag:
+```bash
+npx tsx scripts/restore-from-backup.ts backup-2026-09-20.zip --dry-run
+```
+
+To execute a full restore (after reviewing):
+```bash
+npx tsx scripts/restore-from-backup.ts backup-2026-09-20.zip
+```
+
+---
+
+## 7. Deploying the Project
 1. Click the **"Deploy"** button.
 2. Vercel will build the application, optimize assets, generate OpenGraph images, and deploy serverless routes globally.
 3. Once the build finishes, you will receive your production URL.
 
 ---
 
-## 7. Post-Deployment Verification Checklist
+## 8. Post-Deployment Verification Checklist
 
 - [ ] **Frontispiece Page**: Visit `/` and ensure the book cover, typography, and dedication render cleanly.
 - [ ] **Table of Contents**: Visit `/toc` and confirm all published chapters appear in correct sequence.
@@ -105,8 +143,3 @@ To receive email alerts whenever readers submit new reflections for moderation:
   - Verify JSON response: `{"status":"healthy","database":"connected"}`.
   - In Vercel Dashboard -> **Settings** -> **Cron Jobs**, confirm that the daily cron `/api/health` (`0 5 * * *`) is registered.
 - [ ] **Security Headers**: Check your domain with [securityheaders.com](https://securityheaders.com) to verify CSP, HSTS, and X-Content-Type-Options headers.
-
----
-
-## 8. Backups and Disaster Recovery
-See [README.md](file:///c:/Users/harsh/Desktop/Web%20Dev/dust-and-dazzle/README.md) for instructions on creating one-click JSON/Markdown backups from the Author Studio and restoring them to the database.

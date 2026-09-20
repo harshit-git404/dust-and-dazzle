@@ -77,33 +77,36 @@ npm run start
 
 - `/` — **Book Cover & Frontispiece**: Title, subtitle, author byline, dedication, frontispiece archival photo plate, and direct reading entrance.
 - `/toc` — **Table of Contents**: Continuous chronological index of all 16 story chapters.
-- `/story/[slug]` — **Story Reading Experience**: Distraction-free 680px reading column, candlelight reading mode toggle, drop caps, reader reflections, and sequential next/previous navigation.
+- `/story/[slug]` — **Story Reading Experience**: Distraction-free 680px reading column, candlelight reading mode toggle, drop caps, reader reflections, sequential next/previous navigation, author notes, audio narration, and share actions.
+- `/search` — **Full-Text Search**: Fast, indexed manuscript search with safe keyword highlighting and title fallbacks.
+- `/timeline` — **Decade Timeline**: Chronological journey across decades through village memories and city migration.
+- `/admin/book` — **Print-Ready Keepsake Book**: CSS paged media preview & PDF export formatted in 6x9, A5, and A4 trim sizes with mirrored margins, running headers, dedication, and colophon.
 - `/login` — **Author Studio**: Private author authentication.
-- `/admin` — **Author Dashboard**: Manuscript management, reordering, visibility toggling, backups, and live word counts.
-- `/admin/story/[id]` — **Tiptap Story Editor**: Rich text editor with autosave, crash recovery, Word paste cleanup, photo uploads, and live preview.
+- `/admin` — **Author Dashboard**: Manuscript management, reordering, visibility toggling, backups, live word counts, and approximate read statistics.
+- `/admin/story/[id]` — **Tiptap Story Editor**: Rich text editor with autosave, crash recovery, Word paste cleanup, photo uploads, audio narration recording, writing prompts spark popover, and live preview.
 - `/admin/comments` — **Comment Moderation**: Author approval queue for reader reflections.
-- `/admin/media` — **Media Library**: Archival photograph plate storage manager.
+- `/admin/media` — **Media Library**: Archival photograph and audio recording manager.
 - `/admin/settings` — **Site Settings**: Dedication, author biography, and frontispiece portrait editor.
 
 ---
 
 ## 💾 Backups and Disaster Recovery
 
-### 1. Downloading a Complete Backup
-1. Sign in to the **Author Studio** at `/login`.
-2. On the dashboard (`/admin`), click **"Download Backup"**.
-3. You can choose:
-   - **JSON Backup (`.json`)**: Full database export containing all stories (published, drafts, private), JSON Tiptap ASTs, HTML content, reading times, and photo attachments.
-   - **Markdown Archive (`.zip`)**: A zip file of clean Markdown files with YAML frontmatter for offline preservation.
+### 1. Automated Weekly Backups (GitHub Actions)
+The repository runs `.github/workflows/backup.yml` every Sunday at 03:00 UTC, exporting stories, site settings, media, and comments into a 90-day retained zip artifact.
 
-### 2. Restoring from a JSON Backup
-To restore the manuscript from a previously exported JSON backup file, run:
-
+### 2. Manual Export & Restore
+To export manually or run a dry-run validation:
 ```bash
-npx tsx scripts/restore-from-backup.ts /path/to/dust-and-dazzle-backup-2026-09-20.json
-```
+# Read-only export to backup-YYYY-MM-DD.zip
+npx tsx scripts/export-backup.ts
 
-The script will read the backup, validate the schema, and upsert each story into your Supabase database using conflict-safe slug matching.
+# Dry-run validation (non-destructive)
+npx tsx scripts/restore-from-backup.ts backup-2026-09-20.zip --dry-run
+
+# Restore (upsert mode)
+npx tsx scripts/restore-from-backup.ts backup-2026-09-20.zip
+```
 
 ---
 
@@ -122,6 +125,7 @@ For complete step-by-step instructions on deploying to **Vercel** and configurin
 - [x] **Phase 3**: Author Studio Dashboard & Tiptap Editor with Autosave
 - [x] **Phase 4**: Photo Uploads & Reader Comment Moderation
 - [x] **Phase 5**: Polish, Security Hardening, A11y & Deployment Prep
+- [x] **Phase 6**: "Heirloom" Keepsake Edition (Print Book, Search, Audio, PWA, Reader Tools, Backups, Timeline, Prompts)
 
 ---
 
