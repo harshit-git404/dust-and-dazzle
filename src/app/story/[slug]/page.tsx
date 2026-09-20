@@ -11,6 +11,7 @@ import { StoryShare } from '@/components/story/StoryShare';
 import { ReadingTracker } from '@/components/story/ReadingTracker';
 import { KeyboardNavigation } from '@/components/story/KeyboardNavigation';
 import { AudioPlayer } from '@/components/story/AudioPlayer';
+import { ReadCountTracker } from '@/components/story/ReadCountTracker';
 import { isFeatureEnabled } from '@/lib/features';
 import { ArrowLeft, ArrowRight, Clock, Calendar, MessageSquare } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -89,6 +90,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
   const approvedComments = await getApprovedComments(story.id);
   const readerToolsEnabled = isFeatureEnabled('READER_TOOLS');
   const audioEnabled = isFeatureEnabled('AUDIO');
+  const readCountsEnabled = isFeatureEnabled('READ_COUNTS');
 
   const storyPhotos: StoryPhoto[] =
     story.photos && story.photos.length > 0
@@ -316,6 +318,11 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
                 nextSlug={nextStory?.slug}
               />
             </>
+          )}
+
+          {/* Private Read Counter (Fires after 30s + 40% scroll depth) */}
+          {readCountsEnabled && (
+            <ReadCountTracker storyId={story.id} slug={story.slug} />
           )}
 
           {/* Reader Reflections Section */}

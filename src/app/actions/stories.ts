@@ -375,3 +375,109 @@ export async function exportAllStoriesData(): Promise<{
     return { success: false, error: err instanceof Error ? err.message : 'Export failed' };
   }
 }
+
+/**
+ * Record a reader view on a published story (called after 30s + 40% scroll).
+ * Fails soft if RPC or table does not exist yet.
+ */
+export async function recordStoryReadAction(storyId: string): Promise<{ success: boolean }> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc('record_story_read', {
+      p_story_id: storyId,
+    });
+
+    if (error) {
+      // Fail soft silently if migration not applied yet
+      return { success: false };
+    }
+
+    return { success: !!data };
+  } catch {
+    return { success: false };
+  }
+}
+
+export interface StoryReadStats {
+  [storyId: string]: {
+    totalReads: number;
+    last30DaysReads: number;
+    dailySparkline: number[]; // 30 data points
+  };
+}
+
+/**
+ * Get aggregate read statistics for the Author Studio dashboard.
+ * Author-only access via RLS. Fails soft if table not created yet.
+ */
+export async function getStoryReadStatsAction(): Promise<StoryReadStats> {
+  try {
+    const { supabase } = await verifyAuthorOrThrow();
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const dateStr = thirtyDaysAgo.toISOString().split('T')[0];
+
+    const { data, error } = await supabase
+      .from('story_reads')
+      .select('story_id, day, reads')
+      .gte('day', dateStr)
+      .order('day', { ascending: true });
+
+    if (error || !data) {
+      return {};
+    }
+
+    const stats: StoryReadStats = {};
+
+    // Generate array of last 30 dates (YYYY-MM-DD)
+    const last30Dates: string[] = [];
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      last30Dates.push(d.toISOString().split('T')[0]);
+    }
+
+    // Map rows by story_id and date
+    const readsMap: Record<string, Record<string, number>> = {};
+    for (const row of data) {
+      if (!readsMap[row.story_id]) {
+        readsMap[row.story_id] = {};
+      }
+      readsMap[row.story_id][row.day] = (readsMap[row.story_id][row.day] || 0) + (row.reads || 0);
+    }
+
+    // Also get all-time totals
+    const { data: allTimeData } = await supabase
+      .from('story_reads')
+      .select('story_id, reads');
+
+    const totalMap: Record<string, number> = {};
+    if (allTimeData) {
+      for (const row of allTimeData) {
+        totalMap[row.story_id] = (totalMap[row.story_id] || 0) + (row.reads || 0);
+      }
+    }
+
+    for (const storyId of Object.keys(readsMap)) {
+      const storyDays = readsMap[storyId] || {};
+      let last30Total = 0;
+      const sparkline: number[] = last30Dates.map((date) => {
+        const count = storyDays[date] || 0;
+        last30Total += count;
+        return count;
+      });
+
+      stats[storyId] = {
+        totalReads: totalMap[storyId] || last30Total,
+        last30DaysReads: last30Total,
+        dailySparkline: sparkline,
+      };
+    }
+
+    return stats;
+  } catch {
+    return {};
+  }
+}
+

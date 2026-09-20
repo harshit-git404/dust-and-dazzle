@@ -6,8 +6,10 @@ import { Story, StoryVisibility } from '@/types/story';
 import {
   reorderStoriesAction,
   updateStoryVisibilityAction,
+  StoryReadStats,
 } from '@/app/actions/stories';
 import { DeleteStoryModal } from '@/components/admin/DeleteStoryModal';
+import { ReadSparkline } from '@/components/admin/ReadSparkline';
 import {
   GripVertical,
   ChevronUp,
@@ -22,13 +24,15 @@ import {
   FileEdit,
   Loader2,
   CheckCircle2,
+  TrendingUp,
 } from 'lucide-react';
 
 interface StoryListProps {
   initialStories: Story[];
+  readStats?: StoryReadStats;
 }
 
-export function StoryList({ initialStories }: StoryListProps) {
+export function StoryList({ initialStories, readStats = {} }: StoryListProps) {
   const [stories, setStories] = useState<Story[]>(initialStories);
   const [isReordering, setIsReordering] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -230,6 +234,17 @@ export function StoryList({ initialStories }: StoryListProps) {
                         <span className="hidden sm:inline">•</span>
                         <span className="hidden sm:inline italic">
                           Edited {new Date(story.updated_at).toLocaleDateString()}
+                        </span>
+                      </>
+                    )}
+                    {readStats[story.id] && (
+                      <>
+                        <span>•</span>
+                        <span className="inline-flex items-center gap-1.5 text-[var(--text-secondary)] font-medium" title="Reads in last 30 days / All-time approximate">
+                          <TrendingUp className="w-3 h-3 text-[var(--color-terracotta)]" />
+                          <span>Reads (approx): {readStats[story.id].totalReads}</span>
+                          <span className="text-[10px] text-[var(--text-muted)]">({readStats[story.id].last30DaysReads} in 30d)</span>
+                          <ReadSparkline data={readStats[story.id].dailySparkline} />
                         </span>
                       </>
                     )}

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { StoryList } from '@/components/admin/StoryList';
 import { BackupDownloadButton } from '@/components/admin/BackupDownloadButton';
+import { getStoryReadStatsAction } from '@/app/actions/stories';
 import { BookOpen, Plus, CheckCircle2, EyeOff, Key, Sparkles } from 'lucide-react';
 import { Story } from '@/types/story';
 
@@ -27,6 +28,8 @@ export default async function AdminDashboardPage() {
       stories = [];
     }
   }
+
+  const readStats = await getStoryReadStatsAction();
 
   publishedCount = stories.filter((s) => s.visibility === 'published').length;
   draftCount = stories.filter((s) => s.visibility === 'draft' || s.visibility === 'private').length;
@@ -112,7 +115,7 @@ export default async function AdminDashboardPage() {
 
         {/* Interactive Stories List with Drag and Drop */}
         <div className="mt-6">
-          <StoryList initialStories={stories} />
+          <StoryList initialStories={stories} readStats={readStats} />
         </div>
       </section>
 
