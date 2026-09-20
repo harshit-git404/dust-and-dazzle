@@ -49,6 +49,11 @@ export const metadata: Metadata = {
     description:
       'A literary memoir and short story collection by Ajeet Kumar Singh.',
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Dust and Dazzle',
+  },
   robots: isIndexable
     ? {
         index: true,
