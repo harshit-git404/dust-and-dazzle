@@ -1,0 +1,43 @@
+name: Archival Weekly Backup
+run-name: Archival Weekly Backup (${{ github.event_name }})
+
+on:
+  schedule:
+    # Every Sunday at 03:00 UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export-backup:
+    name: Export Archival Keepsake Backup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Export read-only backup
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ALLOW_READONLY_EXPORT_IN_CI: '1'
+        run: npx tsx scripts/export-backup.ts
+
+      - name: Upload backup artifact (90-day retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dust-and-dazzle-archival-backup-${{ github.sha }}
+          path: backup-*.zip
+          retention-days: 90
+          if-no-files-found: error

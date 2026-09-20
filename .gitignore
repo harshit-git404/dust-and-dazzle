@@ -45,5 +45,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#files
-docs/
+# backups
+backup-*.zip
+
+# files
+docs/*
+!docs/phase6-report.md

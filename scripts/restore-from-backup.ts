@@ -43,11 +43,14 @@ interface BackupFile {
 }
 
 async function restoreFromBackup() {
-  console.log('📦 Starting Dust and Dazzle Backup Restoration Script...\n');
+  console.log('📦 Dust and Dazzle Backup Restoration Script\n');
 
-  const filePath = process.argv[2];
+  const args = process.argv.slice(2);
+  const isDryRun = args.includes('--dry-run');
+  const filePath = args.find((arg) => !arg.startsWith('--'));
+
   if (!filePath) {
-    console.error('❌ Usage: npx tsx scripts/restore-from-backup.ts <path-to-backup.json>');
+    console.error('❌ Usage: npx tsx scripts/restore-from-backup.ts <path-to-backup.json> [--dry-run]');
     process.exit(1);
   }
 
@@ -73,6 +76,16 @@ async function restoreFromBackup() {
   }
 
   console.log(`Found ${backupData.stories.length} stories in backup file exported at ${backupData.exportedAt || 'Unknown'}.`);
+
+  if (isDryRun) {
+    console.log('\n🔍 DRY-RUN MODE ACTIVE: Validating backup file and simulating restoration without database writes.\n');
+    console.log('Stories to restore:');
+    backupData.stories.forEach((story, idx) => {
+      console.log(`  ${idx + 1}. [${story.chapter_label || `Chapter ${idx + 1}`}] "${story.title}" (${story.slug}) - ${story.visibility || 'draft'}`);
+    });
+    console.log(`\n✅ Dry run completed successfully: ${backupData.stories.length} stories validated with valid structure. No database changes were made.`);
+    return;
+  }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
