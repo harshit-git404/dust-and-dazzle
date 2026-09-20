@@ -17,6 +17,7 @@ export interface SaveStoryInput {
   content_json?: Record<string, unknown> | null;
   visibility: StoryVisibility;
   allow_comments?: boolean;
+  author_note?: string | null;
   lastKnownUpdatedAt?: string | null;
 }
 
@@ -131,6 +132,8 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
       }
     }
 
+    const trimmedAuthorNote = input.author_note?.trim() ? input.author_note.trim().slice(0, 1200) : null;
+
     const payload: Partial<Story> = {
       title,
       subtitle: input.subtitle?.trim() || null,
@@ -143,6 +146,7 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
       content_json: input.content_json || null,
       visibility: input.visibility,
       allow_comments: input.allow_comments !== undefined ? input.allow_comments : true,
+      author_note: trimmedAuthorNote,
     };
 
     let resultStory: Story;
@@ -155,8 +159,25 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
         .select('*')
         .single();
 
-      if (error) throw error;
-      resultStory = data as Story;
+      if (error) {
+        // Fail-soft: if author_note column does not exist yet, retry without author_note
+        if (error.message && (error.message.includes('author_note') || error.code === '42703')) {
+          const fallbackPayload = { ...payload };
+          delete fallbackPayload.author_note;
+          const { data: fbData, error: fbError } = await supabase
+            .from('stories')
+            .update(fallbackPayload)
+            .eq('id', input.id)
+            .select('*')
+            .single();
+          if (fbError) throw fbError;
+          resultStory = fbData as Story;
+        } else {
+          throw error;
+        }
+      } else {
+        resultStory = data as Story;
+      }
     } else {
       const { data, error } = await supabase
         .from('stories')
@@ -164,8 +185,24 @@ export async function saveStoryAction(input: SaveStoryInput): Promise<SaveStoryR
         .select('*')
         .single();
 
-      if (error) throw error;
-      resultStory = data as Story;
+      if (error) {
+        // Fail-soft: if author_note column does not exist yet, retry without author_note
+        if (error.message && (error.message.includes('author_note') || error.code === '42703')) {
+          const fallbackPayload = { ...payload };
+          delete fallbackPayload.author_note;
+          const { data: fbData, error: fbError } = await supabase
+            .from('stories')
+            .insert(fallbackPayload)
+            .select('*')
+            .single();
+          if (fbError) throw fbError;
+          resultStory = fbData as Story;
+        } else {
+          throw error;
+        }
+      } else {
+        resultStory = data as Story;
+      }
     }
 
     revalidatePath('/admin');

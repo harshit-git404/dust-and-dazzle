@@ -57,6 +57,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
   const [allowComments, setAllowComments] = useState<boolean>(
     story?.allow_comments !== undefined ? story.allow_comments : true
   );
+  const [authorNote, setAuthorNote] = useState<string>(story?.author_note || '');
 
   // Optimistic concurrency tracking
   const [lastKnownUpdatedAt, setLastKnownUpdatedAt] = useState<string | null>(
@@ -199,6 +200,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
         if (parsed.year) setYear(parsed.year);
         if (parsed.excerpt) setExcerpt(parsed.excerpt);
         if (parsed.visibility) setVisibility(parsed.visibility);
+        if (parsed.authorNote) setAuthorNote(parsed.authorNote);
         if (parsed.contentJson) {
           editor.commands.setContent(parsed.contentJson);
         } else if (parsed.contentHtml) {
@@ -323,6 +325,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
             excerpt,
             visibility,
             allowComments,
+            authorNote,
             contentHtml,
             contentJson,
             timestamp: new Date().toISOString(),
@@ -344,6 +347,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           content_json: contentJson as Record<string, unknown>,
           visibility,
           allow_comments: allowComments,
+          author_note: authorNote.trim() || null,
           lastKnownUpdatedAt,
         });
 
@@ -381,6 +385,7 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
       excerpt,
       visibility,
       allowComments,
+      authorNote,
       lastKnownUpdatedAt,
     ]
   );
@@ -769,6 +774,35 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
                   triggerDebouncedAutosave();
                 }}
                 placeholder="Leave blank to automatically extract opening narrative sentences..."
+                className="w-full px-3.5 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs font-serif text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
+              />
+            </div>
+
+            {/* Author's Note (Optional - Max 1200 chars) */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label
+                  htmlFor="story-author-note"
+                  className="block text-xs uppercase tracking-wider text-[var(--text-muted)]"
+                >
+                  Note from the author (optional)
+                </label>
+                <span className={`text-[11px] font-mono ${authorNote.length > 1200 ? 'text-red-500 font-semibold' : 'text-[var(--text-muted)]'}`}>
+                  {authorNote.length} / 1200
+                </span>
+              </div>
+              <textarea
+                id="story-author-note"
+                rows={3}
+                maxLength={1200}
+                value={authorNote}
+                onChange={(e) => {
+                  setAuthorNote(e.target.value);
+                  isDirtyRef.current = true;
+                  setSaveStatus('unsaved');
+                  triggerDebouncedAutosave();
+                }}
+                placeholder="Personal reflections, memory context, or a private thought to close the chapter..."
                 className="w-full px-3.5 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs font-serif text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
               />
             </div>

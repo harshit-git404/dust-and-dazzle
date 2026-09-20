@@ -186,6 +186,20 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
             dangerouslySetInnerHTML={{ __html: story.content_html }}
           />
 
+          {/* Author's Note (Optional reflection from author) */}
+          {story.author_note && story.author_note.trim().length > 0 && (
+            <div className="my-10 p-5 sm:p-6 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm shadow-[0_2px_8px_rgba(43,29,20,0.03)]">
+              <div className="text-[11px] uppercase tracking-widest text-[var(--color-terracotta)] font-semibold mb-2.5">
+                Author&apos;s Note
+              </div>
+              <div className="font-serif italic text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed space-y-2">
+                {story.author_note.split(/\n\s*\n/).map((para, i) => (
+                  <p key={i}>{para.trim()}</p>
+                ))}
+              </div>
+            </div>
+          )}
+
           <DiyaDivider variant="flourish" className="my-12 sm:my-16" />
  
           {/* Print-only Story End Credit */}

@@ -26,6 +26,7 @@ export interface Story {
   image_caption?: string | null;
   photos?: StoryPhoto[];
   allow_comments?: boolean;
+  author_note?: string | null;
   published_at?: string | null;
   created_at?: string;
   updated_at?: string;
