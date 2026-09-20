@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { isFeatureEnabled } from '@/lib/features';
 import { searchStories, renderHighlightedSnippet } from '@/lib/search';
+import { SearchInput } from '@/components/search/SearchInput';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { Search as SearchIcon, ArrowRight, BookOpen, Clock, Calendar, ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -60,31 +61,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           </p>
         </div>
 
-        {/* Search Form */}
-        <form
-          action="/search"
-          method="GET"
-          className="relative mb-10 max-w-xl mx-auto"
-        >
-          <div className="relative flex items-center">
-            <SearchIcon className="absolute left-4 w-4 h-4 text-[var(--text-muted)] pointer-events-none" />
-            <input
-              type="search"
-              name="q"
-              defaultValue={query}
-              placeholder="Search words, places, years, or memories..."
-              maxLength={100}
-              autoFocus
-              className="w-full pl-11 pr-24 py-3 bg-[var(--bg-surface)] border border-[var(--border-strong)] rounded-sm text-sm font-serif text-[var(--text-primary)] placeholder:text-[var(--text-muted)] placeholder:italic focus:outline-none focus:ring-2 focus:ring-[var(--color-terracotta)] shadow-sm"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 px-4 py-1.5 rounded-xs bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-white text-xs font-serif font-medium transition-all cursor-pointer shadow-xs"
-            >
-              Search
-            </button>
-          </div>
-        </form>
+        {/* Client-Side Search Form (Smooth SPA Navigation, No Flash) */}
+        <SearchInput initialQuery={query} />
 
         <DiyaDivider variant="flourish" className="my-8" />
 
