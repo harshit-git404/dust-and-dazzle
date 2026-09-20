@@ -12,6 +12,7 @@ import type { Metadata } from 'next';
 
 import { getApprovedComments } from '@/lib/comments';
 import { CommentForm } from '@/components/CommentForm';
+import { SITE_CREDIT } from '@/content/credit';
 
 interface StoryPageProps {
   params: Promise<{
@@ -184,6 +185,11 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
           />
 
           <DiyaDivider variant="flourish" className="my-12 sm:my-16" />
+ 
+          {/* Print-only Story End Credit */}
+          <div className="hidden print-credit">
+            {SITE_CREDIT}
+          </div>
 
           {/* Continuous Story Flow (Previous / Next Chapter Navigation) */}
           <nav className="mt-10 pt-6 border-t border-[var(--border-subtle)]" aria-label="Story Navigation">
