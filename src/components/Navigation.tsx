@@ -52,6 +52,20 @@ export function Navigation() {
             </Link>
           )}
 
+          {isFeatureEnabled('TIMELINE') && (
+            <Link
+              href="/timeline"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-serif text-sm transition-all ${
+                pathname === '/timeline'
+                  ? 'bg-[var(--bg-surface-elevated)] text-[var(--color-terracotta)] font-semibold border border-[var(--border-subtle)]'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)]'
+              }`}
+              title="Chronological timeline of stories"
+            >
+              <span>Timeline</span>
+            </Link>
+          )}
+
           <Link
             href="/toc"
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm font-serif text-sm transition-all ${
