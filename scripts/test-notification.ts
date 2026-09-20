@@ -1,6 +1,7 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 // Load environment variables from .env.local, then fallback to .env
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
@@ -73,7 +74,7 @@ ${siteUrl}/admin/comments
       connectionTimeout: 6000,
       greetingTimeout: 6000,
       socketTimeout: 6000,
-    });
+    } as SMTPTransport.Options);
 
     console.log('\nSending test email...');
 

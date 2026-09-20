@@ -63,7 +63,7 @@ export function StoryMarginalia({ story }: StoryMarginaliaProps) {
     };
   }, []);
 
-  const photos =
+  const photos: StoryPhoto[] =
     story.photos && story.photos.length > 0
       ? story.photos
       : story.cover_image_url
@@ -72,6 +72,7 @@ export function StoryMarginalia({ story }: StoryMarginaliaProps) {
             url: story.cover_image_url,
             caption: story.image_caption || undefined,
             alt_text: story.title.replace(/^\[Placeholder\]\s*/, ''),
+            year: story.year || undefined,
             frame_style: 'tape-corners',
             rotation_deg: 0,
           },

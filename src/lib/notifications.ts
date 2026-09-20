@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 export interface CommentNotificationInput {
   storyTitle: string;
@@ -94,7 +95,7 @@ ${adminUrl}
       connectionTimeout: 6000,
       greetingTimeout: 6000,
       socketTimeout: 6000,
-    });
+    } as SMTPTransport.Options);
 
     // 5. Send with safety timeout
     const sendPromise = transporter.sendMail({

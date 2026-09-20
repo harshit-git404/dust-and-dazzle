@@ -11,7 +11,7 @@ function inspectXml() {
   console.log(`Styles XML length: ${stylesXml.length}`);
 
   // Let's find all style names in styles.xml
-  const styleMatches = [...stylesXml.matchAll(/<w:style[^>]*w:styleId="([^"]+)"[^>]*>.*?<w:name w:val="([^"]+)"/gs)];
+  const styleMatches = [...stylesXml.matchAll(/<w:style[^>]*w:styleId="([^"]+)"[^>]*>[\s\S]*?<w:name w:val="([^"]+)"/g)];
   console.log('\nStyles in styles.xml:');
   styleMatches.forEach((m) => {
     console.log(`  ID: ${m[1]} -> Name: ${m[2]}`);
@@ -22,7 +22,7 @@ function inspectXml() {
   if (fiftyIndex !== -1) {
     const fiftyChunk = documentXml.substring(fiftyIndex, fiftyIndex + 20000);
     // Find all <w:p> in this chunk
-    const pMatches = fiftyChunk.match(/<w:p.*?>.*?<\/w:p>/gs) || [];
+    const pMatches = fiftyChunk.match(/<w:p.*?>[\s\S]*?<\/w:p>/g) || [];
     console.log(`\nFound ${pMatches.length} <w:p> tags in "At Fifty" section:`);
     pMatches.slice(0, 20).forEach((p, idx) => {
       // Extract text and style

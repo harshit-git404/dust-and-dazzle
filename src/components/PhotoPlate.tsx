@@ -4,11 +4,12 @@ import Image from 'next/image';
 interface PhotoPlateProps {
   src: string;
   alt: string;
-  caption?: string;
-  year?: string;
+  caption?: string | null;
+  year?: string | null;
   width?: number;
   height?: number;
   effect?: 'tape-top' | 'tape-corners' | 'corner-pins' | 'simple-frame' | 'auto';
+  rotation?: number;
   className?: string;
 }
 
@@ -48,14 +49,17 @@ export function PhotoPlate({
   width = 800,
   height = 540,
   effect = 'auto',
+  rotation,
   className = '',
 }: PhotoPlateProps) {
   const hash = hashString(src || 'photo');
   const chosenEffect = effect === 'auto' ? EFFECTS[hash % EFFECTS.length] : effect;
-  const chosenRotation = ROTATIONS[hash % ROTATIONS.length];
+  const chosenRotation = rotation !== undefined ? '' : ROTATIONS[hash % ROTATIONS.length];
+  const customRotationStyle = rotation !== undefined ? { transform: `rotate(${rotation}deg)` } : undefined;
 
   return (
     <figure
+      style={customRotationStyle}
       className={`relative my-10 mx-auto max-w-2xl group transition-transform duration-300 ${chosenRotation} ${className}`}
     >
       {/* Tape & Pin decorations */}

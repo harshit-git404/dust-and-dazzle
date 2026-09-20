@@ -7,7 +7,7 @@ function analyzeAllParagraphs() {
   const documentXml = zip.readAsText('word/document.xml');
 
   // Let's parse all <w:p>
-  const pMatches = documentXml.match(/<w:p[ >].*?<\/w:p>/gs) || [];
+  const pMatches = documentXml.match(/<w:p[ >][\s\S]*?<\/w:p>/g) || [];
   console.log(`Total paragraphs in document: ${pMatches.length}`);
 
   let currentStory = '';
@@ -31,7 +31,7 @@ function analyzeAllParagraphs() {
     if (storyIndex === 0) return; // Before first story (TOC etc)
 
     // Check formatting of runs in this paragraph
-    const runs = [...p.matchAll(/<w:r[ >].*?<\/w:r>/gs)].map(rMatch => {
+    const runs = [...p.matchAll(/<w:r[ >][\s\S]*?<\/w:r>/g)].map(rMatch => {
       const r = rMatch[0];
       const rText = [...r.matchAll(/<w:t[^>]*>(.*?)<\/w:t>/g)].map(t => t[1]).join('');
       const isBold = r.includes('<w:b/>') || r.includes('<w:b ');

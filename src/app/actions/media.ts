@@ -141,7 +141,7 @@ export async function listMediaAction(): Promise<{
       const isUsed = usedInStories.length > 0 || isUsedInSettings;
 
       return {
-        id: file.id,
+        id: file.id || file.name,
         name: file.name,
         url,
         size: file.metadata?.size || 0,

@@ -73,17 +73,22 @@ export function sanitizeStoryHtml(dirtyHtml: string): string {
               return { tagName: 'span', attribs: { class: 'untrusted-image-omitted' } };
             }
           } catch {
-            return { tagName: 'span', attribs: {} };
+            return { tagName: 'span', attribs: { class: 'untrusted-image-omitted' } };
           }
         }
 
+        const cleanAttribs: Record<string, string> = {};
+        for (const [k, v] of Object.entries(attribs)) {
+          if (typeof v === 'string') {
+            cleanAttribs[k] = v;
+          }
+        }
+        cleanAttribs.loading = 'lazy';
+        cleanAttribs.alt = attribs.alt || 'Archival photograph';
+
         return {
           tagName: 'img',
-          attribs: {
-            ...attribs,
-            loading: 'lazy',
-            alt: attribs.alt || 'Archival photograph',
-          },
+          attribs: cleanAttribs,
         };
       },
     },

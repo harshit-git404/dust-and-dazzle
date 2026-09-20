@@ -1,5 +1,14 @@
 export type StoryVisibility = 'draft' | 'published' | 'private';
 
+export interface StoryPhoto {
+  url: string;
+  caption?: string | null;
+  alt_text?: string | null;
+  year?: string | null;
+  frame_style?: 'tape-top' | 'tape-corners' | 'corner-pins' | 'simple-frame' | 'auto';
+  rotation_deg?: number;
+}
+
 export interface Story {
   id: string;
   slug: string;
@@ -15,6 +24,7 @@ export interface Story {
   content_json?: Record<string, unknown> | null;
   cover_image_url?: string | null;
   image_caption?: string | null;
+  photos?: StoryPhoto[];
   allow_comments?: boolean;
   published_at?: string | null;
   created_at?: string;

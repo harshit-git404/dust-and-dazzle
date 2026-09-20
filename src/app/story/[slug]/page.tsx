@@ -13,6 +13,7 @@ import type { Metadata } from 'next';
 import { getApprovedComments } from '@/lib/comments';
 import { CommentForm } from '@/components/CommentForm';
 import { SITE_CREDIT } from '@/content/credit';
+import { StoryPhoto } from '@/types/story';
 
 interface StoryPageProps {
   params: Promise<{
@@ -82,7 +83,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
   const nextStory = currentIndex >= 0 && currentIndex < allPublished.length - 1 ? allPublished[currentIndex + 1] : null;
   const approvedComments = await getApprovedComments(story.id);
 
-  const storyPhotos =
+  const storyPhotos: StoryPhoto[] =
     story.photos && story.photos.length > 0
       ? story.photos
       : story.cover_image_url
@@ -91,6 +92,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
             url: story.cover_image_url,
             caption: story.image_caption || undefined,
             alt_text: story.title.replace(/^\[Placeholder\]\s*/, ''),
+            year: story.year || undefined,
             frame_style: 'tape-top',
             rotation_deg: 0,
           },
