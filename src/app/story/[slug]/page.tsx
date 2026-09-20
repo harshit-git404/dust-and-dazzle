@@ -7,6 +7,10 @@ import { PhotoPlate } from '@/components/PhotoPlate';
 import { StoryCollectionSidebar } from '@/components/story/StoryCollectionSidebar';
 import { StoryMarginalia } from '@/components/story/StoryMarginalia';
 import { TextSizeControl } from '@/components/story/TextSizeControl';
+import { StoryShare } from '@/components/story/StoryShare';
+import { ReadingTracker } from '@/components/story/ReadingTracker';
+import { KeyboardNavigation } from '@/components/story/KeyboardNavigation';
+import { isFeatureEnabled } from '@/lib/features';
 import { ArrowLeft, ArrowRight, Clock, Calendar, MessageSquare } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -82,6 +86,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
   const prevStory = currentIndex > 0 ? allPublished[currentIndex - 1] : null;
   const nextStory = currentIndex >= 0 && currentIndex < allPublished.length - 1 ? allPublished[currentIndex + 1] : null;
   const approvedComments = await getApprovedComments(story.id);
+  const readerToolsEnabled = isFeatureEnabled('READER_TOOLS');
 
   const storyPhotos: StoryPhoto[] =
     story.photos && story.photos.length > 0
@@ -201,6 +206,19 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
           )}
 
           <DiyaDivider variant="flourish" className="my-12 sm:my-16" />
+
+          {/* Reader Tools: Share Button at End of Story */}
+          {readerToolsEnabled && (
+            <div className="flex items-center justify-between pb-6 mb-6 border-b border-[var(--border-subtle)]/70">
+              <span className="font-serif italic text-xs text-[var(--text-muted)]">
+                Liked this chapter? Share it with family & friends.
+              </span>
+              <StoryShare
+                title={story.title.replace(/^\[Placeholder\]\s*/, '')}
+                slug={story.slug}
+              />
+            </div>
+          )}
  
           {/* Print-only Story End Credit */}
           <div className="hidden print-credit">
@@ -208,7 +226,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
           </div>
 
           {/* Continuous Story Flow (Previous / Next Chapter Navigation) */}
-          <nav className="mt-10 pt-6 border-t border-[var(--border-subtle)]" aria-label="Story Navigation">
+          <nav className="mt-8 pt-4 border-t border-[var(--border-subtle)]" aria-label="Story Navigation">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
               {/* Previous Chapter */}
@@ -246,7 +264,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
                   className="group p-4 sm:p-5 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-[var(--color-terracotta)]/40 rounded-sm transition-all text-right sm:text-left"
                 >
                   <div className="flex items-center justify-end sm:justify-start gap-1.5 text-xs font-serif uppercase tracking-widest text-[var(--text-muted)] mb-1">
-                    <span>Next Chapter</span>
+                    <span>Next: {nextStory.title.replace(/^\[Placeholder\]\s*/, '')} ({nextStory.reading_time})</span>
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </div>
                   <div className="font-serif text-sm sm:text-base font-normal text-[var(--text-primary)] group-hover:text-[var(--color-terracotta)] transition-colors">
@@ -259,16 +277,32 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
                   className="p-4 sm:p-5 bg-[var(--bg-surface)]/50 border border-[var(--border-subtle)]/50 rounded-sm text-center flex flex-col items-center justify-center"
                 >
                   <span className="font-serif text-xs uppercase tracking-widest text-[var(--text-muted)]">
-                    End of Collection
+                    You&apos;ve reached the end of the collection
                   </span>
-                  <span className="font-serif text-xs text-[var(--color-terracotta)] mt-1">
-                    Return to Table of Contents
+                  <span className="font-serif text-xs text-[var(--color-terracotta)] mt-1 flex items-center justify-center gap-1">
+                    <span>Return to Table of Contents</span>
+                    <ArrowRight className="w-3 h-3" />
                   </span>
                 </Link>
               )}
 
             </div>
           </nav>
+
+          {/* Reader Tools: Reading Tracker & Keyboard Shortcuts */}
+          {readerToolsEnabled && (
+            <>
+              <ReadingTracker
+                slug={story.slug}
+                title={story.title.replace(/^\[Placeholder\]\s*/, '')}
+                chapterLabel={story.chapter_label}
+              />
+              <KeyboardNavigation
+                prevSlug={prevStory?.slug}
+                nextSlug={nextStory?.slug}
+              />
+            </>
+          )}
 
           {/* Reader Reflections Section */}
           <section className="mt-14 sm:mt-16 p-6 sm:p-8 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-sm">

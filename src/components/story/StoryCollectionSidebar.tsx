@@ -4,6 +4,8 @@ import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Story } from '@/types/story';
 import { toRomanNumeral } from '@/lib/editor-utils';
+import { isFeatureEnabled } from '@/lib/features';
+import { StoryShare } from '@/components/story/StoryShare';
 import { ListFilter } from 'lucide-react';
 
 interface StoryCollectionSidebarProps {
@@ -16,6 +18,8 @@ export function StoryCollectionSidebar({
   currentSlug,
 }: StoryCollectionSidebarProps) {
   const activeRef = useRef<HTMLAnchorElement | null>(null);
+  const readerToolsEnabled = isFeatureEnabled('READER_TOOLS');
+  const currentStory = stories.find((s) => s.slug === currentSlug);
 
   useEffect(() => {
     if (activeRef.current) {
@@ -67,8 +71,8 @@ export function StoryCollectionSidebar({
           })}
         </nav>
 
-        {/* Back to Contents */}
-        <div className="pt-3 border-t border-[var(--border-subtle)]/70">
+        {/* Bottom Actions: Contents & Share */}
+        <div className="pt-3 border-t border-[var(--border-subtle)]/70 flex flex-col gap-2.5">
           <Link
             href="/toc"
             className="flex items-center gap-1.5 text-xs font-serif uppercase tracking-wider text-[var(--color-terracotta)] hover:underline"
@@ -76,6 +80,16 @@ export function StoryCollectionSidebar({
             <ListFilter className="w-3.5 h-3.5" />
             <span>Table of Contents</span>
           </Link>
+
+          {readerToolsEnabled && (
+            <div className="pt-1">
+              <StoryShare
+                title={currentStory?.title || 'Story'}
+                slug={currentSlug}
+                className="w-full"
+              />
+            </div>
+          )}
         </div>
 
       </div>

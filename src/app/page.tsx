@@ -2,8 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
+import { ContinueReadingBanner } from '@/components/story/ContinueReadingBanner';
 import { getPublishedStories } from '@/lib/stories';
 import { getSiteSettingsAction } from '@/app/actions/settings';
+import { isFeatureEnabled } from '@/lib/features';
 import { truncateAtWord, toRomanNumeral } from '@/lib/editor-utils';
 import { BookOpen, ArrowRight, Feather, Clock, Calendar } from 'lucide-react';
 
@@ -11,6 +13,8 @@ export default async function HomePage() {
   const publishedStories = await getPublishedStories();
   const settings = await getSiteSettingsAction();
   const firstStory = publishedStories[0] || { slug: 'the-forgotten-pillar' };
+  const validSlugs = publishedStories.map((s) => s.slug);
+  const readerToolsEnabled = isFeatureEnabled('READER_TOOLS');
 
   return (
     <div className="pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-8 lg:px-12">
@@ -44,6 +48,9 @@ export default async function HomePage() {
             </p>
 
             <DiyaDivider variant="flourish" className="my-4 sm:my-5 w-full max-w-md" />
+
+            {/* Continue Reading Bookmark Link (If reader was mid-story) */}
+            {readerToolsEnabled && <ContinueReadingBanner validSlugs={validSlugs} />}
 
             {/* Dedication Card (Only if present in settings) */}
             {settings.dedication && (
