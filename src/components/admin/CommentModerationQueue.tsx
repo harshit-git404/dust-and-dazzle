@@ -4,17 +4,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { AdminComment } from '@/app/actions/comments';
 import { approveCommentAction, deleteCommentAction } from '@/app/actions/comments';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { useFeedback } from '@/context/FeedbackContext';
 import {
   Check,
   Trash2,
-  MessageSquare,
-  Loader2,
   CheckCircle2,
-  AlertCircle,
   Clock,
-  BookOpen,
   Mail,
-  ShieldCheck,
 } from 'lucide-react';
 
 interface CommentModerationQueueProps {
@@ -22,38 +19,57 @@ interface CommentModerationQueueProps {
 }
 
 export function CommentModerationQueue({ initialComments }: CommentModerationQueueProps) {
+  const { showSuccess, showError } = useFeedback();
   const [comments, setComments] = useState<AdminComment[]>(initialComments);
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
 
+  // Optimistic Approve with rollback
   const handleApprove = async (commentId: string) => {
+    const targetComment = comments.find((c) => c.id === commentId);
+    if (!targetComment) return;
+
+    // Optimistic removal
+    setComments((prev) => prev.filter((c) => c.id !== commentId));
     setActionLoadingId(commentId);
+
     try {
       const res = await approveCommentAction(commentId);
       if (res.success) {
-        setComments((prev) => prev.filter((c) => c.id !== commentId));
+        showSuccess(`Reflection by ${targetComment.author_name} approved.`);
       } else {
-        alert(res.error || 'Failed to approve reflection');
+        // Rollback
+        setComments((prev) => [targetComment, ...prev]);
+        showError('Could not approve reflection.', () => handleApprove(commentId));
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Approval error');
+      setComments((prev) => [targetComment, ...prev]);
+      showError('Network error approving reflection.', () => handleApprove(commentId));
     } finally {
       setActionLoadingId(null);
     }
   };
 
+  // Optimistic Delete / Reject with rollback
   const handleDelete = async (commentId: string) => {
-    if (!confirm('Reject and delete this reflection permanently?')) return;
+    const targetComment = comments.find((c) => c.id === commentId);
+    if (!targetComment) return;
 
+    // Optimistic removal
+    setComments((prev) => prev.filter((c) => c.id !== commentId));
     setActionLoadingId(commentId);
+
     try {
       const res = await deleteCommentAction(commentId);
       if (res.success) {
-        setComments((prev) => prev.filter((c) => c.id !== commentId));
+        showSuccess('Reflection rejected and deleted.');
       } else {
-        alert(res.error || 'Failed to delete reflection');
+        // Rollback
+        setComments((prev) => [targetComment, ...prev]);
+        showError('Could not delete reflection.', () => handleDelete(commentId));
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Deletion error');
+      setComments((prev) => [targetComment, ...prev]);
+      showError('Network error deleting reflection.', () => handleDelete(commentId));
     } finally {
       setActionLoadingId(null);
     }
@@ -109,33 +125,27 @@ export function CommentModerationQueue({ initialComments }: CommentModerationQue
 
             {/* Moderation Actions */}
             <div className="flex items-center justify-end gap-3 pt-1">
-              <button
+              <PendingButton
                 type="button"
                 onClick={() => handleDelete(comment.id)}
-                disabled={actionLoadingId === comment.id}
-                className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-red-700 dark:text-red-300 hover:bg-red-500/10 border border-red-500/20 rounded-sm transition-colors disabled:opacity-50"
+                isPending={actionLoadingId === comment.id}
+                pendingText="Rejecting..."
+                className="px-3 py-1.5 text-xs text-red-700 dark:text-red-300 hover:bg-red-500/10 border border-red-500/20 rounded-sm transition-colors"
               >
-                {actionLoadingId === comment.id ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <Trash2 className="w-3.5 h-3.5" />
-                )}
+                <Trash2 className="w-3.5 h-3.5" />
                 <span>Reject / Delete</span>
-              </button>
+              </PendingButton>
 
-              <button
+              <PendingButton
                 type="button"
                 onClick={() => handleApprove(comment.id)}
-                disabled={actionLoadingId === comment.id}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[var(--color-banyan)] hover:opacity-90 text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-all shadow-xs disabled:opacity-50"
+                isPending={actionLoadingId === comment.id}
+                pendingText="Approving..."
+                className="px-4 py-1.5 bg-[var(--color-banyan)] hover:opacity-90 text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-all shadow-xs"
               >
-                {actionLoadingId === comment.id ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <Check className="w-3.5 h-3.5" />
-                )}
+                <Check className="w-3.5 h-3.5" />
                 <span>Approve for Public Page</span>
-              </button>
+              </PendingButton>
             </div>
           </div>
         ))}

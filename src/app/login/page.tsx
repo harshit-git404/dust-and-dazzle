@@ -4,7 +4,8 @@ import React, { useState, useTransition, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { DiyaDivider } from '@/components/DiyaDivider';
-import { Feather, ArrowLeft, AlertCircle, Loader2 } from 'lucide-react';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { Feather, ArrowLeft, AlertCircle } from 'lucide-react';
 import { loginAction } from '@/app/actions/auth';
 
 function LoginForm() {
@@ -80,20 +81,14 @@ function LoginForm() {
           />
         </div>
 
-        <button
+        <PendingButton
           type="submit"
-          disabled={isPending}
-          className="w-full mt-2 py-3 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif text-sm font-medium transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-60"
+          isPending={isPending}
+          pendingText="Signing in..."
+          className="w-full mt-2 py-3 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] font-serif text-sm font-medium transition-all shadow-sm flex items-center justify-center gap-2"
         >
-          {isPending ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Verifying Credentials...</span>
-            </>
-          ) : (
-            <span>Enter Studio</span>
-          )}
-        </button>
+          <span>Enter Studio</span>
+        </PendingButton>
       </form>
 
       <div className="mt-6 pt-4 border-t border-[var(--border-subtle)]/60 text-center">

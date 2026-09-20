@@ -2,7 +2,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Mic, MicOff, Square, Play, Pause, Upload, Trash2, CheckCircle, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { useFeedback } from '@/context/FeedbackContext';
+import { Mic, MicOff, Square, Play, Pause, Upload, Trash2, CheckCircle, AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
 
 interface StoryAudioRecorderProps {
   audioUrl?: string | null;
@@ -305,15 +307,17 @@ export function StoryAudioRecorder({
                   <div className="font-medium text-[var(--text-primary)]">Listen to review:</div>
                   <audio src={recordedUrl} controls className="w-full h-8" />
                   <div className="flex items-center gap-2 pt-1">
-                    <button
+                    <PendingButton
                       type="button"
-                      disabled={isUploading}
                       onClick={saveRecordedAudio}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xs bg-[var(--color-terracotta)] text-white hover:bg-[var(--color-terracotta-hover)] cursor-pointer"
+                      isPending={isUploading}
+                      pendingText={`Uploading ${uploadProgress}%...`}
+                      minWidth="200px"
+                      className="px-4 py-2 rounded-xs bg-[var(--color-terracotta)] text-white hover:bg-[var(--color-terracotta-hover)] cursor-pointer"
                     >
-                      {isUploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                      <Upload className="w-3.5 h-3.5" />
                       <span>Save Narration to Chapter</span>
-                    </button>
+                    </PendingButton>
                     <button
                       type="button"
                       disabled={isUploading}

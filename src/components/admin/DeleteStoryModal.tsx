@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { Story } from '@/types/story';
 import { deleteStoryAction } from '@/app/actions/stories';
-import { AlertTriangle, Trash2, Loader2, X } from 'lucide-react';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { AlertTriangle, Trash2, X } from 'lucide-react';
 
 interface DeleteStoryModalProps {
   story: Story | null;
@@ -102,24 +103,18 @@ export function DeleteStoryModal({
             Cancel
           </button>
 
-          <button
+          <PendingButton
             type="button"
             onClick={handleDelete}
-            disabled={!isMatching || isDeleting}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-red-700 hover:bg-red-800 disabled:opacity-50 text-white text-xs font-medium rounded-sm transition-all"
+            disabled={!isMatching}
+            isPending={isDeleting}
+            pendingText="Deleting..."
+            minWidth="130px"
+            className="px-4 py-1.5 bg-red-700 hover:bg-red-800 disabled:opacity-50 text-white text-xs font-medium rounded-sm transition-all"
           >
-            {isDeleting ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>Deleting...</span>
-              </>
-            ) : (
-              <>
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>Delete Chapter</span>
-              </>
-            )}
-          </button>
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Delete Chapter</span>
+          </PendingButton>
         </div>
 
       </div>

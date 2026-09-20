@@ -3,9 +3,13 @@
 import React, { useState } from 'react';
 import JSZip from 'jszip';
 import { exportAllStoriesData } from '@/app/actions/stories';
-import { Download, Loader2, FileJson, Archive } from 'lucide-react';
+import { Story } from '@/types/story';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { useFeedback } from '@/context/FeedbackContext';
+import { Download, FileJson, Archive } from 'lucide-react';
 
 export function BackupDownloadButton() {
+  const { showSuccess, showError } = useFeedback();
   const [isExporting, setIsExporting] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -16,7 +20,7 @@ export function BackupDownloadButton() {
     try {
       const res = await exportAllStoriesData();
       if (!res.success || !res.stories) {
-        alert(`Backup failed: ${res.error || 'Unknown error'}`);
+        showError(`Backup failed: ${res.error || 'Unknown error'}`);
         return;
       }
 
@@ -33,10 +37,11 @@ export function BackupDownloadButton() {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        showSuccess('JSON database backup downloaded.');
       } else {
         const zip = new JSZip();
 
-        res.stories.forEach((story) => {
+        res.stories.forEach((story: Story) => {
           const frontmatter = [
             '---',
             `title: "${story.title.replace(/"/g, '\\"')}"`,
@@ -82,9 +87,10 @@ export function BackupDownloadButton() {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        showSuccess('Markdown archive downloaded.');
       }
     } catch (err: unknown) {
-      alert(`Export error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      showError(`Export error: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setIsExporting(false);
     }
@@ -92,19 +98,17 @@ export function BackupDownloadButton() {
 
   return (
     <div className="relative inline-block text-left">
-      <button
+      <PendingButton
+        type="button"
         onClick={() => setMenuOpen(!menuOpen)}
-        disabled={isExporting}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-serif text-[var(--text-secondary)] hover:text-[var(--text-primary)] bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm hover:border-[var(--color-terracotta)] transition-colors disabled:opacity-50"
+        isPending={isExporting}
+        pendingText="Exporting..."
+        className="px-3 py-1.5 text-xs font-serif text-[var(--text-secondary)] hover:text-[var(--text-primary)] bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm hover:border-[var(--color-terracotta)] transition-colors"
         title="Download full database backup"
       >
-        {isExporting ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-        ) : (
-          <Download className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-        )}
+        <Download className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
         <span>Download Backup</span>
-      </button>
+      </PendingButton>
 
       {menuOpen && (
         <div className="absolute right-0 mt-1 w-56 bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-sm shadow-lg z-50 py-1 font-serif text-xs">

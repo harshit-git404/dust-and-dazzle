@@ -4,7 +4,8 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { changePasswordAction } from '@/app/actions/stories';
 import { DiyaDivider } from '@/components/DiyaDivider';
-import { ArrowLeft, Key, Lock, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { ArrowLeft, Key, Lock, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function ChangePasswordPage() {
   const [password, setPassword] = useState('');
@@ -124,23 +125,15 @@ export default function ChangePasswordPage() {
           </div>
 
           <div className="pt-2">
-            <button
+            <PendingButton
               type="submit"
-              disabled={isPending}
-              className="w-full py-2.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+              isPending={isPending}
+              pendingText="Updating Password..."
+              className="w-full py-2.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors flex items-center justify-center gap-2"
             >
-              {isPending ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>Updating Password...</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Update Password</span>
-                </>
-              )}
-            </button>
+              <Lock className="w-3.5 h-3.5" />
+              <span>Update Password</span>
+            </PendingButton>
           </div>
         </form>
       </div>

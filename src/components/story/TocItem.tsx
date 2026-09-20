@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Story } from '@/types/story';
 import { truncateAtWord, toRomanNumeral } from '@/lib/editor-utils';
 import { isFeatureEnabled } from '@/lib/features';
+import { useRouter } from 'next/navigation';
 import { Clock, Calendar, ArrowRight, Check } from 'lucide-react';
 
 interface TocItemProps {
@@ -13,6 +14,7 @@ interface TocItemProps {
 }
 
 export function TocItem({ story, index }: TocItemProps) {
+  const router = useRouter();
   const [isCompleted, setIsCompleted] = useState(false);
   const readerToolsEnabled = isFeatureEnabled('READER_TOOLS');
 
@@ -31,11 +33,18 @@ export function TocItem({ story, index }: TocItemProps) {
     }
   }, [story.slug, readerToolsEnabled]);
 
+  const handlePrefetch = () => {
+    router.prefetch(`/story/${story.slug}`);
+  };
+
   const romanNumeral = toRomanNumeral(index + 1);
 
   return (
     <Link
       href={`/story/${story.slug}`}
+      onMouseEnter={handlePrefetch}
+      onFocus={handlePrefetch}
+      onTouchStart={handlePrefetch}
       className="group block p-5 sm:p-6 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-[var(--color-terracotta)]/40 rounded-sm transition-all duration-200 hover:shadow-[0_4px_16px_rgba(43,29,20,0.06)]"
     >
       <div className="flex items-start justify-between gap-3">

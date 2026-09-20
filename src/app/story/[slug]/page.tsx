@@ -249,6 +249,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
               {prevStory ? (
                 <Link
                   href={`/story/${prevStory.slug}`}
+                  prefetch={true}
                   className="group p-4 sm:p-5 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-[var(--color-terracotta)]/40 rounded-sm transition-all"
                 >
                   <div className="flex items-center gap-1.5 text-xs font-serif uppercase tracking-widest text-[var(--text-muted)] mb-1">
@@ -262,6 +263,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
               ) : (
                 <Link
                   href="/toc"
+                  prefetch={true}
                   className="p-4 sm:p-5 bg-[var(--bg-surface)]/50 border border-[var(--border-subtle)]/50 rounded-sm text-center flex flex-col items-center justify-center"
                 >
                   <span className="font-serif text-xs uppercase tracking-widest text-[var(--text-muted)]">
@@ -277,6 +279,7 @@ export default async function StoryReadingPage({ params }: StoryPageProps) {
               {nextStory ? (
                 <Link
                   href={`/story/${nextStory.slug}`}
+                  prefetch={true}
                   className="group p-4 sm:p-5 bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] hover:border-[var(--color-terracotta)]/40 rounded-sm transition-all text-right sm:text-left"
                 >
                   <div className="flex items-center justify-end sm:justify-start gap-1.5 text-xs font-serif uppercase tracking-widest text-[var(--text-muted)] mb-1">

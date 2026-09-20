@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { FeedbackProvider } from '@/context/FeedbackContext';
 import { Navigation } from '@/components/Navigation';
+import { NavigationProgressBar } from '@/components/NavigationProgressBar';
 import { Footer } from '@/components/Footer';
+import { Suspense } from 'react';
 
 const isIndexable = process.env.SITE_INDEXABLE === 'true';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -89,11 +92,16 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
-          <Navigation />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <FeedbackProvider>
+            <Suspense fallback={null}>
+              <NavigationProgressBar />
+            </Suspense>
+            <Navigation />
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </FeedbackProvider>
         </ThemeProvider>
       </body>
     </html>

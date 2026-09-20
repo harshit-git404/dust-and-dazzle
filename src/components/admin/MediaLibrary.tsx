@@ -6,19 +6,20 @@ import Link from 'next/link';
 import { MediaItem } from '@/types/story';
 import { listMediaAction, uploadPhotoAction, deletePhotoAction } from '@/app/actions/media';
 import { preparePhotoForUpload } from '@/lib/client-image-resizer';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { useFeedback } from '@/context/FeedbackContext';
 import {
   Upload,
   Trash2,
   Image as ImageIcon,
-  Loader2,
   CheckCircle2,
   AlertCircle,
-  FileText,
-  ArrowLeft,
   ExternalLink,
+  Loader2,
 } from 'lucide-react';
 
 export function MediaLibrary() {
+  const { showSuccess, showError } = useFeedback();
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -58,12 +59,17 @@ export function MediaLibrary() {
 
       const res = await uploadPhotoAction(formData);
       if (res.success) {
+        showSuccess('Photo optimized and uploaded to library.');
         fetchMedia();
       } else {
-        setUploadError(res.error || 'Upload failed');
+        const msg = res.error || 'Upload failed';
+        setUploadError(msg);
+        showError(msg);
       }
     } catch (err) {
-      setUploadError(err instanceof Error ? err.message : 'Upload failed');
+      const msg = err instanceof Error ? err.message : 'Upload failed';
+      setUploadError(msg);
+      showError(msg);
     } finally {
       setUploading(false);
       e.target.value = '';
@@ -71,18 +77,25 @@ export function MediaLibrary() {
   };
 
   const handleDelete = async (filename: string) => {
-    if (!confirm(`Are you sure you want to delete "${filename}" from storage?`)) return;
+    const targetItem = mediaList.find((m) => m.name === filename);
+    if (!targetItem) return;
 
+    // Optimistic remove
+    setMediaList((prev) => prev.filter((m) => m.name !== filename));
     setDeletingId(filename);
+
     try {
       const res = await deletePhotoAction(filename);
       if (res.success) {
-        setMediaList((prev) => prev.filter((m) => m.name !== filename));
+        showSuccess(`Deleted "${filename}".`);
       } else {
-        alert(res.error || 'Failed to delete photo');
+        // Rollback
+        setMediaList((prev) => [targetItem, ...prev]);
+        showError('Failed to delete photo from storage.', () => handleDelete(filename));
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Delete failed');
+      setMediaList((prev) => [targetItem, ...prev]);
+      showError('Network error deleting photo.', () => handleDelete(filename));
     } finally {
       setDeletingId(null);
     }
@@ -107,13 +120,9 @@ export function MediaLibrary() {
 
         {/* Upload Button */}
         <div>
-          <label className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors cursor-pointer shadow-sm">
-            {uploading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Upload className="w-4 h-4" />
-            )}
-            <span>Upload Archival Photo</span>
+          <label className={`inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors cursor-pointer shadow-sm ${uploading ? 'opacity-80 cursor-not-allowed' : ''}`}>
+            <Upload className="w-4 h-4" />
+            <span>{uploading ? 'Preparing & Uploading...' : 'Upload Archival Photo'}</span>
             <input
               type="file"
               accept="image/jpeg,image/png,image/webp"
@@ -196,18 +205,15 @@ export function MediaLibrary() {
                     </span>
                   )}
 
-                  <button
+                  <PendingButton
+                    type="button"
                     onClick={() => handleDelete(item.name)}
-                    disabled={deletingId === item.name}
+                    isPending={deletingId === item.name}
                     className="p-1 text-red-600 hover:text-red-800 dark:text-red-400 hover:bg-red-500/10 rounded-sm transition-colors"
                     title="Delete photo from storage"
                   >
-                    {deletingId === item.name ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    ) : (
-                      <Trash2 className="w-3.5 h-3.5" />
-                    )}
-                  </button>
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </PendingButton>
                 </div>
               </div>
             </div>

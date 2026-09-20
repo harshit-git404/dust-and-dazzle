@@ -6,12 +6,13 @@ import { SiteSettings } from '@/types/story';
 import { updateSiteSettingsAction } from '@/app/actions/settings';
 import { uploadPhotoAction } from '@/app/actions/media';
 import { preparePhotoForUpload } from '@/lib/client-image-resizer';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { useFeedback } from '@/context/FeedbackContext';
 import { DiyaDivider } from '@/components/DiyaDivider';
 import {
   Save,
   CheckCircle2,
   AlertCircle,
-  Loader2,
   Upload,
   User,
   BookOpen,
@@ -23,6 +24,7 @@ interface SiteSettingsFormProps {
 }
 
 export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
+  const { showSuccess, showError } = useFeedback();
   const [dedication, setDedication] = useState(initialSettings.dedication || '');
   const [authorBio, setAuthorBio] = useState(initialSettings.author_bio || '');
   const [portraitUrl, setPortraitUrl] = useState(initialSettings.portrait_url || '');
@@ -49,11 +51,15 @@ export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
       const res = await uploadPhotoAction(formData);
       if (res.success && res.url) {
         setPortraitUrl(res.url);
+        showSuccess('Portrait uploaded.');
       } else {
         setError(res.error || 'Portrait upload failed');
+        showError(res.error || 'Portrait upload failed');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed');
+      const msg = err instanceof Error ? err.message : 'Upload failed';
+      setError(msg);
+      showError(msg);
     } finally {
       setUploadingPortrait(false);
       e.target.value = '';
@@ -75,8 +81,10 @@ export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
 
       if (res.success) {
         setSuccess(true);
+        showSuccess('Site settings saved.');
       } else {
         setError(res.error || 'Failed to update settings');
+        showError(res.error || 'Failed to update settings');
       }
     });
   };
@@ -164,12 +172,8 @@ export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
           <div className="flex-1 space-y-3 w-full">
             <div>
               <label className="inline-flex items-center gap-2 px-3.5 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] hover:border-[var(--color-terracotta)] text-xs text-[var(--text-primary)] rounded-sm cursor-pointer transition-colors">
-                {uploadingPortrait ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--color-terracotta)]" />
-                ) : (
-                  <Upload className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
-                )}
-                <span>Upload New Portrait Photo</span>
+                <Upload className="w-3.5 h-3.5 text-[var(--color-terracotta)]" />
+                <span>{uploadingPortrait ? 'Preparing & Uploading Photo...' : 'Upload New Portrait Photo'}</span>
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -189,7 +193,7 @@ export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
                 value={portraitCaption}
                 onChange={(e) => setPortraitCaption(e.target.value)}
                 placeholder="e.g. Ajeet Kumar Singh, Author & Chronicler"
-                className="w-full px-3 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
+                className="w-full px-3.5 py-2 bg-[var(--bg-canvas)] border border-[var(--border-subtle)] rounded-sm text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-terracotta)]"
               />
             </div>
           </div>
@@ -198,23 +202,17 @@ export function SiteSettingsForm({ initialSettings }: SiteSettingsFormProps) {
 
       {/* Save Button */}
       <div className="pt-2 flex justify-end">
-        <button
+        <PendingButton
           type="submit"
-          disabled={isPending || uploadingPortrait}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors shadow-sm disabled:opacity-60"
+          disabled={uploadingPortrait}
+          isPending={isPending}
+          pendingText="Saving Settings..."
+          minWidth="170px"
+          className="px-6 py-2.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors shadow-sm"
         >
-          {isPending ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Saving Settings...</span>
-            </>
-          ) : (
-            <>
-              <Save className="w-4 h-4" />
-              <span>Save Site Settings</span>
-            </>
-          )}
-        </button>
+          <Save className="w-4 h-4" />
+          <span>Save Site Settings</span>
+        </PendingButton>
       </div>
     </form>
   );

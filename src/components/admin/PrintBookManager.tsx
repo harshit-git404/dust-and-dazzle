@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Story, SiteSettings } from '@/types/story';
 import { toRomanNumeral } from '@/lib/editor-utils';
 import { SITE_CREDIT } from '@/content/credit';
+import { PendingButton } from '@/components/ui/PendingButton';
 import {
   Printer,
   BookOpen,
@@ -38,14 +39,15 @@ export function PrintBookManager({ allStories, settings }: PrintBookManagerProps
   const [includeAuthorNotes, setIncludeAuthorNotes] = useState(true);
   const [includePhotos, setIncludePhotos] = useState(true);
   const [includeColophon, setIncludeColophon] = useState(true);
+  const [isPrinting, setIsPrinting] = useState(false);
 
   const [previewTab, setPreviewTab] = useState<'config' | 'preview'>('preview');
 
   const selectedStories = allStories.filter((s) => selectedStoryIds.includes(s.id));
 
-  const toggleStorySelection = (id: string) => {
+  const toggleStorySelection = (storyId: string) => {
     setSelectedStoryIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(storyId) ? prev.filter((id) => id !== storyId) : [...prev, storyId]
     );
   };
 
@@ -58,7 +60,11 @@ export function PrintBookManager({ allStories, settings }: PrintBookManagerProps
   };
 
   const handlePrint = () => {
-    window.print();
+    setIsPrinting(true);
+    setTimeout(() => {
+      window.print();
+      setIsPrinting(false);
+    }, 150);
   };
 
   const getPageDimensionsCss = () => {
@@ -203,14 +209,17 @@ export function PrintBookManager({ allStories, settings }: PrintBookManagerProps
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <PendingButton
               type="button"
               onClick={handlePrint}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-white text-xs font-serif font-medium shadow-sm transition-all cursor-pointer hover:shadow-md"
+              isPending={isPrinting}
+              pendingText="Preparing Print Dialog..."
+              minWidth="175px"
+              className="px-5 py-2.5 rounded-sm bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-white text-xs font-serif font-medium shadow-sm transition-all hover:shadow-md"
             >
               <Printer className="w-4 h-4" />
               <span>Print / Save as PDF</span>
-            </button>
+            </PendingButton>
           </div>
         </div>
 

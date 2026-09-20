@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useTransition } from 'react';
 import { submitCommentAction } from '@/app/actions/comments';
-import { Feather, Send, CheckCircle2, AlertCircle, Loader2, Lock } from 'lucide-react';
+import { PendingButton } from '@/components/ui/PendingButton';
+import { Feather, Send, CheckCircle2, AlertCircle, Lock } from 'lucide-react';
 
 interface CommentFormProps {
   storyId: string;
@@ -24,6 +25,7 @@ export function CommentForm({ storyId }: CommentFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isPending) return;
     setError(null);
 
     startTransition(async () => {
@@ -49,20 +51,14 @@ export function CommentForm({ storyId }: CommentFormProps) {
 
   if (isSuccess) {
     return (
-      <div className="p-6 bg-[var(--bg-canvas)] border border-[var(--color-banyan)]/30 rounded-sm text-center font-serif space-y-2">
+      <div className="p-6 bg-[var(--bg-canvas)] border border-[var(--color-banyan)]/30 rounded-sm text-center font-serif space-y-2 animate-in fade-in duration-200">
         <CheckCircle2 className="w-6 h-6 mx-auto text-[var(--color-banyan)]" />
         <h4 className="text-base font-normal text-[var(--text-primary)]">
           Reflection Received
         </h4>
         <p className="text-xs text-[var(--text-secondary)] italic max-w-md mx-auto">
-          Thank you for sharing your thoughts. Your reflection will be quietly reviewed by the author before appearing on the page.
+          Thank you. Your note will appear after the author approves it.
         </p>
-        <button
-          onClick={() => setIsSuccess(false)}
-          className="mt-3 text-xs text-[var(--color-terracotta)] hover:underline"
-        >
-          Leave another reflection
-        </button>
       </div>
     );
   }
@@ -147,23 +143,16 @@ export function CommentForm({ storyId }: CommentFormProps) {
       </div>
 
       <div className="pt-2 flex justify-end">
-        <button
+        <PendingButton
           type="submit"
-          disabled={isPending}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors shadow-xs disabled:opacity-60"
+          isPending={isPending}
+          pendingText="Sending..."
+          minWidth="160px"
+          className="px-4 py-2 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors shadow-xs"
         >
-          {isPending ? (
-            <>
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              <span>Sending Reflection...</span>
-            </>
-          ) : (
-            <>
-              <Send className="w-3.5 h-3.5" />
-              <span>Submit Reflection</span>
-            </>
-          )}
-        </button>
+          <Send className="w-3.5 h-3.5" />
+          <span>Submit Reflection</span>
+        </PendingButton>
       </div>
     </form>
   );

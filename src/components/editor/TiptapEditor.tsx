@@ -15,6 +15,7 @@ import { DiyaDivider } from '@/components/DiyaDivider';
 import { PhotoPlate } from '@/components/PhotoPlate';
 import { StoryAudioRecorder } from '@/components/editor/StoryAudioRecorder';
 import { WritingPromptPopover } from '@/components/editor/WritingPromptPopover';
+import { PendingButton } from '@/components/ui/PendingButton';
 import { useRouter } from 'next/navigation';
 import {
   Bold,
@@ -525,15 +526,17 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
           </button>
 
           {/* Manual Save Button */}
-          <button
+          <PendingButton
             type="button"
             onClick={() => performSave(true)}
-            disabled={saveStatus === 'saving'}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors shadow-sm disabled:opacity-60"
+            isPending={saveStatus === 'saving'}
+            pendingText="Saving..."
+            minWidth="90px"
+            className="px-3.5 py-1.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-[#FFF8F5] text-xs font-serif uppercase tracking-wider rounded-sm transition-colors shadow-sm"
           >
             <Save className="w-3.5 h-3.5" />
             <span>Save</span>
-          </button>
+          </PendingButton>
         </div>
       </div>
 
@@ -1047,23 +1050,16 @@ export function TiptapEditor({ story }: TiptapEditorProps) {
                 >
                   Cancel
                 </button>
-                <button
+                <PendingButton
                   type="submit"
-                  disabled={uploadingPhoto}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-white text-xs rounded-sm transition-all disabled:opacity-50"
+                  isPending={uploadingPhoto}
+                  pendingText="Optimizing & Uploading..."
+                  minWidth="170px"
+                  className="px-4 py-1.5 bg-[var(--color-terracotta)] hover:bg-[var(--color-terracotta-hover)] text-white text-xs rounded-sm transition-all"
                 >
-                  {uploadingPhoto ? (
-                    <>
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                      <span>Optimizing &amp; Uploading...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>Insert into Chapter</span>
-                    </>
-                  )}
-                </button>
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Insert into Chapter</span>
+                </PendingButton>
               </div>
             </form>
           </div>

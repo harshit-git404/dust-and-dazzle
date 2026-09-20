@@ -27,46 +27,58 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+import { useFeedback } from '@/context/FeedbackContext';
+
 interface StoryListProps {
   initialStories: Story[];
   readStats?: StoryReadStats;
 }
 
 export function StoryList({ initialStories, readStats = {} }: StoryListProps) {
+  const { showSuccess, showError } = useFeedback();
   const [stories, setStories] = useState<Story[]>(initialStories);
   const [isReordering, setIsReordering] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [activeStoryToDelete, setActiveStoryToDelete] = useState<Story | null>(null);
   const [updatingVisibilityId, setUpdatingVisibilityId] = useState<string | null>(null);
 
-  // Helper to persist order
-  const saveNewOrder = async (updatedStories: Story[]) => {
+  // Helper to persist order with optimistic update & rollback
+  const saveNewOrder = async (updatedStories: Story[], previousStories: Story[]) => {
     setIsReordering(true);
     setStories(updatedStories);
     try {
       const storyIds = updatedStories.map((s) => s.id);
-      await reorderStoriesAction(storyIds);
+      const res = await reorderStoriesAction(storyIds);
+      if (res && !res.success) {
+        setStories(previousStories);
+        showError('Could not save new sequence. Reverting order.', () => saveNewOrder(updatedStories, previousStories));
+      } else {
+        showSuccess('Story sequence updated.');
+      }
     } catch (err) {
-      console.error('Failed to save reordered stories', err);
+      setStories(previousStories);
+      showError('Failed to save story order.', () => saveNewOrder(updatedStories, previousStories));
     } finally {
       setIsReordering(false);
     }
   };
 
   const moveUp = (index: number) => {
-    if (index === 0) return;
+    if (index === 0 || isReordering) return;
+    const prevList = [...stories];
     const nextList = [...stories];
     const item = nextList.splice(index, 1)[0];
     nextList.splice(index - 1, 0, item);
-    saveNewOrder(nextList);
+    saveNewOrder(nextList, prevList);
   };
 
   const moveDown = (index: number) => {
-    if (index === stories.length - 1) return;
+    if (index === stories.length - 1 || isReordering) return;
+    const prevList = [...stories];
     const nextList = [...stories];
     const item = nextList.splice(index, 1)[0];
     nextList.splice(index + 1, 0, item);
-    saveNewOrder(nextList);
+    saveNewOrder(nextList, prevList);
   };
 
   // HTML5 Drag and Drop
@@ -87,22 +99,41 @@ export function StoryList({ initialStories, readStats = {} }: StoryListProps) {
   };
 
   const handleDragEnd = () => {
-    setDraggedIndex(null);
-    saveNewOrder(stories);
+    if (draggedIndex !== null) {
+      const prevList = [...initialStories];
+      setDraggedIndex(null);
+      saveNewOrder(stories, prevList);
+    }
   };
 
-  // Quick visibility change
+  // Quick visibility change with optimistic update & rollback
   const handleVisibilityChange = async (storyId: string, newVisibility: StoryVisibility) => {
+    const targetStory = stories.find((s) => s.id === storyId);
+    if (!targetStory) return;
+    const previousVisibility = targetStory.visibility;
+
+    // Optimistic UI update
+    setStories((prev) =>
+      prev.map((s) => (s.id === storyId ? { ...s, visibility: newVisibility } : s))
+    );
     setUpdatingVisibilityId(storyId);
+
     try {
       const res = await updateStoryVisibilityAction(storyId, newVisibility);
       if (res.success) {
+        showSuccess(`Story visibility set to ${newVisibility}.`);
+      } else {
+        // Rollback on failure
         setStories((prev) =>
-          prev.map((s) => (s.id === storyId ? { ...s, visibility: newVisibility } : s))
+          prev.map((s) => (s.id === storyId ? { ...s, visibility: previousVisibility } : s))
         );
+        showError('Could not update visibility. Reverting change.', () => handleVisibilityChange(storyId, newVisibility));
       }
     } catch (err) {
-      console.error('Visibility update error', err);
+      setStories((prev) =>
+        prev.map((s) => (s.id === storyId ? { ...s, visibility: previousVisibility } : s))
+      );
+      showError('Network error updating visibility.', () => handleVisibilityChange(storyId, newVisibility));
     } finally {
       setUpdatingVisibilityId(null);
     }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Story } from '@/types/story';
 import { toRomanNumeral } from '@/lib/editor-utils';
 import { isFeatureEnabled } from '@/lib/features';
+import { useRouter } from 'next/navigation';
 import { StoryShare } from '@/components/story/StoryShare';
 import { ListFilter } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export function StoryCollectionSidebar({
   stories,
   currentSlug,
 }: StoryCollectionSidebarProps) {
+  const router = useRouter();
   const activeRef = useRef<HTMLAnchorElement | null>(null);
   const readerToolsEnabled = isFeatureEnabled('READER_TOOLS');
   const currentStory = stories.find((s) => s.slug === currentSlug);
@@ -26,6 +28,10 @@ export function StoryCollectionSidebar({
       activeRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
   }, [currentSlug]);
+
+  const handlePrefetch = (slug: string) => {
+    router.prefetch(`/story/${slug}`);
+  };
 
   return (
     <aside className="hidden xl:block w-[260px] shrink-0">
@@ -54,6 +60,9 @@ export function StoryCollectionSidebar({
                 key={story.id}
                 ref={isActive ? activeRef : null}
                 href={`/story/${story.slug}`}
+                onMouseEnter={() => handlePrefetch(story.slug)}
+                onFocus={() => handlePrefetch(story.slug)}
+                onTouchStart={() => handlePrefetch(story.slug)}
                 className={`group flex items-start gap-2.5 px-3 py-2 rounded-sm text-xs transition-all ${
                   isActive
                     ? 'bg-[var(--bg-surface-elevated)] text-[var(--color-terracotta)] font-semibold border-l-2 border-[var(--color-terracotta)] shadow-xs'
